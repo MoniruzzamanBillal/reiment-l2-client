@@ -10,6 +10,7 @@ import Wrapper from "./Wrapper";
 import logo from "@/assets/logo.png";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { UseGetUser } from "@/utils/SharedFunction";
 
 const Links = [
   { name: "Home", link: "/" },
@@ -19,8 +20,11 @@ const Links = [
 ];
 
 const Navbar = () => {
+  const userInfo = UseGetUser();
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+
+  // console.log(userInfo);
 
   return (
     <div
@@ -100,28 +104,22 @@ const Navbar = () => {
             ))}
 
           <div className="buttonSection  md:ml-5 lg:ml-8  flex  items-center gap-x-0.5  ">
-            <Link to={"/login"}>
-              <Button className=" -z-[1] text-xs sm:text-sm md:text-base bg-prime50 hover:bg-prime100 ">
-                Sign in
-              </Button>
-            </Link>
-
-            {/* {!userInfo ? (
-                  <Link to={"/login"}>
-                    <Button className=" -z-[1] text-xs sm:text-sm md:text-base bg-prime50 hover:bg-prime100 ">
-                      Sign in
-                    </Button>
-                  </Link>
-                ) : (
-                  <div className="relative">
-                    <Link
-                      to="/dashboard"
-                      className="inline-block p-2 rounded-full bg-orange-100 cursor-pointe"
-                    >
-                      <LuUser2 className=" text-2xl font-bold text-gray-800 " />
-                    </Link>
-                  </div>
-                )} */}
+            {!userInfo ? (
+              <Link to={"/login"}>
+                <Button className=" -z-[1] text-xs sm:text-sm md:text-base bg-prime50 hover:bg-prime100 ">
+                  Sign in
+                </Button>
+              </Link>
+            ) : (
+              <div className="relative">
+                <Link
+                  to="/"
+                  className="inline-block p-2 rounded-full bg-orange-100 cursor-pointe"
+                >
+                  <LuUser className=" text-2xl font-bold text-gray-800 " />
+                </Link>
+              </div>
+            )}
 
             {/* toggle button  */}
             <div className="cartBtn  pl-0 md:pl-2 mr-3 md:pr-0  cursor-pointer text-2xl  ">
