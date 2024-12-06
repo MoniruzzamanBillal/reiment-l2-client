@@ -113,7 +113,7 @@ const Navbar = () => {
             ) : (
               <div className="relative">
                 <Link
-                  to="/"
+                  to="/dashboard"
                   className="inline-block p-2 rounded-full bg-orange-100 cursor-pointe"
                 >
                   <LuUser className=" text-2xl font-bold text-gray-800 " />

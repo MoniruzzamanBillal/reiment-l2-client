@@ -23,7 +23,6 @@ const Login = () => {
     const { email, password } = data;
 
     const toastId = toast.loading("Loginng in...");
-    console.log(data);
 
     try {
       const payload = {
@@ -32,8 +31,6 @@ const Login = () => {
       };
 
       const result = await logIn(payload).unwrap();
-
-      console.log(result);
 
       if (result?.success) {
         const token = result?.token;
