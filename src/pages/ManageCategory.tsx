@@ -67,7 +67,15 @@ const ManageCategory = () => {
       <tr key={category?.id} className="border-b">
         <td className="p-4 text-center">{category?.name}</td>
 
-        <td className="p-4 text-center">update </td>
+        <td className="p-4 text-center">
+          <Link
+            to={`/dashboard/admin/categories/update-category/${category?.id}`}
+          >
+            <Button className=" px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base bg-prime50 hover:bg-prime100 active:scale-95 duration-500 ">
+              Update
+            </Button>
+          </Link>{" "}
+        </td>
 
         <td className="p-4 text-center"> delete </td>
       </tr>

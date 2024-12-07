@@ -13,6 +13,16 @@ const categoryApi = baseApi.injectEndpoints({
       providesTags: ["getAllCategory"],
     }),
 
+    // ! for getting single category data
+    getSingleCategory: builder.query({
+      query: (id: string) => {
+        return {
+          url: `/category/category/${id}`,
+          method: "GET",
+        };
+      },
+    }),
+
     // ! for creating a category
     addCategory: builder.mutation({
       query: (payload) => {
@@ -25,8 +35,25 @@ const categoryApi = baseApi.injectEndpoints({
       invalidatesTags: ["getAllCategory"],
     }),
 
+    // ! for updating a category
+    updateCategory: builder.mutation({
+      query: (payload) => {
+        const { id, data } = payload;
+        return {
+          url: `/category/update-category/${id}`,
+          method: "PATCH",
+          body: data,
+        };
+      },
+    }),
+
     //
   }),
 });
 
-export const { useGetAllCategoryQuery, useAddCategoryMutation } = categoryApi;
+export const {
+  useGetAllCategoryQuery,
+  useAddCategoryMutation,
+  useGetSingleCategoryQuery,
+  useUpdateCategoryMutation,
+} = categoryApi;

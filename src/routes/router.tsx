@@ -14,6 +14,7 @@ import {
   ManageVendorShop,
   MonitorReview,
   MonitorTransaction,
+  UpdateCategory,
   UpdateProfile,
   VendorCustomerReview,
   VendorOderHistory,
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
           {
             path: "/dashboard/admin/categories/add-category",
             element: <AddCategory />,
+          },
+          {
+            path: "/dashboard/admin/categories/update-category/:id",
+            element: <UpdateCategory />,
           },
           {
             path: "/dashboard/admin/statistics",

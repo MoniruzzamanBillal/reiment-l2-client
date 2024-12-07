@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAddCategoryMutation } from "@/redux/features/category/category.api";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { FormSubmitLoading } from "@/components/ui";
 
 const AddCategory = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const AddCategory = () => {
 
     //  *  for any  error
     if (result?.error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const errorMessage = (result?.error as any)?.data?.message;
 
       toast.error(errorMessage, {
@@ -37,7 +39,7 @@ const AddCategory = () => {
 
   return (
     <>
-      {/* {isLoading && <FormSubmitLoading />} */}
+      {isLoading && <FormSubmitLoading />}
 
       <div className="AddCategoryContainer py-8 bg-gray-100 min-h-screen p-3 shadow rounded-md">
         <div className="AddCategoryWrapper">
