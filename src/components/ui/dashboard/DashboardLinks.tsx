@@ -57,22 +57,27 @@ const DashboardLinks = () => {
       },
       {
         name: "Manage Users",
-        path: "/dashboard/admin/manege-user",
+        path: "/dashboard/admin/manage-user",
         icon: <CiBookmark className=" text-xl font-bold " />,
       },
       {
         name: "Manage Shops",
-        path: "/dashboard/admin/manage-shops",
+        path: "/dashboard/admin/manage-shop",
         icon: <CiBookmark className=" text-xl font-bold " />,
       },
       {
-        name: "Product Categories",
+        name: "Categories",
         path: "/dashboard/admin/categories",
         icon: <CiBookmark className=" text-xl font-bold " />,
       },
       {
-        name: "Transaction Monitoring",
+        name: "Monitor Transaction ",
         path: "/dashboard/admin/transactions",
+        icon: <CiBookmark className=" text-xl font-bold " />,
+      },
+      {
+        name: "Monitor Review ",
+        path: "/dashboard/admin/review",
         icon: <CiBookmark className=" text-xl font-bold " />,
       },
     ];
