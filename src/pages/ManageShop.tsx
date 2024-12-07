@@ -1,5 +1,66 @@
+import { TableDataError, TableDataLoading } from "@/components/ui";
+import { useGetAllShopDataQuery } from "@/redux/features/shop/shop.api";
+
 const ManageShop = () => {
-  const content = null;
+  const {
+    data: shopData,
+    isLoading: shopDataLoading,
+    isError: shopDataError,
+    refetch: shopDataRefetch,
+  } = useGetAllShopDataQuery(undefined);
+
+  let content = null;
+
+  console.log(shopData?.data);
+
+  // *  if data is loading
+  if (shopDataLoading) {
+    content = (
+      <tr>
+        <td colSpan={8} className="p-4">
+          <TableDataLoading />
+        </td>
+      </tr>
+    );
+  }
+
+  // *  if any error
+  if (!shopDataLoading && shopDataError) {
+    content = (
+      <tr>
+        <td colSpan={8}>
+          <TableDataError message="Something went wrong " />
+        </td>
+      </tr>
+    );
+  }
+
+  // * for no data
+  if (!shopDataLoading && !shopDataLoading && shopData?.data?.length < 1) {
+    content = (
+      <tr>
+        <td colSpan={8}>
+          <TableDataError message="Nothing Found" />
+        </td>
+      </tr>
+    );
+  }
+
+  // * for user data
+  if (!shopDataLoading && !shopDataLoading && shopData?.data?.length) {
+    content = shopData?.data?.map((shop: any) => (
+      <tr key={shop.id} className="border-b">
+        <td className="p-4 text-center">{shop?.name}</td>
+        <td className="p-4 text-center  flex justify-center items-center ">
+          <img src={shop?.logo} className=" size-[4.4rem] rounded-md " alt="" />
+        </td>
+        <td className="p-4 text-center">{shop?.vendor?.username}</td>
+
+        <td className="p-4 text-center">{shop?.status}</td>
+        <td className="p-4 text-center"> delete user </td>
+      </tr>
+    ));
+  }
 
   return (
     <div className="ManageShopContainer">
@@ -15,7 +76,7 @@ const ManageShop = () => {
                 <th className="px-4 font-medium">Logo </th>
                 <th className="px-4 font-medium">Vendor </th>
                 <th className="px-4 font-medium">Status </th>
-                <th className="px-4 font-medium">Block Shop </th>
+                <th className="px-4 font-medium">Action </th>
               </tr>
             </thead>
             <tbody>{content}</tbody>
