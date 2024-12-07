@@ -46,7 +46,7 @@ const Dashboard = () => {
 
             {/* right section starts  */}
             <div className="profileRightSection  ">
-              <Link to={`/`}>
+              <Link to={`/dashboard/update-profile/1212`}>
                 <Button className=" bg-prime50 hover:bg-prime100  font-semibold text-sm sm:text-base  ">
                   <FiEdit className="  " />
                   Edit profile

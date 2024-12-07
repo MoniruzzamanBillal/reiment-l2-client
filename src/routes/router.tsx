@@ -13,6 +13,7 @@ import {
   ManageVendorShop,
   MonitorReview,
   MonitorTransaction,
+  UpdateProfile,
   VendorCustomerReview,
   VendorOderHistory,
 } from "@/pages";
@@ -27,10 +28,15 @@ const router = createBrowserRouter([
         path: "/login",
         element: <Login />,
       },
+
       {
         path: "/dashboard",
         element: <DashboardLayout />,
         children: [
+          {
+            path: "/dashboard/update-profile/:id",
+            element: <UpdateProfile />,
+          },
           {
             path: "/dashboard",
             element: <Dashboard />,
