@@ -11,3 +11,5 @@ export { default as ManageVendorShop } from "./ManageVendorShop";
 export { default as ManageVendorProduct } from "./ManageVendorProduct";
 export { default as VendorOderHistory } from "./VendorOderHistory";
 export { default as VendorCustomerReview } from "./VendorCustomerReview";
+export { default as FollowedShop } from "./FollowedShop";
+export { default as CustomerOrderHistory } from "./CustomerOrderHistory";

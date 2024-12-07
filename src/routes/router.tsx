@@ -1,8 +1,10 @@
 import App from "@/App";
 import {
   AdminStatistics,
+  CustomerOrderHistory,
   Dashboard,
   DashboardLayout,
+  FollowedShop,
   Login,
   ManageCategory,
   ManageShop,
@@ -76,6 +78,14 @@ const router = createBrowserRouter([
           {
             path: "/dashboard/vendor/monitor-reviews",
             element: <VendorCustomerReview />,
+          },
+          {
+            path: "/dashboard/customer/followed-shops",
+            element: <FollowedShop />,
+          },
+          {
+            path: "/dashboard/customer/order-history",
+            element: <CustomerOrderHistory />,
           },
         ],
       },

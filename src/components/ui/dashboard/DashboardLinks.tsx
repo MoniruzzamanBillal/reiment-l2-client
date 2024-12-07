@@ -25,21 +25,15 @@ const DashboardLinks = () => {
       icon: <CiBookmark className="text-xl font-bold" />,
     },
     {
-      name: "Order History",
-      path: "/dashboard/customer/order-history",
-      icon: <CiBookmark className="text-xl font-bold" />,
-    },
-    {
-      name: "Cart",
-      path: "/dashboard/customer/cart",
-      icon: <CiBookmark className="text-xl font-bold" />,
-    },
-    {
       name: "Followed Shops",
       path: "/dashboard/customer/followed-shops",
       icon: <CiBookmark className="text-xl font-bold" />,
     },
-
+    {
+      name: "Order History",
+      path: "/dashboard/customer/order-history",
+      icon: <CiBookmark className="text-xl font-bold" />,
+    },
     {
       name: "Compare Products",
       path: "/dashboard/customer/compare-products",
