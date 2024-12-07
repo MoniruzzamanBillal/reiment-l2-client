@@ -7,8 +7,12 @@ import {
   ManageCategory,
   ManageShop,
   ManageUsers,
+  ManageVendorProduct,
+  ManageVendorShop,
   MonitorReview,
   MonitorTransaction,
+  VendorCustomerReview,
+  VendorOderHistory,
 } from "@/pages";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -46,12 +50,32 @@ const router = createBrowserRouter([
             element: <AdminStatistics />,
           },
           {
-            path: "/dashboard/admin/transactions",
+            path: "/dashboard/admin/monitor-transaction",
             element: <MonitorTransaction />,
           },
           {
-            path: "/dashboard/admin/review",
+            path: "/dashboard/admin/monitor-review",
             element: <MonitorReview />,
+          },
+          {
+            path: "/dashboard/vendor/manage-shop",
+            element: <ManageVendorShop />,
+          },
+          {
+            path: "/dashboard/vendor/manage-products",
+            element: <ManageVendorProduct />,
+          },
+          {
+            path: "/dashboard/vendor/manage-products",
+            element: <ManageVendorProduct />,
+          },
+          {
+            path: "/dashboard/vendor/order-history",
+            element: <VendorOderHistory />,
+          },
+          {
+            path: "/dashboard/vendor/monitor-reviews",
+            element: <VendorCustomerReview />,
           },
         ],
       },

@@ -1,19 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-const ManageCategory = () => {
+const ManageVendorProduct = () => {
   const content = null;
 
   return (
-    <div className="ManageCategoryContainer">
-      <div className="ManageCategoryWrapper bg-gray-100  shadow rounded-md p-3  ">
-        <h3 className="brand text-2xl font-medium mb-6 "> Manage Category </h3>
+    <div className="ManageVendorProductContainer">
+      <div className="ManageVendorProductWrapper bg-gray-100  shadow rounded-md p-3  ">
+        <h3 className="brand text-2xl font-medium mb-4 "> Manage Product </h3>
 
         {/* new category add  container starts  */}
         <div className="addNewProduct mb-6 ">
           <Link to={"/"}>
             <Button className=" px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base bg-prime50 hover:bg-prime100 active:scale-95 duration-500 ">
-              Add new Category
+              Add Product
             </Button>
           </Link>
 
@@ -21,20 +21,26 @@ const ManageCategory = () => {
         </div>
         {/* new category add  container ends */}
 
-        {/*manage category table starts  */}
+        {/*manage product  table starts  */}
         <div className="manageUserTable relative w-full overflow-auto mt-4 ">
           <table className="w-full text-sm ">
             <thead className="border-b">
               <tr className="w-full text-sm bg-sky-100  ">
                 <th className="px-4 font-medium">Name</th>
-                <th className="px-4 font-medium">Update Category </th>
-                <th className="px-4 font-medium">Delete Category </th>
+                <th className="px-4 font-medium">Image </th>
+                <th className="px-4 font-medium">Category </th>
+                <th className="px-4 font-medium">Price </th>
+                <th className="px-4 font-medium">Description </th>
+                <th className="px-4 font-medium">Inventory Count </th>
+                <th className="px-4 font-medium">Shop Name </th>
+                <th className="px-4 font-medium">Update Product </th>
+                <th className="px-4 font-medium">Delete Product </th>
               </tr>
             </thead>
             <tbody>{content}</tbody>
           </table>
         </div>
-        {/* manage category table ends  */}
+        {/* manage product  table ends  */}
 
         {/*  */}
       </div>
@@ -42,4 +48,4 @@ const ManageCategory = () => {
   );
 };
 
-export default ManageCategory;
+export default ManageVendorProduct;
