@@ -14,3 +14,4 @@ export { default as VendorCustomerReview } from "./VendorCustomerReview";
 export { default as FollowedShop } from "./FollowedShop";
 export { default as CustomerOrderHistory } from "./CustomerOrderHistory";
 export { default as UpdateProfile } from "./UpdateProfile";
+export { default as AddCategory } from "./AddCategory";

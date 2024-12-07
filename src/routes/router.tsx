@@ -1,5 +1,6 @@
 import App from "@/App";
 import {
+  AddCategory,
   AdminStatistics,
   CustomerOrderHistory,
   Dashboard,
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
           {
             path: "/dashboard/admin/categories",
             element: <ManageCategory />,
+          },
+          {
+            path: "/dashboard/admin/categories/add-category",
+            element: <AddCategory />,
           },
           {
             path: "/dashboard/admin/statistics",

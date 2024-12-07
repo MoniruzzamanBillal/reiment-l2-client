@@ -11,7 +11,7 @@ const ManageShop = () => {
 
   let content = null;
 
-  console.log(shopData?.data);
+  // console.log(shopData?.data);
 
   // *  if data is loading
   if (shopDataLoading) {
