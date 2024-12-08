@@ -1,8 +1,96 @@
+import { TableDataError, TableDataLoading } from "@/components/ui";
 import { Button } from "@/components/ui/button";
+import { useGetVendorShopProductsQuery } from "@/redux/features/product/product.api";
+import { useGetVendorShopQuery } from "@/redux/features/shop/shop.api";
+
 import { Link } from "react-router-dom";
 
 const ManageVendorProduct = () => {
-  const content = null;
+  let content = null;
+
+  const { data: vendorShopData } = useGetVendorShopQuery(undefined);
+
+  const {
+    data: productData,
+    isLoading: productDataLoading,
+    isError: productDataError,
+  } = useGetVendorShopProductsQuery(vendorShopData?.data?.id, {
+    skip: !vendorShopData?.data?.id,
+  });
+
+  console.log(productData?.data);
+
+  // *  if data is loading
+  if (productDataLoading) {
+    content = (
+      <tr>
+        <td colSpan={8} className="p-4">
+          <TableDataLoading />
+        </td>
+      </tr>
+    );
+  }
+
+  // *  if any error
+  if (!productDataLoading && productDataError) {
+    content = (
+      <tr>
+        <td colSpan={8}>
+          <TableDataError message="Something went wrong " />
+        </td>
+      </tr>
+    );
+  }
+
+  // * for no data
+  if (
+    !productDataLoading &&
+    !productDataError &&
+    productData?.data?.length < 1
+  ) {
+    content = (
+      <tr>
+        <td colSpan={8}>
+          <TableDataError message="Nothing Found" />
+        </td>
+      </tr>
+    );
+  }
+
+  // * Render product data
+  if (!productDataLoading && !productDataError && productData?.data?.length) {
+    content = productData?.data?.map((product) => (
+      <tr key={product.id} className="border-b">
+        <td className="p-4 text-center">{product.name}</td>
+        <td className="p-4 text-center">
+          <img
+            src={product.productImg}
+            alt={product.name}
+            className="w-16 h-16 object-cover rounded "
+          />
+        </td>
+        <td className="p-4 text-center">{product?.category?.name}</td>
+        <td className="p-4 text-center">${product?.price}</td>
+        <td className="p-4 text-center">{product?.description}</td>
+        <td className="p-4 text-center">{product?.inventoryCount}</td>
+        <td className="p-4 text-center">{product?.shop?.name}</td>
+        <td className="p-4 text-center">
+          <Link to={`/dashboard/vendor/update-product/${product.id}`}>
+            <Button className="px-4 font-semibold text-sm bg-prime100 hover:bg-prime100 active:scale-95 duration-500">
+              Update
+            </Button>
+          </Link>
+        </td>
+        <td className="p-4 text-center">
+          {/* <VendorProductDeleteModal
+            handleDeleteFunction={handleDeleteProduct}
+            id={product.id}
+          /> */}
+          delete
+        </td>
+      </tr>
+    ));
+  }
 
   return (
     <div className="ManageVendorProductContainer">
