@@ -17,6 +17,7 @@ import {
   MonitorTransaction,
   UpdateCategory,
   UpdateProfile,
+  UpdateShop,
   VendorCustomerReview,
   VendorOderHistory,
 } from "@/pages";
@@ -83,6 +84,10 @@ const router = createBrowserRouter([
           {
             path: "/dashboard/vendor/add-shop",
             element: <AddShop />,
+          },
+          {
+            path: "/dashboard/vendor/update-shop/:id",
+            element: <UpdateShop />,
           },
           {
             path: "/dashboard/vendor/manage-products",

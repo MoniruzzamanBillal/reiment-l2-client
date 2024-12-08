@@ -50,7 +50,9 @@ const ManageVendorShop = () => {
         <td className="p-4 text-center">{vendorShopData?.data?.status}</td>
 
         <td className="p-4 text-center">
-          <Link to={`/`}>
+          <Link
+            to={`/dashboard/vendor/update-shop/${vendorShopData?.data?.id}`}
+          >
             <Button className=" px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base bg-prime100 hover:bg-prime100 active:scale-95 duration-500 ">
               Update
             </Button>
