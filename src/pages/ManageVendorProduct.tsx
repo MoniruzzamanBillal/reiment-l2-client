@@ -1,9 +1,13 @@
+import DeleteModal from "@/components/shared/DeleteModal";
 import { TableDataError, TableDataLoading } from "@/components/ui";
 import { Button } from "@/components/ui/button";
 import { useGetVendorShopProductsQuery } from "@/redux/features/product/product.api";
 import { useGetVendorShopQuery } from "@/redux/features/shop/shop.api";
 
 import { Link } from "react-router-dom";
+
+const alertMessage =
+  " This action cannot be undone. This will permanently delete the Product .";
 
 const ManageVendorProduct = () => {
   let content = null;
@@ -19,6 +23,11 @@ const ManageVendorProduct = () => {
   });
 
   // console.log(productData?.data);
+
+  // ! for deleting product
+  const handleDeleteProduct = async (prodId: string) => {
+    console.log(prodId);
+  };
 
   // *  if data is loading
   if (productDataLoading) {
@@ -82,11 +91,11 @@ const ManageVendorProduct = () => {
           </Link>
         </td>
         <td className="p-4 text-center">
-          {/* <VendorProductDeleteModal
-            handleDeleteFunction={handleDeleteProduct}
+          <DeleteModal
             id={product.id}
-          /> */}
-          delete
+            handleDeleteFunction={handleDeleteProduct}
+            alertMessage={alertMessage}
+          />
         </td>
       </tr>
     ));
