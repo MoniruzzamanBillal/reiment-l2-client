@@ -17,6 +17,7 @@ import {
   ManageVendorShop,
   MonitorReview,
   MonitorTransaction,
+  OrderSuccess,
   UpdateCategory,
   UpdateProduct,
   UpdateProfile,
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: "/checkout",
         element: <Checkout />,
+      },
+      {
+        path: "/order-success",
+        element: <OrderSuccess />,
       },
 
       {
