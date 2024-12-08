@@ -5,7 +5,6 @@ const productApi = baseApi.injectEndpoints({
     //! for getting vendor shop's product
     getVendorShopProducts: builder.query({
       query: (id: string) => {
-        console.log(id);
         return {
           url: `/product/get-vendor-product/${id}`,
           method: "GET",
@@ -14,8 +13,20 @@ const productApi = baseApi.injectEndpoints({
       providesTags: ["getVendorShopProduct"],
     }),
 
+    // ! for getting single product
+    getSingleProducts: builder.query({
+      query: (id: string) => {
+        return {
+          url: `/product/get-product/${id}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["getSingleProduct"],
+    }),
+
     //
   }),
 });
 
-export const { useGetVendorShopProductsQuery } = productApi;
+export const { useGetVendorShopProductsQuery, useGetSingleProductsQuery } =
+  productApi;

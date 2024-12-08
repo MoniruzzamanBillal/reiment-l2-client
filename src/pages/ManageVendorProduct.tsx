@@ -18,7 +18,7 @@ const ManageVendorProduct = () => {
     skip: !vendorShopData?.data?.id,
   });
 
-  console.log(productData?.data);
+  // console.log(productData?.data);
 
   // *  if data is loading
   if (productDataLoading) {
@@ -59,7 +59,7 @@ const ManageVendorProduct = () => {
 
   // * Render product data
   if (!productDataLoading && !productDataError && productData?.data?.length) {
-    content = productData?.data?.map((product) => (
+    content = productData?.data?.map((product: any) => (
       <tr key={product.id} className="border-b">
         <td className="p-4 text-center">{product.name}</td>
         <td className="p-4 text-center">
@@ -75,7 +75,7 @@ const ManageVendorProduct = () => {
         <td className="p-4 text-center">{product?.inventoryCount}</td>
         <td className="p-4 text-center">{product?.shop?.name}</td>
         <td className="p-4 text-center">
-          <Link to={`/dashboard/vendor/update-product/${product.id}`}>
+          <Link to={`/dashboard/vendor/update-products/${product.id}`}>
             <Button className="px-4 font-semibold text-sm bg-prime100 hover:bg-prime100 active:scale-95 duration-500">
               Update
             </Button>

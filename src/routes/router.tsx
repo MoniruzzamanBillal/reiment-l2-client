@@ -17,6 +17,7 @@ import {
   MonitorReview,
   MonitorTransaction,
   UpdateCategory,
+  UpdateProduct,
   UpdateProfile,
   UpdateShop,
   VendorCustomerReview,
@@ -97,6 +98,10 @@ const router = createBrowserRouter([
           {
             path: "/dashboard/vendor/add-products",
             element: <AddProduct />,
+          },
+          {
+            path: "/dashboard/vendor/update-products/:id",
+            element: <UpdateProduct />,
           },
           {
             path: "/dashboard/vendor/order-history",
