@@ -20,3 +20,4 @@ export { default as AddShop } from "./AddShop";
 export { default as UpdateShop } from "./UpdateShop";
 export { default as AddProduct } from "./AddProduct";
 export { default as UpdateProduct } from "./UpdateProduct";
+export { default as UserCart } from "./UserCart";

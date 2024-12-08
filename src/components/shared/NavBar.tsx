@@ -11,6 +11,7 @@ import logo from "@/assets/logo.png";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { UseGetUser } from "@/utils/SharedFunction";
+import { useGetUserCartQuery } from "@/redux/features/cart/cart.api";
 
 const Links = [
   { name: "Home", link: "/" },
@@ -24,7 +25,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // console.log(userInfo);
+  const { data: cartData } = useGetUserCartQuery(undefined);
 
   return (
     <div
@@ -121,11 +122,24 @@ const Navbar = () => {
               </div>
             )}
 
-            {/* toggle button  */}
-            <div className="cartBtn  pl-0 md:pl-2 mr-3 md:pr-0  cursor-pointer text-2xl  ">
-              <FiShoppingCart />
-            </div>
-            {/* toggle button  */}
+            {/* cart button  */}
+
+            <Link to={"/cart"}>
+              {userInfo?.userRole == "CUSTOMER" && (
+                <div className="cartBtn  pl-0 md:pl-2 mr-3 md:pr-0  cursor-pointer text-2xl  relative ">
+                  <FiShoppingCart />
+
+                  {/* cart item number  */}
+                  {cartData?.data?.cartItem?.length && (
+                    <div className="number text-gray-100 bg-prime100 text-xs rounded-full p-1 absolute transform -translate-x-1/2  -translate-y-1/2  top-[0rem] left-[2rem] ">
+                      {cartData?.data?.cartItem?.length}
+                    </div>
+                  )}
+                </div>
+              )}
+            </Link>
+
+            {/* cart button  */}
 
             {/*  */}
             {/*  */}

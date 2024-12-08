@@ -20,6 +20,7 @@ import {
   UpdateProduct,
   UpdateProfile,
   UpdateShop,
+  UserCart,
   VendorCustomerReview,
   VendorOderHistory,
 } from "@/pages";
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/cart",
+        element: <UserCart />,
       },
 
       {
