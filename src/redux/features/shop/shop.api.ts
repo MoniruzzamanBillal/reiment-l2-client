@@ -10,10 +10,38 @@ const shopApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["getAllShop"],
+    }),
+
+    // ! for crating a shop
+    addShop: builder.mutation({
+      query: (payload) => {
+        return {
+          url: "/shop/create-shop",
+          method: "POST",
+          body: payload,
+        };
+      },
+      invalidatesTags: ["getVendorShop"],
+    }),
+
+    // ! for getting vendor shop
+    getVendorShop: builder.query({
+      query: () => {
+        return {
+          url: "/shop/vendor-shop",
+          method: "GET",
+        };
+      },
+      providesTags: ["getVendorShop"],
     }),
 
     //
   }),
 });
 
-export const { useGetAllShopDataQuery } = shopApi;
+export const {
+  useGetAllShopDataQuery,
+  useAddShopMutation,
+  useGetVendorShopQuery,
+} = shopApi;

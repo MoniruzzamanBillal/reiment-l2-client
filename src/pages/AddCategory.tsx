@@ -13,7 +13,7 @@ const AddCategory = () => {
   const navigate = useNavigate();
   const [addCategory, { isLoading }] = useAddCategoryMutation();
 
-  console.log(isLoading);
+  // console.log(isLoading);
 
   const handleAddCategory = async (data: FieldValues) => {
     const result = await addCategory(data);

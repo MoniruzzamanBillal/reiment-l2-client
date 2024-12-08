@@ -1,4 +1,8 @@
-import { TableDataError, TableDataLoading } from "@/components/ui";
+import {
+  CategotyDeleteModal,
+  TableDataError,
+  TableDataLoading,
+} from "@/components/ui";
 import { Button } from "@/components/ui/button";
 import { useGetAllCategoryQuery } from "@/redux/features/category/category.api";
 import { Link } from "react-router-dom";
@@ -17,6 +21,11 @@ const ManageCategory = () => {
   } = useGetAllCategoryQuery(undefined);
 
   // console.log(categoryData?.data);
+
+  // ! for deleting a category
+  const handleDeleteCategory = async (id: string) => {
+    console.log(id);
+  };
 
   let content = null;
 
@@ -71,13 +80,18 @@ const ManageCategory = () => {
           <Link
             to={`/dashboard/admin/categories/update-category/${category?.id}`}
           >
-            <Button className=" px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base bg-prime50 hover:bg-prime100 active:scale-95 duration-500 ">
+            <Button className=" px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base bg-prime100 hover:bg-prime100 active:scale-95 duration-500 ">
               Update
             </Button>
           </Link>{" "}
         </td>
 
-        <td className="p-4 text-center"> delete </td>
+        <td className="p-4 text-center">
+          <CategotyDeleteModal
+            handleDeleteFunction={handleDeleteCategory}
+            id={category?.id}
+          />
+        </td>
       </tr>
     ));
   }

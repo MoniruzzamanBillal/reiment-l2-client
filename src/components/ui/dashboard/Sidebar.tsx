@@ -18,7 +18,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="bg-gray-100 border border-gray-200 rounded-md p-4 sticky top-[5.5rem] shadow-md  ">
+    <div className="bg-gray-100 border border-gray-300 rounded-md p-4 sticky top-[5.5rem] shadow-md  ">
       <div className="flex items-center space-x-2 border-b-4 border-prime50 pb-2 print:hidden">
         <Link to="/dashboard" className="flex items-center gap-2">
           <span className="inline-block p-2 rounded-full bg-slate-200 cursor-pointe">
@@ -35,7 +35,7 @@ const Sidebar = () => {
         <DashboardLinks />
         <div
           onClick={() => handleLogout()}
-          className="  mt-4 flex items-center gap-x-1 border cursor-pointer font-medium p-1 "
+          className="  mt-4 flex items-center gap-x-1  cursor-pointer font-medium p-1 border border-gray-300 "
         >
           <CiLogin className=" text-xl  " />
           Logout
