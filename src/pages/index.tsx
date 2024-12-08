@@ -21,3 +21,4 @@ export { default as UpdateShop } from "./UpdateShop";
 export { default as AddProduct } from "./AddProduct";
 export { default as UpdateProduct } from "./UpdateProduct";
 export { default as UserCart } from "./UserCart";
+export { default as Checkout } from "./Checkout";

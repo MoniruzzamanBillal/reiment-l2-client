@@ -4,6 +4,7 @@ import {
   AddProduct,
   AddShop,
   AdminStatistics,
+  Checkout,
   CustomerOrderHistory,
   Dashboard,
   DashboardLayout,
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <UserCart />,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />,
       },
 
       {

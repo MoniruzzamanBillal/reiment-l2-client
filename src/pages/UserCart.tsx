@@ -1,7 +1,9 @@
 import { CartItemCard, FormSubmitLoading, NoCartItem } from "@/components/ui";
 import { useGetUserCartQuery } from "@/redux/features/cart/cart.api";
+import { useNavigate } from "react-router-dom";
 
 const UserCart = () => {
+  const navigate = useNavigate();
   const { data: cartData, isLoading: cartDataLoading } =
     useGetUserCartQuery(undefined);
 
@@ -95,7 +97,7 @@ const UserCart = () => {
 
                 <button
                   className="inline-block rounded-lg bg-indigo-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 md:text-base"
-                  //   onClick={() => handleCheckout()}
+                  onClick={() => navigate("/checkout")}
                 >
                   Check out
                 </button>
