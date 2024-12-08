@@ -1,6 +1,7 @@
 import App from "@/App";
 import {
   AddCategory,
+  AddProduct,
   AddShop,
   AdminStatistics,
   CustomerOrderHistory,
@@ -94,8 +95,8 @@ const router = createBrowserRouter([
             element: <ManageVendorProduct />,
           },
           {
-            path: "/dashboard/vendor/manage-products",
-            element: <ManageVendorProduct />,
+            path: "/dashboard/vendor/add-products",
+            element: <AddProduct />,
           },
           {
             path: "/dashboard/vendor/order-history",

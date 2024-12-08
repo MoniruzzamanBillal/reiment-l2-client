@@ -18,3 +18,4 @@ export { default as AddCategory } from "./AddCategory";
 export { default as UpdateCategory } from "./UpdateCategory";
 export { default as AddShop } from "./AddShop";
 export { default as UpdateShop } from "./UpdateShop";
+export { default as AddProduct } from "./AddProduct";

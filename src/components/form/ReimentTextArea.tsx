@@ -4,9 +4,10 @@ import { Textarea } from "../ui/textarea";
 type TInput = {
   name: string;
   label: string;
+  placeholder: string;
 };
 
-const ReimentTextArea = ({ label, name }: TInput) => {
+const ReimentTextArea = ({ label, name, placeholder }: TInput) => {
   return (
     <div className="CamperTextAreaContainer mb-5 flex flex-col gap-y-1 ">
       {label ? label : null}
@@ -18,6 +19,7 @@ const ReimentTextArea = ({ label, name }: TInput) => {
             <Textarea
               id={name}
               {...field}
+              placeholder={placeholder}
               className="border border-gray-400 outline-none ring-0 focus-visible:ring-0 "
             />
 

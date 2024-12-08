@@ -11,7 +11,7 @@ const ManageVendorProduct = () => {
 
         {/* new category add  container starts  */}
         <div className="addNewProduct mb-6 ">
-          <Link to={"/"}>
+          <Link to={"/dashboard/vendor/add-products"}>
             <Button className=" px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base bg-prime50 hover:bg-prime100 active:scale-95 duration-500 ">
               Add Product
             </Button>
