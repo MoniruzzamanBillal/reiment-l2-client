@@ -1,10 +1,26 @@
 import Wrapper from "@/components/shared/Wrapper";
 import { Button } from "@/components/ui/button";
+import { useGetSingleShopQuery } from "@/redux/features/shop/shop.api";
+import { UseGetUser } from "@/utils/SharedFunction";
 import { useParams } from "react-router-dom";
 
 //
 const ShopDetail = () => {
+  const userInfo = UseGetUser();
   const { id } = useParams();
+
+  if (!id) {
+    throw new Error("Something went wrong!! ");
+  }
+
+  const {
+    data: shopData,
+    isLoading: shopDataLoading,
+    isError: shopDataError,
+  } = useGetSingleShopQuery(id, { skip: !id });
+
+  console.log(userInfo);
+  console.log(shopData?.data);
 
   return (
     <div className="ShopDetailContainer bg-gray-100 min-h-screen py-8 ">

@@ -36,6 +36,16 @@ const shopApi = baseApi.injectEndpoints({
       providesTags: ["getVendorShop"],
     }),
 
+    // ! get single shop
+    getSingleShop: builder.query({
+      query: (shopId: string) => {
+        return {
+          url: `/shop/shop-detail/${shopId}`,
+          method: "GET",
+        };
+      },
+    }),
+
     //
   }),
 });
@@ -44,4 +54,5 @@ export const {
   useGetAllShopDataQuery,
   useAddShopMutation,
   useGetVendorShopQuery,
+  useGetSingleShopQuery,
 } = shopApi;
