@@ -10,6 +10,7 @@ import {
   Dashboard,
   DashboardLayout,
   FollowedShop,
+  HomePage,
   Login,
   ManageCategory,
   ManageShop,
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
+      {
+        path: "/",
+        element: <HomePage />,
+      },
       {
         path: "/login",
         element: <Login />,
