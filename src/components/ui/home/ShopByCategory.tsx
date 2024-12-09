@@ -37,7 +37,7 @@ const ShopByCategory = () => {
     <div className="categoryContainer bg-gray-50 py-8   ">
       <Wrapper className=" categoryWrapper m-auto ">
         <h1 className=" mb-8   text-center font-semibold text-prime100 text-xl xsm:text-2xl sm:text-3xl md:text-3xl xl:text-4xl  ">
-          Shop by category
+          Browse by categories
         </h1>
 
         <Swiper

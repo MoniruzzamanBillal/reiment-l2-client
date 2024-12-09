@@ -28,7 +28,7 @@ const AllProducts = () => {
   const { data: allProducts, isLoading: productDataLoading } =
     useGetAllProductQuery(undefined);
 
-  console.log(allProducts?.data);
+  // console.log(allProducts?.data);
 
   //   ! for reseting all filter category
   const handleAddReset = () => {

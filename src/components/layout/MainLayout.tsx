@@ -11,7 +11,7 @@ export const MainLayout = () => {
       {/* nav ends */}
 
       {/* child component  */}
-      <div className="childComponent mt-[5.2rem]   ">
+      <div className="childComponent mt-[4.2rem]   ">
         <Outlet />
       </div>
       {/* child component  */}
