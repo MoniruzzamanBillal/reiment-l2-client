@@ -1,4 +1,5 @@
 import Wrapper from "@/components/shared/Wrapper";
+import { ProductCard } from "@/components/ui";
 import { Button } from "@/components/ui/button";
 import { useGetSingleShopQuery } from "@/redux/features/shop/shop.api";
 import { UseGetUser } from "@/utils/SharedFunction";
@@ -19,8 +20,9 @@ const ShopDetail = () => {
     isError: shopDataError,
   } = useGetSingleShopQuery(id, { skip: !id });
 
-  console.log(userInfo);
-  console.log(shopData?.data);
+  // console.log(userInfo);
+  // console.log(shopData?.data);
+  // console.log(shopData?.data?.Products);
 
   return (
     <div className="ShopDetailContainer bg-gray-100 min-h-screen py-8 ">
@@ -61,11 +63,15 @@ const ShopDetail = () => {
         </div>
         {/* shop name sectio ends  */}
 
-        <div className="productCards">
-          <h1 className=" text-xl font-medium mb-6 ">All Products </h1>
-          <h1>products </h1>
-          <h1>products </h1>
-          <h1>products </h1>
+        <div className="productCardsSection">
+          <h1 className=" text-2xl font-medium mb-8 ">All Products </h1>
+
+          <div className="products grid grid-cols-4 gap-x-4 gap-y-6 ">
+            {shopData?.data?.Products &&
+              shopData?.data?.Products?.map((product) => (
+                <ProductCard key={product?.id} product={product} />
+              ))}
+          </div>
         </div>
       </Wrapper>
     </div>

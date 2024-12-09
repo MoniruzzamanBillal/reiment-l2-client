@@ -8,4 +8,5 @@ export { default as CartItemCard } from "./CartItemCard";
 export { default as CommentInput } from "./CommentInput";
 export { default as UserCommentCard } from "./UserCommentCard";
 export { default as RelatedProductCard } from "./RelatedProductCard";
+export { default as ProductCard } from "./ProductCard";
 export { default as GlassZoomImage } from "./GlassZoomImage";
