@@ -7,7 +7,7 @@ import {
 } from "@/components/ui";
 import { useGetSingleProductsQuery } from "@/redux/features/product/product.api";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const ProductDetail = () => {
@@ -22,6 +22,7 @@ const ProductDetail = () => {
     useGetSingleProductsQuery(id, { skip: !id });
 
   //   console.log(productData?.data);
+  //   console.log(productData?.data?.shop);
   //   console.log(productData?.data?.review);
 
   //   ! for adding comment
@@ -38,7 +39,7 @@ const ProductDetail = () => {
     <div className="ProductDetailContainer  ">
       <div className="ProductDetailWrapper  ">
         <div className="bg-gray-100  py-6 sm:py-8 lg:py-12">
-          {/* product top section starts  */}
+          {/* product detail section starts  */}
           <div className="mx-auto max-w-screen-lg px-4 md:px-8">
             <div className="grid gap-8 md:grid-cols-2">
               {/* images - start  */}
@@ -113,7 +114,7 @@ const ProductDetail = () => {
                     className={`inline-block flex-1 rounded-lg px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 sm:flex-none md:text-base ${
                       productData?.data?.inventoryCount === 0
                         ? "cursor-not-allowed bg-gray-400"
-                        : "cursor-pointer bg-indigo-500 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700"
+                        : "cursor-pointer bg-prime50 hover:bg-prime100 focus-visible:ring active:bg-indigo-700"
                     }`}
                     // onClick={handleAddCart}
                   >
@@ -127,19 +128,21 @@ const ProductDetail = () => {
                 {/* shop name starts  */}
 
                 <div className="shopNameStarts mt-8">
-                  <div className="mb-1 text-lg font-semibold text-gray-800">
+                  <p className=" text-lg font-semibold text-gray-800">
                     Sold by :
-                  </div>
+                  </p>
 
                   <p className="text-prime100 text-lg font-medium cursor-pointer ">
-                    {productData?.data?.shop?.name}
+                    <Link to={`/shop/detail/${productData?.data?.shop?.id}`}>
+                      {productData?.data?.shop?.name}
+                    </Link>
                   </p>
                 </div>
 
                 {/* shop name ends  */}
 
                 {/* {/* description - start  */}
-                <div className="mt-10 ">
+                <div className="mt-5 ">
                   <div className="mb-2 text-lg font-semibold text-gray-800">
                     Description
                   </div>
@@ -153,7 +156,7 @@ const ProductDetail = () => {
               {/* content - end  */}
             </div>
           </div>
-          {/* product top section ends */}
+          {/* product detail section ends */}
 
           {/* detail bottom section starts  */}
           <Wrapper className=" flex flex-col gap-y-8  ">

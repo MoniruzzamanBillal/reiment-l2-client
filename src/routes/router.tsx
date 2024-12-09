@@ -19,6 +19,7 @@ import {
   MonitorTransaction,
   OrderSuccess,
   ProductDetail,
+  ShopDetail,
   UpdateCategory,
   UpdateProduct,
   UpdateProfile,
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "/product/detail/:id",
         element: <ProductDetail />,
+      },
+      {
+        path: "/shop/detail/:id",
+        element: <ShopDetail />,
       },
       {
         path: "/cart",

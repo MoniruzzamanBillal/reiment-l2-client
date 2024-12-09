@@ -24,3 +24,4 @@ export { default as UserCart } from "./UserCart";
 export { default as Checkout } from "./Checkout";
 export { default as OrderSuccess } from "./OrderSuccess";
 export { default as ProductDetail } from "./ProductDetail";
+export { default as ShopDetail } from "./ShopDetail";
