@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 import { ReimentForm, ReimentInput } from "@/components/form";
 
 import { Button } from "@/components/ui/button";
@@ -6,17 +8,57 @@ import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { FormSubmitLoading } from "@/components/ui";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useGetUserCartQuery } from "@/redux/features/cart/cart.api";
+import { useOrderItemMutation } from "@/redux/features/order/order.api";
 
 const Checkout = () => {
   const navigate = useNavigate();
 
+  const { data: cartData, isLoading: cartDataLoading } =
+    useGetUserCartQuery(undefined);
+
+  const [orderItem, { isLoading }] = useOrderItemMutation();
+
   const handleAddAddress = async (data: FieldValues) => {
-    console.log(data);
+    const taostId = toast.loading("Placing order ....");
+
+    const payload = {
+      cartId: cartData?.data?.id,
+    };
+
+    try {
+      const result = await orderItem(payload);
+
+      if (result?.error) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const errorMessage = (result?.error as any)?.data?.message;
+        toast.error(errorMessage, {
+          id: taostId,
+          duration: 1400,
+        });
+      }
+
+      if (result?.data) {
+        const successMsg = result?.data?.message;
+        const paymentUrl = result?.data?.data;
+
+        toast.success(successMsg, {
+          id: taostId,
+          duration: 2000,
+        });
+
+        window.location.href = paymentUrl;
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong !!!", { id: taostId, duration: 1400 });
+    }
   };
 
   return (
     <>
-      {/* {isLoading && <FormSubmitLoading />} */}
+      {(cartDataLoading || isLoading) && <FormSubmitLoading />}
 
       <div className="CheckoutContainer py-8 bg-gray-100 min-h-screen p-3 shadow rounded-md">
         <div className="CheckoutWrapper">
@@ -25,7 +67,16 @@ const Checkout = () => {
           </h1>
 
           <div className="checkoutForm p-1 w-[95%] xsm:w-[85%] sm:w-[78%] md:w-[70%] xmd:w-[65%] lg:w-[55%] m-auto">
-            <ReimentForm onSubmit={handleAddAddress}>
+            <ReimentForm
+              onSubmit={handleAddAddress}
+              resolver={zodResolver(
+                z.object({
+                  street: z.string().min(1, "Street name is required !!"),
+                  city: z.string().min(1, "Street name is required !!"),
+                  postalCode: z.string().min(1, "Street name is required !!"),
+                })
+              )}
+            >
               <ReimentInput
                 type="text"
                 label="Street Address :"
@@ -42,23 +93,9 @@ const Checkout = () => {
 
               <ReimentInput
                 type="text"
-                label="State :"
-                name="state"
-                placeholder="Enter your state"
-              />
-
-              <ReimentInput
-                type="text"
                 label="Postal Code :"
                 name="postalCode"
                 placeholder="Enter your postal code"
-              />
-
-              <ReimentInput
-                type="text"
-                label="Country :"
-                name="country"
-                placeholder="Enter your country"
               />
 
               <Button

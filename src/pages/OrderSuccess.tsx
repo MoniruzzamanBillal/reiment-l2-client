@@ -10,9 +10,9 @@ const OrderSuccess = () => {
   };
 
   return (
-    <div className="OrderSuccessContainer bg-gray-100 ">
+    <div className="OrderSuccessContainer bg-gray-100  ">
       <div className="OrderSuccessWrapper min-h-screen  flex justify-center items-center   ">
-        <div className="confirmationCard bg-white py-8 px-16 rounded-md shadow-lg border border-gray-100 flex flex-col  justify-center items-center gap-y-3  ">
+        <div className="confirmationCard bg-white py-8 px-16 rounded-md shadow-md border border-gray-300 flex flex-col  justify-center items-center gap-y-3  ">
           {/* icon starts  */}
           <div className="icon  text-center flex justify-center items-center ">
             <IoIosCheckmarkCircleOutline className=" text-7xl text-prime100 " />

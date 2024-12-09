@@ -10,6 +10,7 @@ const cartApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["getUserCart"],
     }),
 
     //
