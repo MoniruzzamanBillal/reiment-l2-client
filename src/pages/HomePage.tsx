@@ -1,4 +1,9 @@
-import { HeroBanner, HomeProducts, ShopByCategory } from "@/components/ui/home";
+import {
+  FlashSaleBanner,
+  HeroBanner,
+  HomeProducts,
+  ShopByCategory,
+} from "@/components/ui/home";
 
 const HomePage = () => {
   return (
@@ -6,12 +11,7 @@ const HomePage = () => {
       <HeroBanner />
       <ShopByCategory />
       <HomeProducts />
-      <h1> HomePage</h1>
-      <h1> HomePage</h1>
-      <h1> HomePage</h1>
-      <h1> HomePage</h1>
-      <h1> HomePage</h1>
-      <h1> HomePage</h1>
+      <FlashSaleBanner />
     </div>
   );
 };

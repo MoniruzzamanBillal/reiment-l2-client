@@ -10,7 +10,7 @@ const ProductCard = ({ product }) => {
       <Link to={`/product/detail/${product?.id}`}>
         <div className="ProductCardWrapper flex flex-col gap-y-1  ">
           {/* product image section  */}
-          <div className="prodImg  h-[14rem] relative ">
+          <div className="prodImg  h-[15rem] relative ">
             <img className=" w-full h-full " src={product?.productImg} alt="" />
 
             {/* category name section */}
@@ -25,10 +25,9 @@ const ProductCard = ({ product }) => {
 
             <div className="productPriceShopName flex justify-between items-center ">
               {/* prod price  */}
-              <div className="prodPrice">
+              <div className="prodPrice flex items-center gap-x-2 ">
                 <p className=" font-semibold  text-lg "> $ {product?.price} </p>
                 <p className=" font-medium line-through text-gray-600 ">
-                  {" "}
                   $ {product?.price}{" "}
                 </p>
               </div>

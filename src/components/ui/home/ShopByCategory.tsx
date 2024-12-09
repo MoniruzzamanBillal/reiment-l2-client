@@ -56,7 +56,7 @@ const ShopByCategory = () => {
         >
           {productsCategory &&
             productsCategory.map((product, ind) => (
-              <SwiperSlide className=" m-auto flex justify-center items-center  ">
+              <SwiperSlide className=" mb-5 flex justify-center items-center   ">
                 <CategoryCard key={ind} product={product} />
               </SwiperSlide>
             ))}

@@ -20,7 +20,7 @@ const bannerInfo: TBanner[] = [
     heading: "Unleash the Joy of Seamless Shopping",
     description:
       "Discover an exciting range of products tailored to your needs. From trendy fashion to must-have gadgets, shop now and enjoy unbeatable deals, fast delivery, and a hassle-free shopping experience. Start your journey today!",
-    bannerImg: "https://i.ibb.co/3RGgzzw/img1.jpg",
+    bannerImg: "https://i.postimg.cc/65H0rPQ0/5544257.jpg",
   },
 
   {
@@ -28,7 +28,7 @@ const bannerInfo: TBanner[] = [
     heading: "Shop the Best Products at Unmatched Prices",
     description:
       "Get ready to save big! Explore our exclusive collection of premium products with irresistible discounts and limited-time offers. Don’t miss out—grab your favorites before they’re gone!",
-    bannerImg: "https://i.ibb.co/x53SCDV/img2.jpg",
+    bannerImg: "https://i.postimg.cc/65H0rPQ0/5544257.jpg",
   },
 
   {
