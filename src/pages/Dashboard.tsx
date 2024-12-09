@@ -1,34 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { GetUserRole } from "@/utils/GetUserRole";
-import { UseGetUser } from "@/utils/SharedFunction";
 import { Link } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
-import { AddressCard } from "@/components/ui";
-
-const address = {
-  id: "1",
-  street: "123 Main St",
-  city: "Springfield",
-  state: "IL",
-  postalCode: "62701",
-  country: "USA",
-};
 
 const Dashboard = () => {
-  const userRole = GetUserRole();
-  const userInfo = UseGetUser();
-
-  // console.log(userRole);
-  console.log(userInfo);
-
-  const handleEditAddress = (id) => {
-    console.log(`Edit address with id: ${id}`);
-  };
-
-  const handleDeleteAddress = (id) => {
-    console.log(`Delete address with id: ${id}`);
-  };
-
   return (
     <div className="DashboardContainer">
       <div className="dashBoardWrapper  bg-gray-100  shadow rounded-md p-3 flex flex-col gap-y-4 ">
@@ -83,26 +57,7 @@ const Dashboard = () => {
         {/* profile section ends  */}
 
         {/*  */}
-
-        {/* button for adding new address  */}
-        <div className="btnSection">
-          <Button
-            className={`px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base active:scale-95 duration-500 bg-prime50 hover:bg-prime100 `}
-          >
-            Add New Address
-          </Button>
-        </div>
       </div>
-
-      {/* address card  */}
-      <div className="addressCard bg-gray-100  shadow rounded-md p-3  ">
-        <AddressCard
-          address={address}
-          onEdit={handleEditAddress}
-          onDelete={handleDeleteAddress}
-        />
-      </div>
-      {/* address card ends */}
     </div>
   );
 };

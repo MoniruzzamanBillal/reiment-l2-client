@@ -5,3 +5,5 @@ export { default as TableDataError } from "./TableDataError";
 export { default as CategotyDeleteModal } from "./CategotyDeleteModal";
 export { default as NoCartItem } from "./NoCartItem";
 export { default as CartItemCard } from "./CartItemCard";
+export { default as CommentInput } from "./CommentInput";
+export { default as GlassZoomImage } from "./GlassZoomImage";

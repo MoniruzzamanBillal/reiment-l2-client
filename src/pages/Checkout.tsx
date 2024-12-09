@@ -6,15 +6,13 @@ import { Button } from "@/components/ui/button";
 import { FieldValues } from "react-hook-form";
 
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+
 import { FormSubmitLoading } from "@/components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useGetUserCartQuery } from "@/redux/features/cart/cart.api";
 import { useOrderItemMutation } from "@/redux/features/order/order.api";
 
 const Checkout = () => {
-  const navigate = useNavigate();
-
   const { data: cartData, isLoading: cartDataLoading } =
     useGetUserCartQuery(undefined);
 

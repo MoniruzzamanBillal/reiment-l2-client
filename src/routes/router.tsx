@@ -18,6 +18,7 @@ import {
   MonitorReview,
   MonitorTransaction,
   OrderSuccess,
+  ProductDetail,
   UpdateCategory,
   UpdateProduct,
   UpdateProfile,
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/product/detail/:id",
+        element: <ProductDetail />,
       },
       {
         path: "/cart",
