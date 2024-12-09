@@ -25,3 +25,4 @@ export { default as Checkout } from "./Checkout";
 export { default as OrderSuccess } from "./OrderSuccess";
 export { default as ProductDetail } from "./ProductDetail";
 export { default as ShopDetail } from "./ShopDetail";
+export { default as AllProducts } from "./AllProducts";

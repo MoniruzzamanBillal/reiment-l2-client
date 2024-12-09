@@ -24,9 +24,23 @@ const productApi = baseApi.injectEndpoints({
       providesTags: ["getSingleProduct"],
     }),
 
+    // ! for getting all products
+    getAllProduct: builder.query({
+      query: () => {
+        return {
+          url: `/product/all-products`,
+          method: "GET",
+        };
+      },
+      providesTags: ["getAllProducts"],
+    }),
+
     //
   }),
 });
 
-export const { useGetVendorShopProductsQuery, useGetSingleProductsQuery } =
-  productApi;
+export const {
+  useGetVendorShopProductsQuery,
+  useGetSingleProductsQuery,
+  useGetAllProductQuery,
+} = productApi;

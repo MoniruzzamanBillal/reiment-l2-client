@@ -4,6 +4,7 @@ import {
   AddProduct,
   AddShop,
   AdminStatistics,
+  AllProducts,
   Checkout,
   CustomerOrderHistory,
   Dashboard,
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/products",
+        element: <AllProducts />,
       },
       {
         path: "/product/detail/:id",

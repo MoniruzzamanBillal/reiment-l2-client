@@ -15,7 +15,7 @@ import { useGetUserCartQuery } from "@/redux/features/cart/cart.api";
 
 const Links = [
   { name: "Home", link: "/" },
-  { name: "Products", link: "/" },
+  { name: "Products", link: "/products" },
   { name: "About us", link: "/" },
   { name: "Contact", link: "/" },
 ];

@@ -27,5 +27,6 @@ export const baseApi = createApi({
     "getVendorShopProduct",
     "getSingleProduct",
     "getUserCart",
+    "getAllProducts",
   ],
 });
