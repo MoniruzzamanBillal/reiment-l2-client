@@ -40,11 +40,11 @@ const Navbar = () => {
         <div className="imgContainer  ">
           <Link to={"/"}>
             <div className=" text-2xl cursor-pointer flex items-center  gap-x-1">
-              <img
+              {/* <img
                 src={logo}
                 className="  w-[3rem] sm:w-[3.6rem] md:w-[2.8rem] lg:w-[4rem]  "
                 alt="logo"
-              />
+              /> */}
 
               <p className="  text-2xl sm:text-2xl md:text-xl lg:text-3xl font-bold font-headingFont ">
                 Reiment

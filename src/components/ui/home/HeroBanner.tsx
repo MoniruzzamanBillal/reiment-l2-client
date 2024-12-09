@@ -4,7 +4,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-// import required modules
 import { Autoplay, Pagination } from "swiper/modules";
 import HeroBannerCard from "./HeroBannerCard";
 
@@ -45,7 +44,7 @@ const bannerInfo: TBanner[] = [
     heading: "Get Personalized Recommendations",
     description:
       "Follow your favorite shops and stay updated with their latest collections and exclusive deals. Discover products handpicked just for you and elevate your shopping game like never before!",
-    bannerImg: "https://i.ibb.co/CmGH6kQ/img4.jpg",
+    bannerImg: "https://i.ibb.co/3RGgzzw/img1.jpg",
   },
 
   {
@@ -53,7 +52,7 @@ const bannerInfo: TBanner[] = [
     heading: "Don’t Miss Out on Today’s Best Deals",
     description:
       "Enjoy incredible discounts during our daily flash sales. Limited products, limited time—shop now and make the most of these amazing offers before they disappear!",
-    bannerImg: "https://i.ibb.co/4J8xZF3/img5.jpg",
+    bannerImg: "https://i.ibb.co/3RGgzzw/img1.jpg",
   },
 ];
 
