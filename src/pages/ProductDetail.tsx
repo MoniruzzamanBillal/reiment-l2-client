@@ -1,5 +1,10 @@
 import Wrapper from "@/components/shared/Wrapper";
-import { CommentInput, GlassZoomImage } from "@/components/ui";
+import {
+  CommentInput,
+  GlassZoomImage,
+  RelatedProductCard,
+  UserCommentCard,
+} from "@/components/ui";
 import { useGetSingleProductsQuery } from "@/redux/features/product/product.api";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -17,7 +22,7 @@ const ProductDetail = () => {
     useGetSingleProductsQuery(id, { skip: !id });
 
   //   console.log(productData?.data);
-  console.log(productData?.data?.review);
+  //   console.log(productData?.data?.review);
 
   //   ! for adding comment
   const handleAddComment = async () => {
@@ -151,22 +156,41 @@ const ProductDetail = () => {
           {/* product top section ends */}
 
           {/* detail bottom section starts  */}
-          <Wrapper className="  ">
+          <Wrapper className=" flex flex-col gap-y-8  ">
             {/* review section starts  */}
             <div className="reviewSection    ">
-              <h1 className="   font-semibold text-2xl mb-3   ">Reviews</h1>
+              <h1 className="   font-semibold text-2xl mt-2 mb-6   ">
+                Reviews
+              </h1>
 
+              {/* comment input section  */}
               <CommentInput
                 comment={comment}
                 setComment={setComment}
                 handleAddComment={handleAddComment}
               />
 
-              <h1>product review </h1>
-              <h1>product review </h1>
-              <h1>product review </h1>
+              {/* user comment card  section  */}
+              {productData?.data?.review &&
+                productData?.data?.review?.map((comment) => (
+                  <UserCommentCard review={comment} />
+                ))}
             </div>
             {/* review section ends  */}
+
+            {/* related products section  */}
+            <div className="relatedSection  ">
+              <h1 className=" text-xl text-gray-900 font-medium ">
+                You may also like
+              </h1>
+
+              <div className="relatedProductCards mt-4 grid grid-cols-4 gap-x-5  ">
+                <RelatedProductCard />
+                <RelatedProductCard />
+                <RelatedProductCard />
+                <RelatedProductCard />
+              </div>
+            </div>
 
             {/*  */}
           </Wrapper>
