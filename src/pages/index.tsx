@@ -27,3 +27,4 @@ export { default as ProductDetail } from "./ProductDetail";
 export { default as ShopDetail } from "./ShopDetail";
 export { default as AllProducts } from "./AllProducts";
 export { default as HomePage } from "./HomePage";
+export { default as FlashSale } from "./FlashSale";

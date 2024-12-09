@@ -24,7 +24,7 @@ const FlashSaleBanner = () => {
           </h1>
 
           <Link
-            to={"/products"}
+            to={"/flash-sale"}
             className=" font-medium text-prime100 hover:bg-prime100 hover:text-gray-50 py-2 px-4 rounded-md "
           >
             Show more

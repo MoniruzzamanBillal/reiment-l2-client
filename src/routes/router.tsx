@@ -9,6 +9,7 @@ import {
   CustomerOrderHistory,
   Dashboard,
   DashboardLayout,
+  FlashSale,
   FollowedShop,
   HomePage,
   Login,
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/products",
         element: <AllProducts />,
+      },
+      {
+        path: "/flash-sale",
+        element: <FlashSale />,
       },
       {
         path: "/product/detail/:id",
