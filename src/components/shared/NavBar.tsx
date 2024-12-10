@@ -131,7 +131,7 @@ const Navbar = () => {
 
                   {/* cart item number  */}
                   {cartData?.data?.cartItem?.length && (
-                    <div className="number text-gray-100 bg-prime100 text-xs rounded-full p-1 absolute transform -translate-x-1/2  -translate-y-1/2  top-[0rem] left-[2rem] ">
+                    <div className="number text-gray-100 text-center size-5 bg-prime100 text-xs rounded-full  absolute transform -translate-x-1/2  -translate-y-1/2  top-[0rem] left-[2rem] ">
                       {cartData?.data?.cartItem?.length}
                     </div>
                   )}

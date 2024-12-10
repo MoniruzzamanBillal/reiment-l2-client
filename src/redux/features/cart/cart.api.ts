@@ -13,8 +13,35 @@ const cartApi = baseApi.injectEndpoints({
       providesTags: ["getUserCart"],
     }),
 
+    // ! add product to cart ( direct )
+    addProductToCart: builder.mutation({
+      query: (payload) => {
+        return {
+          url: "cart/add-to-cart",
+          method: "POST",
+          body: payload,
+        };
+      },
+      invalidatesTags: ["getUserCart"],
+    }),
+
+    // ! for replace cart
+    replaceCart: builder.mutation({
+      query: (payload) => {
+        return {
+          url: "cart/replace-cart",
+          method: "PATCH",
+          body: payload,
+        };
+      },
+    }),
+
     //
   }),
 });
 
-export const { useGetUserCartQuery } = cartApi;
+export const {
+  useGetUserCartQuery,
+  useAddProductToCartMutation,
+  useReplaceCartMutation,
+} = cartApi;
