@@ -80,12 +80,12 @@ const router = createBrowserRouter([
         element: <DashboardLayout />,
         children: [
           {
-            path: "/dashboard/update-profile/:id",
-            element: <UpdateProfile />,
-          },
-          {
             path: "/dashboard",
             element: <Dashboard />,
+          },
+          {
+            path: "/dashboard/update-profile/:id",
+            element: <UpdateProfile />,
           },
           {
             path: "/dashboard/admin/manage-user",

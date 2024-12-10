@@ -12,8 +12,18 @@ const userApi = baseApi.injectEndpoints({
       },
     }),
 
+    // ! get loggedIn user
+    getLoggedInUser: builder.query({
+      query: () => {
+        return {
+          url: "/user/logged-user",
+          method: "GET",
+        };
+      },
+    }),
+
     //
   }),
 });
 
-export const { useGetUserQuery } = userApi;
+export const { useGetUserQuery, useGetLoggedInUserQuery } = userApi;
