@@ -1,6 +1,7 @@
 import { CartItemCard, FormSubmitLoading, NoCartItem } from "@/components/ui";
 import {
   useDecreaseCartItemQuantityMutation,
+  useDeleteCartItemMutation,
   useGetUserCartQuery,
   useIncreaseCartItemQuantityMutation,
 } from "@/redux/features/cart/cart.api";
@@ -22,7 +23,11 @@ const UserCart = () => {
   const [decreaseCartItemQuantity, { isLoading: decreaseCartLoading }] =
     useDecreaseCartItemQuantityMutation();
 
+  const [deleteCartItem, { isLoading: deleteCartItemLoading }] =
+    useDeleteCartItemMutation();
+
   // console.log(cartData?.data?.cartItem);
+  console.log(cartData?.data);
 
   //   ! function for adding cart quantity
   const handleAddQuantity = async (item) => {
@@ -69,8 +74,37 @@ const UserCart = () => {
 
     try {
       const toastId = toast.loading("Decreaseing cart quantity!! ");
-
       const result = await decreaseCartItemQuantity(payload);
+      //  *  for any  error
+      if (result?.error) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const errorMessage = (result?.error as any)?.data?.message;
+        toast.error(errorMessage, {
+          duration: 1400,
+          id: toastId,
+        });
+      }
+      if (result?.data?.success) {
+        toast.success(result?.data?.message, { duration: 1500, id: toastId });
+        refetchCart();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong !!!", { duration: 1200 });
+    }
+  };
+
+  // ! function for deleting cart item
+  const handleDeleteCartItem = async (item) => {
+    const payload = {
+      cartId: item?.cartId,
+      cartItemId: item?.id,
+    };
+
+    try {
+      const toastId = toast.loading("Deleting Cart Item!!");
+
+      const result = await deleteCartItem(payload);
 
       //  *  for any  error
       if (result?.error) {
@@ -92,11 +126,6 @@ const UserCart = () => {
     }
   };
 
-  // ! function for deleting cart item
-  const handleDeleteCartItem = async (item) => {
-    console.log(item);
-  };
-
   useEffect(() => {
     refetchCart();
   }, [
@@ -104,13 +133,15 @@ const UserCart = () => {
     refetchCart,
     cartData?.data?.cartItem,
     decreaseCartLoading,
+    deleteCartItemLoading,
   ]);
 
   return (
     <>
-      {(cartDataLoading || cartItemAddingLoading || decreaseCartLoading) && (
-        <FormSubmitLoading />
-      )}
+      {(cartDataLoading ||
+        cartItemAddingLoading ||
+        decreaseCartLoading ||
+        deleteCartItemLoading) && <FormSubmitLoading />}
 
       <div className="ProductCartContainer">
         <div className="ProductCartWrapper   bg-gray-100 py-6 sm:py-8 lg:py-12">
@@ -124,7 +155,7 @@ const UserCart = () => {
             <div className="mb-5 flex flex-col sm:mb-8 sm:divide-y sm:border-t sm:border-b">
               {/* product - start  */}
 
-              {cartData?.data?.cartItem?.length === 0 ? (
+              {!cartData?.data || cartData?.data?.cartItem?.length === 0 ? (
                 <NoCartItem />
               ) : (
                 cartData?.data?.cartItem &&
