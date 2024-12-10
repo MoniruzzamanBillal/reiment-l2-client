@@ -27,6 +27,8 @@ const Navbar = () => {
 
   const { data: cartData } = useGetUserCartQuery(undefined);
 
+  // console.log(userInfo);
+
   return (
     <div
       className="  shadow-md w-full fixed top-0 left-0 z-10 "
@@ -130,7 +132,7 @@ const Navbar = () => {
                   <FiShoppingCart />
 
                   {/* cart item number  */}
-                  {cartData?.data?.cartItem?.length && (
+                  {cartData?.data?.cartItem?.length > 0 && (
                     <div className="number text-gray-100 text-center size-5 bg-prime100 text-xs rounded-full  absolute transform -translate-x-1/2  -translate-y-1/2  top-[0rem] left-[2rem] ">
                       {cartData?.data?.cartItem?.length}
                     </div>

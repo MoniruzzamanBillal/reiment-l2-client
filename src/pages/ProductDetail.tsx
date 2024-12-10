@@ -31,20 +31,23 @@ const ProductDetail = () => {
 
   const { data: productData, isLoading: productDataLoading } =
     useGetSingleProductsQuery(id, { skip: !id });
-  const { data: userCardData } = useGetUserCartQuery(undefined);
+  const { data: userCardData, refetch: refetchCart } =
+    useGetUserCartQuery(undefined);
   const [addProductToCart, { isLoading: addingCartLoading }] =
     useAddProductToCartMutation();
   const [replaceCart, { isLoading: replaceCartItemLoading }] =
     useReplaceCartMutation();
-  const { data: cartData, refetch: refetchCart } =
-    useGetUserCartQuery(undefined);
 
-  //   console.log(productData?.data?.shop);
+  // console.log(productData?.data);
+  // console.log(userCardData?.data);
   //   console.log(productData?.data?.review);
 
   // ! for adding item to cart
   const handleAddCart = async (product: TProductDetail) => {
-    if (product?.shopId === userCardData?.data?.vendorId) {
+    if (
+      !userCardData?.data ||
+      product?.shopId === userCardData?.data?.vendorId
+    ) {
       const toastId = toast.loading("Adding to cart ");
 
       const payload = {
@@ -67,7 +70,7 @@ const ProductDetail = () => {
 
       if (result?.data?.success) {
         refetchCart();
-        toast.success(result?.data?.message, { duration: 1200, id: toastId });
+        toast.success(result?.data?.message, { duration: 1500, id: toastId });
       }
     } else {
       setShowReplaceModal(true);
@@ -77,7 +80,7 @@ const ProductDetail = () => {
   // ! for replacing cart
   const handleReplaceCart = async () => {
     const payload = {
-      cartId: cartData?.data?.id,
+      cartId: userCardData?.data?.id,
       productId: productData?.data?.id,
       quantity: 1,
     };

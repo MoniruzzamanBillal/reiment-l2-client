@@ -17,7 +17,7 @@ const cartApi = baseApi.injectEndpoints({
     addProductToCart: builder.mutation({
       query: (payload) => {
         return {
-          url: "cart/add-to-cart",
+          url: "/cart/add-to-cart",
           method: "POST",
           body: payload,
         };
@@ -29,11 +29,48 @@ const cartApi = baseApi.injectEndpoints({
     replaceCart: builder.mutation({
       query: (payload) => {
         return {
-          url: "cart/replace-cart",
+          url: "/cart/replace-cart",
           method: "PATCH",
           body: payload,
         };
       },
+      invalidatesTags: ["getUserCart"],
+    }),
+
+    // ! for increasing cart item quantity
+    increaseCartItemQuantity: builder.mutation({
+      query: (payload) => {
+        return {
+          url: "/cart/increase-item-quantity",
+          method: "PATCH",
+          body: payload,
+        };
+      },
+      invalidatesTags: ["getUserCart"],
+    }),
+
+    // ! for decreasing cart item quantity
+    decreaseCartItemQuantity: builder.mutation({
+      query: (payload) => {
+        return {
+          url: "/cart/decrease-item-quantity",
+          method: "PATCH",
+          body: payload,
+        };
+      },
+      invalidatesTags: ["getUserCart"],
+    }),
+
+    // ! for deleting cart item quantity
+    deleteCartItem: builder.mutation({
+      query: (payload) => {
+        return {
+          url: "/cart/delete-cart-item",
+          method: "DELETE",
+          body: payload,
+        };
+      },
+      invalidatesTags: ["getUserCart"],
     }),
 
     //
@@ -44,4 +81,7 @@ export const {
   useGetUserCartQuery,
   useAddProductToCartMutation,
   useReplaceCartMutation,
+  useIncreaseCartItemQuantityMutation,
+  useDecreaseCartItemQuantityMutation,
+  useDeleteCartItemMutation,
 } = cartApi;
