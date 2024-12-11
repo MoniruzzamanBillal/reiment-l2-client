@@ -1,5 +1,9 @@
+import DeleteModal from "@/components/shared/DeleteModal";
 import { TableDataError, TableDataLoading } from "@/components/ui";
 import { useGetUserQuery } from "@/redux/features/user/user.api";
+
+let alertMessage =
+  " This action cannot be undone. This will permanently delete the user  .";
 
 const ManageUsers = () => {
   const {
@@ -9,9 +13,14 @@ const ManageUsers = () => {
     refetch: userDataRefetch,
   } = useGetUserQuery(undefined);
 
-  // console.log(userData?.data);
+  console.log(userData?.data);
 
   let content = null;
+
+  // ! function for deleting a user
+  const handleDeleteUser = (id: string) => {
+    console.log(id);
+  };
 
   // *  if data is loading
   if (userDataLoading) {
@@ -61,7 +70,13 @@ const ManageUsers = () => {
         </td>
         <td className="p-4 text-center">user?.phone</td>
         <td className="p-4 text-center">{user?.role}</td>
-        <td className="p-4 text-center"> delete user </td>
+        <td className="p-4 text-center">
+          <DeleteModal
+            handleDeleteFunction={handleDeleteUser}
+            id={user?.id}
+            alertMessage={alertMessage}
+          />
+        </td>
       </tr>
     ));
   }

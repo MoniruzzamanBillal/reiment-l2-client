@@ -39,7 +39,9 @@ const DeleteModal = ({
           {/* header and content type  */}
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>{alertMessage}</AlertDialogDescription>
+            <AlertDialogDescription className=" font-medium ">
+              {alertMessage}
+            </AlertDialogDescription>
           </AlertDialogHeader>
 
           {/* bottom button type  */}

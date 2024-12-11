@@ -7,10 +7,14 @@ import {
 import { FormSubmitLoading } from "@/components/ui";
 import { Button } from "@/components/ui/button";
 import { useGetAllCategoryQuery } from "@/redux/features/category/category.api";
+import { useAddProductMutation } from "@/redux/features/product/product.api";
+import { useGetVendorShopQuery } from "@/redux/features/shop/shop.api";
 import { addProductSchema } from "@/schemas/ProductSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { FieldValues } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 type TCategory = {
   id: string;
@@ -19,6 +23,7 @@ type TCategory = {
 
 const AddProduct = () => {
   //   let categoryOptions = [];
+  const navigate = useNavigate();
 
   const [categoryOptions, setCategoryOptions] = useState([]);
   const {
@@ -27,11 +32,67 @@ const AddProduct = () => {
     error: categoryDataError,
   } = useGetAllCategoryQuery(undefined);
 
+  const { data: shopData } = useGetVendorShopQuery(undefined);
+
+  const [addProduct, { isLoading: productCreationLoading }] =
+    useAddProductMutation();
+
   //   console.log(categoryData?.data);
 
   // ! for adding product
   const handleAddProduct = async (data: FieldValues) => {
-    console.log(data);
+    const { name, categoryId, price, productImg, description, inventoryCount } =
+      data;
+
+    const payload = {
+      name,
+      categoryId,
+      price: parseFloat(price),
+      description,
+      inventoryCount: parseFloat(inventoryCount),
+      shopId: shopData?.data?.id,
+    };
+
+    const formData = new FormData();
+
+    formData.append("data", JSON.stringify(payload));
+    formData.append("prodImg", productImg);
+
+    try {
+      const taostId = toast.loading("Creating Product....");
+
+      const result = await addProduct(formData);
+
+      //  *  for any  error
+      if (result?.error) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const errorMessage = (result?.error as any)?.data?.message;
+
+        toast.error(errorMessage, {
+          id: taostId,
+          duration: 1400,
+        });
+      }
+
+      // * for successful insertion
+      if (result?.data) {
+        const successMsg = result?.data?.message;
+
+        toast.success(successMsg, {
+          id: taostId,
+          duration: 1000,
+        });
+
+        setTimeout(() => {
+          navigate("/dashboard/vendor/manage-products");
+        }, 700);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong while crating product !!!", {
+        duration: 1400,
+      });
+    }
   };
 
   //   ! effect for get category data
@@ -54,7 +115,7 @@ const AddProduct = () => {
 
   return (
     <>
-      {categoryDataLoading && <FormSubmitLoading />}
+      {(productCreationLoading || categoryDataLoading) && <FormSubmitLoading />}
 
       <div className="AddCategoryContainer py-8 bg-gray-100 border border-gray-300 p-3 shadow rounded-md">
         <div className="AddCategoryWrapper">

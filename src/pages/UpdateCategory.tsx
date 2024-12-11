@@ -114,7 +114,7 @@ const UpdateCategory = () => {
         <FormSubmitLoading />
       )}
 
-      <div className="AddCategoryContainer py-8 bg-gray-100 min-h-screen p-3 shadow rounded-md">
+      <div className="AddCategoryContainer py-8 bg-gray-100 border border-gray-200 p-3 shadow rounded-md">
         <div className="AddCategoryWrapper">
           <h1 className="mb-8 px-3 xsm:px-4 sm:px-5 md:px-6 font-bold text-2xl md:text-3xl text-center">
             Update Category

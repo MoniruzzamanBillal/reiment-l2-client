@@ -1,5 +1,9 @@
+import DeleteModal from "@/components/shared/DeleteModal";
 import { TableDataError, TableDataLoading } from "@/components/ui";
 import { useGetAllShopDataQuery } from "@/redux/features/shop/shop.api";
+
+let alertMessage =
+  " This action cannot be undone. This will restrict their operations.";
 
 const ManageShop = () => {
   const {
@@ -12,6 +16,11 @@ const ManageShop = () => {
   let content = null;
 
   // console.log(shopData?.data);
+
+  // ! function for blacklist shop
+  const handleBlackListShop = (id: string) => {
+    console.log(id);
+  };
 
   // *  if data is loading
   if (shopDataLoading) {
@@ -57,7 +66,14 @@ const ManageShop = () => {
         <td className="p-4 text-center">{shop?.vendor?.username}</td>
 
         <td className="p-4 text-center">{shop?.status}</td>
-        <td className="p-4 text-center"> delete user </td>
+
+        <td className="p-4 text-center">
+          <DeleteModal
+            handleDeleteFunction={handleBlackListShop}
+            id={shop?.id}
+            alertMessage={alertMessage}
+          />
+        </td>
       </tr>
     ));
   }

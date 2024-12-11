@@ -16,7 +16,16 @@ const AddCategory = () => {
   // console.log(isLoading);
 
   const handleAddCategory = async (data: FieldValues) => {
-    const result = await addCategory(data);
+    const { name, categoryImg } = data;
+
+    console.log(categoryImg);
+
+    const formData = new FormData();
+
+    formData.append("data", JSON.stringify(name));
+    formData.append("categoryImg", categoryImg);
+
+    const result = await addCategory(formData);
 
     //  *  for any  error
     if (result?.error) {
@@ -31,9 +40,9 @@ const AddCategory = () => {
     if (result?.data?.success) {
       toast.success(result?.data?.message, { duration: 1200 });
 
-      setTimeout(() => {
-        navigate("/dashboard/admin/categories");
-      }, 600);
+      // setTimeout(() => {
+      //   navigate("/dashboard/admin/categories");
+      // }, 600);
     }
   };
 
@@ -41,7 +50,7 @@ const AddCategory = () => {
     <>
       {isLoading && <FormSubmitLoading />}
 
-      <div className="AddCategoryContainer py-8 bg-gray-100 min-h-screen p-3 shadow rounded-md">
+      <div className="AddCategoryContainer py-8 bg-gray-100 border border-gray-200  p-3 shadow rounded-md">
         <div className="AddCategoryWrapper">
           <h1 className="mb-8 px-3 xsm:px-4 sm:px-5 md:px-6 font-bold text-2xl md:text-3xl text-center">
             Add Category
@@ -55,6 +64,11 @@ const AddCategory = () => {
               resolver={zodResolver(
                 z.object({
                   name: z.string().min(1, "Category name is required !!!"),
+                  categoryImg: z
+                    .any()
+                    .refine((file) => file instanceof File && file?.size > 0, {
+                      message: "Category image is required !!",
+                    }),
                 })
               )}
             >
@@ -63,6 +77,11 @@ const AddCategory = () => {
                 label="Category Name :"
                 name="name"
                 placeholder="Enter Category Name"
+              />
+              <ReimentInput
+                type="file"
+                label="Categoty Image : "
+                name="categoryImg"
               />
 
               <Button

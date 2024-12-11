@@ -35,6 +35,17 @@ const productApi = baseApi.injectEndpoints({
       providesTags: ["getAllProducts"],
     }),
 
+    // ! for adding product
+    addProduct: builder.mutation({
+      query: (payload) => {
+        return {
+          url: `/product/add-product`,
+          method: "POST",
+          body: payload,
+        };
+      },
+    }),
+
     //
   }),
 });
@@ -43,4 +54,5 @@ export const {
   useGetVendorShopProductsQuery,
   useGetSingleProductsQuery,
   useGetAllProductQuery,
+  useAddProductMutation,
 } = productApi;
