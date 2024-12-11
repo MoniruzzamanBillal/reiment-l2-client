@@ -46,6 +46,17 @@ const shopApi = baseApi.injectEndpoints({
       },
     }),
 
+    // ! for updating vendor shop
+    updateShop: builder.mutation({
+      query: ({ formData, id }) => {
+        return {
+          url: `/shop/update-shop/${id}`,
+          method: "PATCH",
+          body: formData,
+        };
+      },
+    }),
+
     //
   }),
 });
@@ -55,4 +66,5 @@ export const {
   useAddShopMutation,
   useGetVendorShopQuery,
   useGetSingleShopQuery,
+  useUpdateShopMutation,
 } = shopApi;

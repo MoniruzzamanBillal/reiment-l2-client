@@ -26,11 +26,8 @@ const AddProduct = () => {
   const navigate = useNavigate();
 
   const [categoryOptions, setCategoryOptions] = useState([]);
-  const {
-    data: categoryData,
-    isLoading: categoryDataLoading,
-    error: categoryDataError,
-  } = useGetAllCategoryQuery(undefined);
+  const { data: categoryData, isLoading: categoryDataLoading } =
+    useGetAllCategoryQuery(undefined);
 
   const { data: shopData } = useGetVendorShopQuery(undefined);
 
