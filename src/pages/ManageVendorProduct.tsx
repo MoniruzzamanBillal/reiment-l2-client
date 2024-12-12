@@ -5,8 +5,10 @@ import {
   TableDataLoading,
 } from "@/components/ui";
 import { Button } from "@/components/ui/button";
+import { TVendorProduct } from "@/constants/vendor";
 import {
   useDeleteProductMutation,
+  useDuplicateProductMutation,
   useGetVendorShopProductsQuery,
 } from "@/redux/features/product/product.api";
 import { useGetVendorShopQuery } from "@/redux/features/shop/shop.api";
@@ -34,12 +36,13 @@ const ManageVendorProduct = () => {
   const [deleteProduct, { isLoading: productDeleteLoading }] =
     useDeleteProductMutation();
 
+  const [duplicateProduct, { isLoading: productDuplicatingLoading }] =
+    useDuplicateProductMutation();
+
   // console.log(productData?.data);
 
   // ! for deleting product
   const handleDeleteProduct = async (prodId: string) => {
-    console.log(prodId);
-
     try {
       const taostId = toast.loading("Deleting product....");
       const result = await deleteProduct(prodId);
@@ -69,6 +72,63 @@ const ManageVendorProduct = () => {
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong while deleting product!!!", {
+        duration: 1400,
+      });
+    }
+  };
+
+  // ! for duplicating a product
+  const handleDuplicateProduct = async (product: TVendorProduct) => {
+    const {
+      shopId,
+      categoryId,
+      name,
+      price,
+      description,
+      inventoryCount,
+      productImg,
+    } = product;
+
+    const payload = {
+      shopId,
+      categoryId,
+      name,
+      price,
+      description,
+      inventoryCount,
+      productImg,
+    };
+
+    try {
+      const taostId = toast.loading("Duplicating Product....");
+      const result = await duplicateProduct(payload);
+
+      console.log(result?.data);
+
+      //  *  for any  error
+      if (result?.error) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const errorMessage = (result?.error as any)?.data?.message;
+        console.log(errorMessage);
+        toast.error(errorMessage, {
+          id: taostId,
+          duration: 1400,
+        });
+      }
+
+      // * for successful insertion
+      if (result?.data) {
+        prodDataRefetch();
+        const successMsg = result?.data?.message;
+
+        toast.success(successMsg, {
+          id: taostId,
+          duration: 1000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong while duplicating product !!!", {
         duration: 1400,
       });
     }
@@ -113,19 +173,19 @@ const ManageVendorProduct = () => {
 
   // * Render product data
   if (!productDataLoading && !productDataError && productData?.data?.length) {
-    content = productData?.data?.map((product: any) => (
+    content = productData?.data?.map((product: TVendorProduct) => (
       <tr key={product.id} className="border-b">
         <td className="p-4 text-center">{product.name}</td>
         <td className="p-4 text-center">
           <img
-            src={product.productImg}
+            src={product.productImg as string}
             alt={product.name}
             className="w-16 h-16 object-cover rounded "
           />
         </td>
         <td className="p-4 text-center">{product?.category?.name}</td>
         <td className="p-4 text-center">${product?.price}</td>
-        <td className="p-4 text-center">{product?.description}</td>
+
         <td className="p-4 text-center">{product?.inventoryCount}</td>
         <td className="p-4 text-center">{product?.shop?.name}</td>
         <td className="p-4 text-center">
@@ -142,13 +202,23 @@ const ManageVendorProduct = () => {
             alertMessage={alertMessage}
           />
         </td>
+        <td className="p-4 text-center">
+          <Button
+            onClick={() => handleDuplicateProduct(product)}
+            className="px-4 font-semibold text-sm bg-prime100 hover:bg-prime100 active:scale-95 duration-500"
+          >
+            Duplicate
+          </Button>
+        </td>
       </tr>
     ));
   }
 
   return (
     <>
-      {(productDataLoading || productDeleteLoading) && <FormSubmitLoading />}
+      {(productDataLoading ||
+        productDeleteLoading ||
+        productDuplicatingLoading) && <FormSubmitLoading />}
 
       <div className="ManageVendorProductContainer">
         <div className="ManageVendorProductWrapper bg-gray-100 border border-gray-300  shadow rounded-md p-3  ">
@@ -175,11 +245,12 @@ const ManageVendorProduct = () => {
                   <th className="px-4 font-medium">Image </th>
                   <th className="px-4 font-medium">Category </th>
                   <th className="px-4 font-medium">Price </th>
-                  <th className="px-4 font-medium">Description </th>
+
                   <th className="px-4 font-medium">Inventory Count </th>
                   <th className="px-4 font-medium">Shop Name </th>
                   <th className="px-4 font-medium">Update Product </th>
                   <th className="px-4 font-medium">Delete Product </th>
+                  <th className="px-4 font-medium">Duplicate </th>
                 </tr>
               </thead>
               <tbody>{content}</tbody>

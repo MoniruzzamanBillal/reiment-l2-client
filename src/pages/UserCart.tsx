@@ -27,7 +27,7 @@ const UserCart = () => {
     useDeleteCartItemMutation();
 
   // console.log(cartData?.data?.cartItem);
-  // console.log(cartData?.data);
+  console.log(cartData?.data);
 
   //   ! function for adding cart quantity
   const handleAddQuantity = async (item) => {

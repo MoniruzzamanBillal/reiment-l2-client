@@ -75,6 +75,27 @@ const productApi = baseApi.injectEndpoints({
           method: "PATCH",
         };
       },
+      invalidatesTags: [
+        "getAllProducts",
+        "getSingleProduct",
+        "getVendorShopProduct",
+      ],
+    }),
+
+    // ! for duplicating product
+    duplicateProduct: builder.mutation({
+      query: (payload) => {
+        return {
+          url: `/product/duplicate-product`,
+          method: "POST",
+          body: payload,
+        };
+      },
+      invalidatesTags: [
+        "getAllProducts",
+        "getSingleProduct",
+        "getVendorShopProduct",
+      ],
     }),
 
     //
@@ -88,4 +109,5 @@ export const {
   useAddProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
+  useDuplicateProductMutation,
 } = productApi;
