@@ -44,6 +44,11 @@ const productApi = baseApi.injectEndpoints({
           body: payload,
         };
       },
+      invalidatesTags: [
+        "getAllProducts",
+        "getSingleProduct",
+        "getVendorShopProduct",
+      ],
     }),
 
     // ! for updating product
@@ -53,6 +58,21 @@ const productApi = baseApi.injectEndpoints({
           url: `/product/update-product/${id}`,
           method: "PATCH",
           body: formData,
+        };
+      },
+      invalidatesTags: [
+        "getAllProducts",
+        "getSingleProduct",
+        "getVendorShopProduct",
+      ],
+    }),
+
+    // ! for deleting a product
+    deleteProduct: builder.mutation({
+      query: (id: string) => {
+        return {
+          url: `/product/delete-product/${id}`,
+          method: "PATCH",
         };
       },
     }),
@@ -67,4 +87,5 @@ export const {
   useGetAllProductQuery,
   useAddProductMutation,
   useUpdateProductMutation,
+  useDeleteProductMutation,
 } = productApi;

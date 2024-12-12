@@ -1,10 +1,18 @@
 import DeleteModal from "@/components/shared/DeleteModal";
-import { TableDataError, TableDataLoading } from "@/components/ui";
+import {
+  FormSubmitLoading,
+  TableDataError,
+  TableDataLoading,
+} from "@/components/ui";
 import { Button } from "@/components/ui/button";
-import { useGetVendorShopProductsQuery } from "@/redux/features/product/product.api";
+import {
+  useDeleteProductMutation,
+  useGetVendorShopProductsQuery,
+} from "@/redux/features/product/product.api";
 import { useGetVendorShopQuery } from "@/redux/features/shop/shop.api";
 
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 const alertMessage =
   " This action cannot be undone. This will permanently delete the Product .";
@@ -18,15 +26,52 @@ const ManageVendorProduct = () => {
     data: productData,
     isLoading: productDataLoading,
     isError: productDataError,
+    refetch: prodDataRefetch,
   } = useGetVendorShopProductsQuery(vendorShopData?.data?.id, {
     skip: !vendorShopData?.data?.id,
   });
+
+  const [deleteProduct, { isLoading: productDeleteLoading }] =
+    useDeleteProductMutation();
 
   // console.log(productData?.data);
 
   // ! for deleting product
   const handleDeleteProduct = async (prodId: string) => {
     console.log(prodId);
+
+    try {
+      const taostId = toast.loading("Deleting product....");
+      const result = await deleteProduct(prodId);
+
+      //  *  for any  error
+      if (result?.error) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const errorMessage = (result?.error as any)?.data?.message;
+        console.log(errorMessage);
+        toast.error(errorMessage, {
+          id: taostId,
+          duration: 1400,
+        });
+      }
+
+      // * for successful insertion
+      if (result?.data) {
+        const successMsg = result?.data?.message;
+
+        prodDataRefetch();
+
+        toast.success(successMsg, {
+          id: taostId,
+          duration: 1000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong while deleting product!!!", {
+        duration: 1400,
+      });
+    }
   };
 
   // *  if data is loading
@@ -102,46 +147,50 @@ const ManageVendorProduct = () => {
   }
 
   return (
-    <div className="ManageVendorProductContainer">
-      <div className="ManageVendorProductWrapper bg-gray-100  shadow rounded-md p-3  ">
-        <h3 className="brand text-2xl font-medium mb-4 "> Manage Product </h3>
+    <>
+      {(productDataLoading || productDeleteLoading) && <FormSubmitLoading />}
 
-        {/* new category add  container starts  */}
-        <div className="addNewProduct mb-6 ">
-          <Link to={"/dashboard/vendor/add-products"}>
-            <Button className=" px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base bg-prime50 hover:bg-prime100 active:scale-95 duration-500 ">
-              Add Product
-            </Button>
-          </Link>
+      <div className="ManageVendorProductContainer">
+        <div className="ManageVendorProductWrapper bg-gray-100 border border-gray-300  shadow rounded-md p-3  ">
+          <h3 className="brand text-2xl font-medium mb-4 "> Manage Product </h3>
+
+          {/* new category add  container starts  */}
+          <div className="addNewProduct mb-6 ">
+            <Link to={"/dashboard/vendor/add-products"}>
+              <Button className=" px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base bg-prime50 hover:bg-prime100 active:scale-95 duration-500 ">
+                Add Product
+              </Button>
+            </Link>
+
+            {/*  */}
+          </div>
+          {/* new category add  container ends */}
+
+          {/*manage product  table starts  */}
+          <div className="manageUserTable relative w-full overflow-auto mt-4 ">
+            <table className="w-full text-sm ">
+              <thead className="border-b">
+                <tr className="w-full text-sm bg-sky-100  ">
+                  <th className="px-4 font-medium">Name</th>
+                  <th className="px-4 font-medium">Image </th>
+                  <th className="px-4 font-medium">Category </th>
+                  <th className="px-4 font-medium">Price </th>
+                  <th className="px-4 font-medium">Description </th>
+                  <th className="px-4 font-medium">Inventory Count </th>
+                  <th className="px-4 font-medium">Shop Name </th>
+                  <th className="px-4 font-medium">Update Product </th>
+                  <th className="px-4 font-medium">Delete Product </th>
+                </tr>
+              </thead>
+              <tbody>{content}</tbody>
+            </table>
+          </div>
+          {/* manage product  table ends  */}
 
           {/*  */}
         </div>
-        {/* new category add  container ends */}
-
-        {/*manage product  table starts  */}
-        <div className="manageUserTable relative w-full overflow-auto mt-4 ">
-          <table className="w-full text-sm ">
-            <thead className="border-b">
-              <tr className="w-full text-sm bg-sky-100  ">
-                <th className="px-4 font-medium">Name</th>
-                <th className="px-4 font-medium">Image </th>
-                <th className="px-4 font-medium">Category </th>
-                <th className="px-4 font-medium">Price </th>
-                <th className="px-4 font-medium">Description </th>
-                <th className="px-4 font-medium">Inventory Count </th>
-                <th className="px-4 font-medium">Shop Name </th>
-                <th className="px-4 font-medium">Update Product </th>
-                <th className="px-4 font-medium">Delete Product </th>
-              </tr>
-            </thead>
-            <tbody>{content}</tbody>
-          </table>
-        </div>
-        {/* manage product  table ends  */}
-
-        {/*  */}
       </div>
-    </div>
+    </>
   );
 };
 
