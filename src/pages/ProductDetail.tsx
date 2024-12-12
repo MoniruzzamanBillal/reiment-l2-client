@@ -19,6 +19,7 @@ import {
   useGetUserCartQuery,
   useReplaceCartMutation,
 } from "@/redux/features/cart/cart.api";
+import { GetUserRole } from "@/utils/GetUserRole";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -38,7 +39,12 @@ const ProductDetail = () => {
   const [replaceCart, { isLoading: replaceCartItemLoading }] =
     useReplaceCartMutation();
 
+  const userRole = GetUserRole();
+
+  // console.log(userRole);
+
   // console.log(productData?.data);
+  console.log(productData?.data?.categoryId);
   // console.log(userCardData?.data);
   //   console.log(productData?.data?.review);
 
@@ -153,9 +159,15 @@ const ProductDetail = () => {
                   {/* price - start  */}
                   <div className="mb-6">
                     <div className="  text-lg mb-1.5  ">
-                      Price :
+                      Price :{" "}
                       <span className=" font-bold text-gray-800 md:text-2xl">
-                        {productData?.data?.price}$
+                        {productData?.data?.discount
+                          ? `${
+                              productData?.data?.price -
+                              productData?.data?.discount
+                            }`
+                          : `${productData?.data?.price}`}{" "}
+                        $
                       </span>
                     </div>
 
@@ -197,21 +209,25 @@ const ProductDetail = () => {
 
                   {/* {/* buttons - start  */}
                   <div className="   ">
-                    <Button
-                      disabled={
-                        productData?.data?.inventoryCount === 0 ? true : false
-                      }
-                      className={`   text-center text-sm font-semibold text-white transition duration-100  ${
-                        productData?.data?.inventoryCount === 0
-                          ? "cursor-not-allowed bg-gray-400"
-                          : "cursor-pointer bg-prime50 hover:bg-prime100 focus-visible:ring active:bg-prime50"
-                      }`}
-                      onClick={() => handleAddCart(productData?.data)}
-                    >
-                      {productData?.data?.inventoryCount === 0
-                        ? "Out of Stock"
-                        : `  Add to cart  `}
-                    </Button>
+                    {userRole === "VENDOR" ? (
+                      "  "
+                    ) : (
+                      <Button
+                        disabled={
+                          productData?.data?.inventoryCount === 0 ? true : false
+                        }
+                        className={`   text-center text-sm font-semibold text-white transition duration-100  ${
+                          productData?.data?.inventoryCount === 0
+                            ? "cursor-not-allowed bg-gray-400"
+                            : "cursor-pointer bg-prime50 hover:bg-prime100 focus-visible:ring active:bg-prime50"
+                        }`}
+                        onClick={() => handleAddCart(productData?.data)}
+                      >
+                        {productData?.data?.inventoryCount === 0
+                          ? "Out of Stock"
+                          : `  Add to cart  `}
+                      </Button>
+                    )}
                   </div>
                   {/* buttons - end  */}
 

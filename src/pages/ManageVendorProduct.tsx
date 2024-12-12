@@ -103,8 +103,6 @@ const ManageVendorProduct = () => {
       const taostId = toast.loading("Duplicating Product....");
       const result = await duplicateProduct(payload);
 
-      console.log(result?.data);
-
       //  *  for any  error
       if (result?.error) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -98,6 +98,17 @@ const productApi = baseApi.injectEndpoints({
       ],
     }),
 
+    // ! for getting flash sale  products
+    getFlashSaleProduct: builder.query({
+      query: () => {
+        return {
+          url: `/product/flashsale-products`,
+          method: "GET",
+        };
+      },
+      providesTags: ["getAllflashsaleProducts"],
+    }),
+
     //
   }),
 });
@@ -110,4 +121,5 @@ export const {
   useUpdateProductMutation,
   useDeleteProductMutation,
   useDuplicateProductMutation,
+  useGetFlashSaleProductQuery,
 } = productApi;

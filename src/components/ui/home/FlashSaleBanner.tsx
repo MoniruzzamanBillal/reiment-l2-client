@@ -1,5 +1,8 @@
 import Wrapper from "@/components/shared/Wrapper";
-import { useGetAllProductQuery } from "@/redux/features/product/product.api";
+import {
+  useGetAllProductQuery,
+  useGetFlashSaleProductQuery,
+} from "@/redux/features/product/product.api";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -11,8 +14,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 import ProductCard from "../ProductCard";
 
 const FlashSaleBanner = () => {
-  const { data: allProducts, isLoading: productDataLoading } =
-    useGetAllProductQuery(undefined);
+  const { data: allProducts } = useGetFlashSaleProductQuery(undefined);
 
   return (
     <div className="FlashSaleBannerContainer py-8 ">

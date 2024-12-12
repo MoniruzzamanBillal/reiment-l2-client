@@ -1,13 +1,13 @@
 import Wrapper from "@/components/shared/Wrapper";
 import { ProductCard } from "@/components/ui";
-import { useGetAllProductQuery } from "@/redux/features/product/product.api";
+import { useGetFlashSaleProductQuery } from "@/redux/features/product/product.api";
 
 const FlashSale = () => {
   const { data: allProducts, isLoading: productDataLoading } =
-    useGetAllProductQuery(undefined);
+    useGetFlashSaleProductQuery(undefined);
 
   return (
-    <div className="FlashSaleContainer py-2">
+    <div className="FlashSaleContainer py-2 bg-gray-100 py-6  ">
       <Wrapper className=" FlashSaleWrapper  ">
         {/* heading section  */}
         <div className="headingSection mb-8 flex items-center gap-x-3  ">
