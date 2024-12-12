@@ -20,6 +20,7 @@ const userApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["getLoggedInUser"],
     }),
 
     //

@@ -28,5 +28,6 @@ export const baseApi = createApi({
     "getSingleProduct",
     "getUserCart",
     "getAllProducts",
+    "getLoggedInUser",
   ],
 });

@@ -38,8 +38,6 @@ const UpdateShop = () => {
 
   // ! for updating a shop
   const handleUpdateShop = async (data: FieldValues) => {
-    console.log(data);
-
     const { logo, name, description } = data;
 
     const payload = {
