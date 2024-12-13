@@ -52,6 +52,10 @@ const router = createBrowserRouter([
         element: <AllProducts />,
       },
       {
+        path: "/products/:ParamCategory",
+        element: <AllProducts />,
+      },
+      {
         path: "/flash-sale",
         element: <FlashSale />,
       },

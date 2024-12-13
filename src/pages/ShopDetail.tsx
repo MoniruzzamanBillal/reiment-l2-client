@@ -38,8 +38,8 @@ const ShopDetail = () => {
   const [unfollowShop, { isLoading: unfollowShopLoading }] =
     useUnfollowShopMutation();
 
-  console.log(userData?.data?.follower);
-  console.log(shopData?.data?.id);
+  // console.log(userData?.data?.follower);
+  // console.log(shopData?.data?.id);
 
   const isFollowing =
     userData?.data?.follower?.some((follower: { shopId: string }) => {

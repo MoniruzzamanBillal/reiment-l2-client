@@ -1,5 +1,12 @@
+import { useGetAllCategoryQuery } from "@/redux/features/category/category.api";
 import { Button } from "./button";
 import { Slider } from "./slider";
+import { useEffect, useState } from "react";
+
+type TCategory = {
+  id: string;
+  name: string;
+};
 
 interface TProductsFilterProps {
   priceRange: number | null;
@@ -10,33 +17,6 @@ interface TProductsFilterProps {
   handleAddReset: () => void;
 }
 
-const options = [
-  {
-    name: "All",
-    value: "",
-  },
-  {
-    name: "Sleeping Bag",
-    value: "Sleeping Bag",
-  },
-  {
-    name: "Tent",
-    value: "Tent",
-  },
-  {
-    name: "Lantern",
-    value: "Lantern",
-  },
-  {
-    name: "Char coal",
-    value: "Char coal",
-  },
-  {
-    name: "Multifunctional Tool",
-    value: "Multifunctional Tool",
-  },
-];
-
 const ProductsFilter = ({
   priceRange,
   category,
@@ -44,6 +24,33 @@ const ProductsFilter = ({
   setCategory,
   handleAddReset,
 }: TProductsFilterProps) => {
+  const { data: categoryData, isLoading: categoryDataLoading } =
+    useGetAllCategoryQuery(undefined);
+  const [categoryOptions, setCategoryOptions] = useState([]);
+
+  console.log(categoryData?.data);
+
+  //   ! effect for get category data
+  useEffect(() => {
+    if (categoryData?.data) {
+      const modifiedData = categoryData?.data?.map((item: TCategory) => {
+        const optionValue = {
+          name: item?.name,
+          value: item?.id,
+        };
+
+        return optionValue;
+      });
+
+      const initialData = {
+        name: "All",
+        value: "",
+      };
+
+      setCategoryOptions([initialData, ...modifiedData]);
+    }
+  }, [categoryData?.data, categoryDataLoading]);
+
   return (
     <div className="ProductsFilterContainer flex flex-col gap-y-6">
       <h1 className=" mb-3   font-semibold text-indigo-500 text-lg xsm:text-xl sm:text-3xl md:text-2xl xl:text-3xl text-shadow-blue">
@@ -57,7 +64,7 @@ const ProductsFilter = ({
           <Slider
             value={[priceRange ?? 0]}
             onValueChange={(value) => setPriceRange(value[0])}
-            max={500}
+            max={5000}
             step={1}
             className="w-full h-2 accent-red-500 rounded-lg "
           />
@@ -78,21 +85,21 @@ const ProductsFilter = ({
       <div className="categoryInput bg-gray-50 shadow-md rounded border border-gray-300 py-2 px-4">
         <h1 className="font-medium mb-2 text-gray-800">Category :</h1>
         <ul className="text-sm font-medium text-gray-800">
-          {options &&
-            options?.map((item) => (
+          {categoryOptions &&
+            categoryOptions?.map((item: { name: string; value: string }) => (
               <li className="w-full border-b border-gray-300">
                 <div className="flex items-center ps-3">
                   <input
-                    id={item?.name}
+                    id={item?.value}
                     type="radio"
                     value={item?.value}
-                    onChange={() => setCategory(item.value)}
+                    onChange={() => setCategory(item?.value)}
                     checked={category === item.value}
                     name="list-radio"
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                   />
                   <label
-                    htmlFor={item?.name}
+                    htmlFor={item?.value}
                     className="w-full py-3 ms-2 text-sm font-medium text-gray-900"
                   >
                     {item?.name}

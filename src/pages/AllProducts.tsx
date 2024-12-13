@@ -15,25 +15,76 @@ import {
 } from "@/components/ui/select";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useGetAllProductQuery } from "@/redux/features/product/product.api";
+import useDebounce from "@/utils/DebounceTerm";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const AllProducts = () => {
+  const { ParamCategory } = useParams();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [pprice, setPprice] = useState<number | null>(null);
   const [pcategory, setpPcategory] = useState("");
   const [sort, setSortBy] = useState("");
+  const [params, setParams] = useState<Record<string, unknown> | undefined>(
+    undefined
+  );
+
+  const debounceTerm = useDebounce(searchTerm, 400);
 
   const [isXl, setIsXl] = useState(false);
 
   const { data: allProducts, isLoading: productDataLoading } =
-    useGetAllProductQuery(undefined);
+    useGetAllProductQuery(params);
 
   // console.log(allProducts?.data);
 
+  // console.log("debounce term = ", debounceTerm);
+  // console.log("price range = ", pprice);
+  // console.log("pcategory  = ", pcategory);
+  // console.log("sort range = ", sort);
+
   //   ! for reseting all filter category
   const handleAddReset = () => {
-    console.log("reset !!!");
+    setParams(undefined);
+    setSearchTerm("");
+    setPprice(null);
+    setSortBy("");
+    setpPcategory("");
   };
+
+  // ! to set category if parameter exists
+  useEffect(() => {
+    if (ParamCategory) {
+      setpPcategory(ParamCategory);
+    }
+  }, [ParamCategory]);
+
+  //! Use effect to track param value
+  useEffect(() => {
+    const updateParam = () => {
+      const newParam: Record<string, unknown> = {};
+
+      if (debounceTerm) {
+        newParam.searchTerm = debounceTerm;
+      }
+
+      if (pprice) {
+        newParam.priceRange = pprice;
+      }
+      if (pcategory) {
+        newParam.categoryId = pcategory;
+      }
+      if (sort) {
+        newParam.sortBy = "price";
+        newParam.sortOrder = sort;
+      }
+
+      setParams(newParam);
+    };
+
+    updateParam();
+  }, [searchTerm, pprice, pcategory, sort, debounceTerm]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -138,8 +189,8 @@ const AllProducts = () => {
                       <SelectValue placeholder="sort by price" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="pprice">Low to High</SelectItem>
-                      <SelectItem value="-pprice">High to Low </SelectItem>
+                      <SelectItem value="asc">Low to High</SelectItem>
+                      <SelectItem value="desc">High to Low </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
