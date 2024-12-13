@@ -1,9 +1,64 @@
+import { TableDataError, TableDataLoading } from "@/components/ui";
+import { useGetUserOrderHistoryQuery } from "@/redux/features/order/order.api";
+
 const CustomerOrderHistory = () => {
-  const content = null;
+  const {
+    data: userOrderData,
+    isLoading: orderDataLoading,
+    isError: orderDataError,
+  } = useGetUserOrderHistoryQuery(undefined);
+
+  console.log(userOrderData?.data);
+
+  let content = null;
+
+  // *  if data is loading
+  if (orderDataLoading) {
+    content = (
+      <tr>
+        <td colSpan={8} className="p-4">
+          <TableDataLoading />
+        </td>
+      </tr>
+    );
+  }
+
+  // *  if any error
+  if (!orderDataLoading && orderDataError) {
+    content = (
+      <tr>
+        <td colSpan={8}>
+          <TableDataError message="Something went wrong " />
+        </td>
+      </tr>
+    );
+  }
+
+  // * for no data
+  if (!orderDataLoading && !orderDataError && userOrderData?.data?.length < 1) {
+    content = (
+      <tr>
+        <td colSpan={8}>
+          <TableDataError message="Nothing Found" />
+        </td>
+      </tr>
+    );
+  }
+
+  if (!orderDataLoading && !orderDataError && userOrderData?.data?.length) {
+    content = userOrderData?.data?.map((orderHistory) => (
+      <tr key={orderHistory.id} className="border-b">
+        <td className="p-4 text-center"> {orderHistory?.trxnNumber} </td>
+        <td className="p-4 text-center">{orderHistory?.totalPrice}</td>
+        <td className="p-4 text-center">{orderHistory?.updatedAt}</td>
+        <td className="p-4 text-center">product.name</td>
+      </tr>
+    ));
+  }
 
   return (
     <div className="CustomerOrderHistoryContainer">
-      <div className="CustomerOrderHistoryWrapper bg-gray-100  shadow rounded-md p-3  ">
+      <div className="CustomerOrderHistoryWrapper bg-gray-100 border border-gray-300 shadow rounded-md p-3  ">
         <h3 className="brand text-2xl font-medium mb-6 ">Order History </h3>
 
         {/*Followed shop table starts  */}

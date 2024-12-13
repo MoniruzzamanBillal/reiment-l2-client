@@ -14,9 +14,19 @@ const orderApi = baseApi.injectEndpoints({
       invalidatesTags: ["getUserCart"],
     }),
 
+    // ! for getting user order history
+    getUserOrderHistory: builder.query({
+      query: () => {
+        return {
+          url: "/order/user-order-history",
+          method: "GET",
+        };
+      },
+    }),
+
     //
   }),
 });
 
 //
-export const { useOrderItemMutation } = orderApi;
+export const { useOrderItemMutation, useGetUserOrderHistoryQuery } = orderApi;

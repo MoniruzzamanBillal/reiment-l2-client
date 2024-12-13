@@ -64,9 +64,9 @@ const ProductDetail = () => {
 
   const userRole = GetUserRole();
 
-  console.log(id);
-  console.log(productData?.data);
-  console.log(checkEligibelForReview?.data);
+  // console.log(id);
+  // console.log(productData?.data);
+  // console.log(checkEligibelForReview?.data);
   // console.log(userRole);
   // console.log(relatedProductData?.data);
   // console.log(productData?.data);
