@@ -30,7 +30,7 @@ const HomeProducts = () => {
 
         <div className="products  grid grid-cols-1 sm:grid-cols-2 xmd:grid-cols-3 xlm:grid-cols-4 gap-x-5 gap-y-8">
           {allProducts?.data &&
-            allProducts?.data?.map((product: TProductResponse) => (
+            allProducts?.data?.map((product) => (
               <ProductCard product={product} key={product?.id} />
             ))}
         </div>

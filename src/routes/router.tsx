@@ -22,6 +22,7 @@ import {
   MonitorTransaction,
   OrderSuccess,
   ProductDetail,
+  RecentProducts,
   ShopDetail,
   UpdateCategory,
   UpdateProduct,
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <UserCart />,
+      },
+      {
+        path: "/recent-products",
+        element: <RecentProducts />,
       },
       {
         path: "/checkout",

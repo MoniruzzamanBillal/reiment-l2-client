@@ -5,3 +5,10 @@ export const UseGetUser = () => {
 
   return user;
 };
+
+// ! for getting recent products lists
+export const UseGetRecentProducts = () => {
+  const { recentProducts } = useAppSelector((state) => state.recentProduct);
+
+  return recentProducts;
+};

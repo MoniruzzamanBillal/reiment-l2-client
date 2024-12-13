@@ -12,7 +12,7 @@ import {
   useGetRelatedProductQuery,
   useGetSingleProductsQuery,
 } from "@/redux/features/product/product.api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -28,9 +28,13 @@ import {
   useCheckEligibleForReviewQuery,
   useGiveReviewMutation,
 } from "@/redux/features/review/review.api";
+import { useAppDispatch } from "@/redux/hook";
+import { addRecentProduct } from "@/redux/features/recentProducts/recentProducts.slice";
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const dispatch = useAppDispatch();
+
   const [comment, setComment] = useState<string | null>(null);
   const [rating, setRating] = useState(0);
   const [showReplaceModal, setShowReplaceModal] = useState(false);
@@ -65,7 +69,7 @@ const ProductDetail = () => {
   const userRole = GetUserRole();
 
   // console.log(id);
-  // console.log(productData?.data);
+  // console.log(productData?.data?.id);
   // console.log(checkEligibelForReview?.data);
   // console.log(userRole);
   // console.log(relatedProductData?.data);
@@ -190,6 +194,13 @@ const ProductDetail = () => {
       });
     }
   };
+
+  //
+  useEffect(() => {
+    if (productData?.data?.id) {
+      dispatch(addRecentProduct(productData?.data?.id));
+    }
+  }, [productData?.data?.id]);
 
   return (
     <>

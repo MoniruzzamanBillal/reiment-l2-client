@@ -109,6 +109,17 @@ const productApi = baseApi.injectEndpoints({
       providesTags: ["getAllflashsaleProducts"],
     }),
 
+    // ! for getting recent products
+    getRecentProducts: builder.query({
+      query: (payload) => {
+        return {
+          url: `/product/recent-products`,
+          method: "PATCH",
+          body: payload,
+        };
+      },
+    }),
+
     // ! for getting related product
     getRelatedProduct: builder.query({
       query: (categoryId: string) => {
@@ -134,4 +145,5 @@ export const {
   useDuplicateProductMutation,
   useGetFlashSaleProductQuery,
   useGetRelatedProductQuery,
+  useGetRecentProductsQuery,
 } = productApi;

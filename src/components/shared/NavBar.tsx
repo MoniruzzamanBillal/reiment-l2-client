@@ -17,6 +17,7 @@ const Links = [
   { name: "Home", link: "/" },
   { name: "Products", link: "/products" },
   { name: "About us", link: "/" },
+  { name: "Recent Products", link: "/recent-products" },
   { name: "Contact", link: "/" },
 ];
 
