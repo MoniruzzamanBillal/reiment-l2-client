@@ -8,7 +8,7 @@ const CartItemCard = ({
   //   console.log(item?.product);
 
   return (
-    <div className=" bg-white border border-gray-200 my-3 py-2 sm:py-4 px-5  flex justify-between items-center  ">
+    <div className=" bg-white border border-gray-300 my-4 py-2 sm:py-4 px-5  flex justify-between items-center rounded-md ">
       {/* product name image section  */}
       <div className="productNameImg flex gap-x-3 ">
         {/* product img  */}

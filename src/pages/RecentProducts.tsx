@@ -14,7 +14,7 @@ const RecentProducts = () => {
   const { data: recentProductsData, isLoading: recentProductsLoading } =
     useGetRecentProductsQuery(recentProducts, { skip: !recentProducts });
 
-  console.log(recentProductsData?.data);
+  // console.log(recentProductsData?.data);
 
   return (
     <>

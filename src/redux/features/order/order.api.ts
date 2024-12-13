@@ -11,7 +11,6 @@ const orderApi = baseApi.injectEndpoints({
           body: payload,
         };
       },
-      invalidatesTags: ["getUserCart"],
     }),
 
     // ! for getting user order history

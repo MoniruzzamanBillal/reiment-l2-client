@@ -1,16 +1,25 @@
 import { CartItemCard, FormSubmitLoading, NoCartItem } from "@/components/ui";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   useDecreaseCartItemQuantityMutation,
   useDeleteCartItemMutation,
   useGetUserCartQuery,
   useIncreaseCartItemQuantityMutation,
 } from "@/redux/features/cart/cart.api";
+import { useGetCouponMutation } from "@/redux/features/cupon/coupon.api";
 import { calculateCartPrice } from "@/utils/CalculateCartPrice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { setCouponId } from "@/redux/features/cupon/cupon.slice";
+import { useAppDispatch } from "@/redux/hook";
 
 const UserCart = () => {
+  const dispatch = useAppDispatch();
+  const [coupon, setCoupon] = useState("");
+  const [discount, setDiscount] = useState(0);
+
   const navigate = useNavigate();
   const {
     data: cartData,
@@ -26,6 +35,9 @@ const UserCart = () => {
 
   const [deleteCartItem, { isLoading: deleteCartItemLoading }] =
     useDeleteCartItemMutation();
+
+  const [getCoupon, { isLoading: couponRetrivingLoading }] =
+    useGetCouponMutation();
 
   // console.log(cartData?.data?.cartItem);
   // console.log(cartData?.data);
@@ -129,6 +141,42 @@ const UserCart = () => {
     }
   };
 
+  const handleApplyCoupon = async () => {
+    if (!coupon) {
+      toast.error("Please enter a coupon code!");
+      return;
+    }
+
+    try {
+      const result = await getCoupon({ coupon });
+
+      //  *  for any  error
+      if (result?.error) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const errorMessage = (result?.error as any)?.data?.message;
+        console.log(errorMessage);
+        toast.error(errorMessage, {
+          duration: 1800,
+        });
+      }
+
+      // * for successful insertion
+      if (result?.data) {
+        const cuponId = result?.data?.data?.id;
+        dispatch(setCouponId(cuponId));
+
+        setDiscount(result?.data?.data?.discountValue);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong while applying coupon !!!", {
+        duration: 1400,
+      });
+    }
+
+    //
+  };
+
   useEffect(() => {
     refetchCart();
   }, [
@@ -186,16 +234,32 @@ const UserCart = () => {
               <div className="flex flex-col items-end gap-4  ">
                 {/* price card starts  */}
                 <div className="w-full  bg-white border border-gray-200 rounded-md shadow-md p-4 sm:max-w-xs">
-                  <div className="space-y-1">
-                    <div className="flex justify-between gap-4 text-gray-900">
-                      <span>Subtotal</span>
-                      <span>$ {totalCartPrice} </span>
+                  <div className=" py-2 ">
+                    <div className="flex py-1 justify-between gap-4 text-gray-900">
+                      <span className=" font-medium ">Subtotal</span>
+                      <span>$ {totalCartPrice - discount} </span>
                     </div>
 
-                    <div className="flex justify-between gap-4 text-gray-700">
-                      <span>Shipping</span>
+                    <div className="flex  py-1 justify-between gap-4 text-gray-700">
+                      <span className=" font-medium ">Shipping</span>
                       <span>$4.99</span>
                     </div>
+                  </div>
+
+                  <div className="promocodeSection mt-4  text-sm flex  items-center  ">
+                    <Input
+                      placeholder="Enter Promo Code"
+                      className="  rounded-none text-sm "
+                      value={coupon}
+                      onChange={(e) => setCoupon(e.target.value)}
+                    />
+                    <Button
+                      onClick={() => handleApplyCoupon()}
+                      className="  rounded-none text-sm "
+                    >
+                      {" "}
+                      Apply{" "}
+                    </Button>
                   </div>
 
                   <div className="mt-4 border-t pt-4">
@@ -204,7 +268,7 @@ const UserCart = () => {
 
                       <span className="flex flex-col items-end">
                         <span className="text-lg font-bold">
-                          {totalCartPrice + 4.99} USD
+                          {totalCartPrice + 4.99 - discount} USD
                         </span>
                         <span className="text-sm text-gray-500">
                           including VAT
@@ -215,12 +279,12 @@ const UserCart = () => {
                 </div>
                 {/* price card ends   */}
 
-                <button
-                  className="inline-block rounded-lg bg-indigo-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 md:text-base"
+                <Button
+                  className="  text-sm font-medium text-white  transition duration-100 bg-prime50 hover:bg-prime100 "
                   onClick={() => navigate("/checkout")}
                 >
                   Check out
-                </button>
+                </Button>
               </div>
             )}
 

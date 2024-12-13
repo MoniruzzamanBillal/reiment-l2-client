@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./features/auth/auth.slice";
 import recentProductReducer from "./features/recentProducts/recentProducts.slice";
+import couponReducer from "./features/cupon/cupon.slice";
 
 import {
   persistStore,
@@ -25,7 +26,13 @@ const recentProductConfig = {
   storage,
 };
 
+const couponConfig = {
+  key: "coupon",
+  storage,
+};
+
 const persistedReducer = persistReducer(persistConfig, authReducer);
+const persistedCouponReducer = persistReducer(couponConfig, couponReducer);
 const persistRecentReducer = persistReducer(
   recentProductConfig,
   recentProductReducer
@@ -36,6 +43,7 @@ export const store = configureStore({
     [baseApi.reducerPath]: baseApi.reducer,
     auth: persistedReducer,
     recentProduct: persistRecentReducer,
+    coupon: persistedCouponReducer,
   },
 
   middleware: (getDefaultMiddleware) =>
