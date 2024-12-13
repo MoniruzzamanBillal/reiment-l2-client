@@ -8,7 +8,10 @@ import {
   UserCommentCard,
 } from "@/components/ui";
 import { Button } from "@/components/ui/button";
-import { useGetSingleProductsQuery } from "@/redux/features/product/product.api";
+import {
+  useGetRelatedProductQuery,
+  useGetSingleProductsQuery,
+} from "@/redux/features/product/product.api";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -20,31 +23,54 @@ import {
   useReplaceCartMutation,
 } from "@/redux/features/cart/cart.api";
 import { GetUserRole } from "@/utils/GetUserRole";
+import { TRelatedProduct } from "@/constants/customer";
+import {
+  useCheckEligibleForReviewQuery,
+  useGiveReviewMutation,
+} from "@/redux/features/review/review.api";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [comment, setComment] = useState<string | null>(null);
+  const [rating, setRating] = useState(0);
   const [showReplaceModal, setShowReplaceModal] = useState(false);
 
   if (!id) {
     throw new Error("Something went wrong!! ");
   }
 
-  const { data: productData, isLoading: productDataLoading } =
-    useGetSingleProductsQuery(id, { skip: !id });
+  const {
+    data: productData,
+    isLoading: productDataLoading,
+    refetch: productDataRefetch,
+  } = useGetSingleProductsQuery(id, { skip: !id });
   const { data: userCardData, refetch: refetchCart } =
     useGetUserCartQuery(undefined);
+  const { data: relatedProductData, isLoading: RelatedProductLoading } =
+    useGetRelatedProductQuery(productData?.data?.categoryId, {
+      skip: !productData?.data?.categoryId,
+    });
+  const { data: checkEligibelForReview, refetch: checkEligibility } =
+    useCheckEligibleForReviewQuery(id, {
+      skip: !id,
+    });
   const [addProductToCart, { isLoading: addingCartLoading }] =
     useAddProductToCartMutation();
   const [replaceCart, { isLoading: replaceCartItemLoading }] =
     useReplaceCartMutation();
 
+  const [giveReview, { isLoading: reviewGivingLoading }] =
+    useGiveReviewMutation();
+
   const userRole = GetUserRole();
 
+  console.log(id);
+  console.log(productData?.data);
+  console.log(checkEligibelForReview?.data);
   // console.log(userRole);
-
+  // console.log(relatedProductData?.data);
   // console.log(productData?.data);
-  console.log(productData?.data?.categoryId);
+  // console.log(productData?.data?.categoryId);
   // console.log(userCardData?.data);
   //   console.log(productData?.data?.review);
 
@@ -115,15 +141,62 @@ const ProductDetail = () => {
       toast.error("Add  comment !!");
       return;
     }
+    if (rating < 1) {
+      toast.error("Give a rating !!");
+      return;
+    }
 
-    console.log(comment);
+    const payload = {
+      productId: productData?.data?.id,
+      rating,
+      comment,
+    };
+
+    try {
+      const taostId = toast.loading("Giving review....");
+
+      const result = await giveReview(payload);
+
+      console.log(result);
+
+      //  *  for any  error
+      if (result?.error) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const errorMessage = (result?.error as any)?.data?.message;
+        console.log(errorMessage);
+        toast.error(errorMessage, {
+          id: taostId,
+          duration: 1400,
+        });
+      }
+      // * for successful insertion
+      if (result?.data) {
+        productDataRefetch();
+        checkEligibility();
+        const successMsg = result?.data?.message;
+
+        toast.success(successMsg, {
+          id: taostId,
+          duration: 1000,
+        });
+
+        setComment("");
+        setRating(0);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong while giving review!!", {
+        duration: 1500,
+      });
+    }
   };
 
   return (
     <>
-      {(productDataLoading || addingCartLoading || replaceCartItemLoading) && (
-        <FormSubmitLoading />
-      )}
+      {(productDataLoading ||
+        addingCartLoading ||
+        replaceCartItemLoading ||
+        RelatedProductLoading) && <FormSubmitLoading />}
 
       <div className="ProductDetailContainer  ">
         <div className="ProductDetailWrapper  ">
@@ -273,11 +346,16 @@ const ProductDetail = () => {
                 </h1>
 
                 {/* comment input section  */}
-                <CommentInput
-                  comment={comment}
-                  setComment={setComment}
-                  handleAddComment={handleAddComment}
-                />
+                {checkEligibelForReview?.data && (
+                  <CommentInput
+                    comment={comment}
+                    setComment={setComment}
+                    handleAddComment={handleAddComment}
+                    rating={rating}
+                    setRating={setRating}
+                    reviewGivingLoading={reviewGivingLoading}
+                  />
+                )}
 
                 {/* user comment card  section  */}
                 {productData?.data?.review &&
@@ -294,10 +372,19 @@ const ProductDetail = () => {
                 </h1>
 
                 <div className="relatedProductCards mt-4 grid grid-cols-4 gap-x-5  ">
-                  <RelatedProductCard />
-                  <RelatedProductCard />
-                  <RelatedProductCard />
-                  <RelatedProductCard />
+                  {relatedProductData?.data &&
+                    relatedProductData?.data?.map(
+                      (product: TRelatedProduct) => (
+                        <RelatedProductCard
+                          key={product?.id}
+                          product={product}
+                        />
+                      )
+                    )}
+
+                  {/* {
+                      !relatedProductData && 
+                    } */}
                 </div>
               </div>
 

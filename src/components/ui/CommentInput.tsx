@@ -1,10 +1,22 @@
+import { Button } from "./button";
+
 type TProps = {
   comment: string | null;
+  rating: number;
+  reviewGivingLoading: boolean;
+  setRating: (value: number) => void;
   setComment: (value: string) => void;
   handleAddComment: () => void;
 };
 
-const CommentInput = ({ comment, setComment, handleAddComment }: TProps) => {
+const CommentInput = ({
+  comment,
+  setComment,
+  handleAddComment,
+  rating,
+  setRating,
+  reviewGivingLoading,
+}: TProps) => {
   return (
     <div className="CommentContainer  ">
       <div className="w-full mb-4 border border-gray-300 bg-gray-50   rounded-md ">
@@ -22,14 +34,37 @@ const CommentInput = ({ comment, setComment, handleAddComment }: TProps) => {
             placeholder="Write a comment..."
           ></textarea>
         </div>
+
+        {/* Rating Section */}
+        <div className="px-4 py-2">
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Rating (1-5)
+          </label>
+          <div className="flex items-center space-x-2">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button
+                key={star}
+                type="button"
+                onClick={() => setRating(star)}
+                className={`text-2xl ${
+                  rating >= star ? "text-yellow-400" : "text-gray-300"
+                }`}
+              >
+                ★
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="flex items-center justify-between px-3 py-2 border-t  ">
-          <button
+          <Button
+            disabled={reviewGivingLoading}
             type="submit"
             onClick={() => handleAddComment()}
-            className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-md  hover:scale-105 active:scale-100  hover:bg-blue-800"
+            className=" text-sm font-medium  text-white bg-prime50 rounded-md  hover:bg-prime100 "
           >
             Post comment
-          </button>
+          </Button>
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@ import {
   useGetUserCartQuery,
   useIncreaseCartItemQuantityMutation,
 } from "@/redux/features/cart/cart.api";
+import { calculateCartPrice } from "@/utils/CalculateCartPrice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -27,7 +28,9 @@ const UserCart = () => {
     useDeleteCartItemMutation();
 
   // console.log(cartData?.data?.cartItem);
-  console.log(cartData?.data);
+  // console.log(cartData?.data);
+
+  const totalCartPrice = calculateCartPrice(cartData?.data?.cartItem);
 
   //   ! function for adding cart quantity
   const handleAddQuantity = async (item) => {
@@ -152,24 +155,26 @@ const UserCart = () => {
               </h1>
             </div>
 
-            <div className="mb-5 flex flex-col sm:mb-8 sm:divide-y sm:border-t sm:border-b">
+            <div className="mb-5 sm:mb-8 flex flex-col  sm:divide-y sm:border-t sm:border-b">
               {/* product - start  */}
 
               {!cartData?.data || cartData?.data?.cartItem?.length === 0 ? (
                 <NoCartItem />
               ) : (
-                cartData?.data?.cartItem &&
-                cartData?.data?.cartItem?.map((item) => (
-                  // cart item card
-                  <CartItemCard
-                    key={item?.id}
-                    item={item}
-                    handleAddQuantity={handleAddQuantity}
-                    handleReduceQuantity={handleReduceQuantity}
-                    handleDeleteCartItem={handleDeleteCartItem}
-                  />
-                  // cart item card
-                ))
+                <div className="cartItemRender p-3  bg-white shadow-md rounded-md border border-gray-300 ">
+                  {cartData?.data?.cartItem &&
+                    cartData?.data?.cartItem?.map((item) => (
+                      // cart item card
+                      <CartItemCard
+                        key={item?.id}
+                        item={item}
+                        handleAddQuantity={handleAddQuantity}
+                        handleReduceQuantity={handleReduceQuantity}
+                        handleDeleteCartItem={handleDeleteCartItem}
+                      />
+                      // cart item card
+                    ))}
+                </div>
               )}
             </div>
 
@@ -184,7 +189,7 @@ const UserCart = () => {
                   <div className="space-y-1">
                     <div className="flex justify-between gap-4 text-gray-900">
                       <span>Subtotal</span>
-                      <span>$totalPrice</span>
+                      <span>$ {totalCartPrice} </span>
                     </div>
 
                     <div className="flex justify-between gap-4 text-gray-700">
@@ -199,7 +204,7 @@ const UserCart = () => {
 
                       <span className="flex flex-col items-end">
                         <span className="text-lg font-bold">
-                          $ totalPrice + 4.99 USD
+                          {totalCartPrice + 4.99} USD
                         </span>
                         <span className="text-sm text-gray-500">
                           including VAT

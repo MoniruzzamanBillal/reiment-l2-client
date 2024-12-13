@@ -109,6 +109,17 @@ const productApi = baseApi.injectEndpoints({
       providesTags: ["getAllflashsaleProducts"],
     }),
 
+    // ! for getting related product
+    getRelatedProduct: builder.query({
+      query: (categoryId: string) => {
+        return {
+          url: `/product/get-related-products/${categoryId}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["relatedProducts"],
+    }),
+
     //
   }),
 });
@@ -122,4 +133,5 @@ export const {
   useDeleteProductMutation,
   useDuplicateProductMutation,
   useGetFlashSaleProductQuery,
+  useGetRelatedProductQuery,
 } = productApi;

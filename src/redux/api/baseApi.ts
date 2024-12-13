@@ -30,5 +30,7 @@ export const baseApi = createApi({
     "getAllProducts",
     "getLoggedInUser",
     "getAllflashsaleProducts",
+    "relatedProducts",
+    "checkEligibleForReview",
   ],
 });

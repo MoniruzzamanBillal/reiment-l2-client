@@ -26,3 +26,15 @@ export type TCustomerProduct = {
   shopId: string;
   shop: TCustomerShop;
 };
+
+export type TRelatedProduct = {
+  id: string;
+  shopId: string;
+  categoryId: string;
+  name: string;
+  price: number;
+  description: string;
+  inventoryCount: number;
+  discount: number | null;
+  productImg: string;
+};
