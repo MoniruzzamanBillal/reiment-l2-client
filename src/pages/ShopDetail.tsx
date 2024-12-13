@@ -2,7 +2,10 @@ import Wrapper from "@/components/shared/Wrapper";
 import { FormSubmitLoading, ProductCard } from "@/components/ui";
 import { Button } from "@/components/ui/button";
 import { TCustomerProduct } from "@/constants/customer";
-import { useFollowShopMutation } from "@/redux/features/follower/follower.api";
+import {
+  useFollowShopMutation,
+  useUnfollowShopMutation,
+} from "@/redux/features/follower/follower.api";
 import { useGetSingleShopQuery } from "@/redux/features/shop/shop.api";
 import { useGetLoggedInUserQuery } from "@/redux/features/user/user.api";
 import { useParams } from "react-router-dom";
@@ -32,6 +35,9 @@ const ShopDetail = () => {
   const [followShop, { isLoading: followShopLoading }] =
     useFollowShopMutation();
 
+  const [unfollowShop, { isLoading: unfollowShopLoading }] =
+    useUnfollowShopMutation();
+
   console.log(userData?.data?.follower);
   console.log(shopData?.data?.id);
 
@@ -41,8 +47,6 @@ const ShopDetail = () => {
 
       return isMatch;
     }) || false;
-
-  console.log(isFollowing);
 
   // ! for following shop
   const handleFollowShop = async () => {
@@ -82,18 +86,48 @@ const ShopDetail = () => {
 
   // ! for unfollowing user
   const handleUnfollowShop = async () => {
-    // { shopId: shopData?.data?.id }
+    try {
+      const taostId = toast.loading("Following Shop....");
 
-    console.log(shopData?.data?.id);
+      const result = await unfollowShop({ shopId: shopData?.data?.id });
+
+      //  *  for any  error
+      if (result?.error) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const errorMessage = (result?.error as any)?.data?.message;
+        console.log(errorMessage);
+        toast.error(errorMessage, {
+          id: taostId,
+          duration: 1400,
+        });
+      }
+      // * for successful insertion
+      if (result?.data) {
+        userDataRefetch();
+        shopDataRefetch();
+        const successMsg = result?.data?.message;
+
+        toast.success(successMsg, {
+          id: taostId,
+          duration: 1000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong while following shop  !!!", {
+        duration: 1400,
+      });
+    }
 
     //
   };
 
   return (
     <>
-      {(shopDataLoading || shopDataError || userDataLoading) && (
-        <FormSubmitLoading />
-      )}
+      {(shopDataLoading ||
+        shopDataError ||
+        userDataLoading ||
+        unfollowShopLoading) && <FormSubmitLoading />}
 
       <div className="ShopDetailContainer bg-gray-100 min-h-screen py-8 ">
         <Wrapper className=" ShopDetailWrapper flex flex-col gap-y-6 ">

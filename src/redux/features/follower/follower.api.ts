@@ -13,9 +13,20 @@ const followerApi = baseApi.injectEndpoints({
       },
     }),
 
+    // ! for unfollowing a shop
+    unfollowShop: builder.mutation({
+      query: (payload) => {
+        return {
+          url: "/follow/unfollow-shop",
+          method: "DELETE",
+          body: payload,
+        };
+      },
+    }),
+
     //
   }),
 });
 
 //
-export const { useFollowShopMutation } = followerApi;
+export const { useFollowShopMutation, useUnfollowShopMutation } = followerApi;
