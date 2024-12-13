@@ -37,13 +37,6 @@ const AllProducts = () => {
   const { data: allProducts, isLoading: productDataLoading } =
     useGetAllProductQuery(params);
 
-  // console.log(allProducts?.data);
-
-  // console.log("debounce term = ", debounceTerm);
-  // console.log("price range = ", pprice);
-  // console.log("pcategory  = ", pcategory);
-  // console.log("sort range = ", sort);
-
   //   ! for reseting all filter category
   const handleAddReset = () => {
     setParams(undefined);
@@ -215,6 +208,10 @@ const AllProducts = () => {
                 </div>
               </div>
               {/* products content ends */}
+
+              {/*  */}
+
+              {/*  */}
 
               {/*  */}
             </div>

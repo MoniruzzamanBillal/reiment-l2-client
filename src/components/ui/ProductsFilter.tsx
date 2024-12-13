@@ -28,7 +28,7 @@ const ProductsFilter = ({
     useGetAllCategoryQuery(undefined);
   const [categoryOptions, setCategoryOptions] = useState([]);
 
-  console.log(categoryData?.data);
+  // console.log(categoryData?.data);
 
   //   ! effect for get category data
   useEffect(() => {
