@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./features/auth/auth.slice";
 import recentProductReducer from "./features/recentProducts/recentProducts.slice";
 import couponReducer from "./features/cupon/cupon.slice";
+import comparisonReducer from "./features/product/product.slice";
 
 import {
   persistStore,
@@ -31,11 +32,20 @@ const couponConfig = {
   storage,
 };
 
+const comparisonConfig = {
+  key: "comparison",
+  storage,
+};
+
 const persistedReducer = persistReducer(persistConfig, authReducer);
 const persistedCouponReducer = persistReducer(couponConfig, couponReducer);
 const persistRecentReducer = persistReducer(
   recentProductConfig,
   recentProductReducer
+);
+const persistComparisonReducer = persistReducer(
+  comparisonConfig,
+  comparisonReducer
 );
 
 export const store = configureStore({
@@ -44,6 +54,7 @@ export const store = configureStore({
     auth: persistedReducer,
     recentProduct: persistRecentReducer,
     coupon: persistedCouponReducer,
+    comparison: persistComparisonReducer,
   },
 
   middleware: (getDefaultMiddleware) =>

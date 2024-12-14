@@ -15,7 +15,6 @@ const cuponSlice = createSlice({
     // for setting cupon
     setCouponId: (state, action) => {
       const cuponId = action.payload;
-
       state.cuponId = cuponId;
     },
 

@@ -28,12 +28,16 @@ import {
   useCheckEligibleForReviewQuery,
   useGiveReviewMutation,
 } from "@/redux/features/review/review.api";
-import { useAppDispatch } from "@/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { addRecentProduct } from "@/redux/features/recentProducts/recentProducts.slice";
+import { addToComparison } from "@/redux/features/product/product.slice";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
+  const comparisonProducts = useAppSelector(
+    (state) => state?.comparison?.products
+  );
 
   const [comment, setComment] = useState<string | null>(null);
   const [rating, setRating] = useState(0);
@@ -195,6 +199,33 @@ const ProductDetail = () => {
     }
   };
 
+  console.log(comparisonProducts);
+
+  // ! for adding product in comparison
+  const addProductComparison = (product) => {
+    if (comparisonProducts?.length === 3) {
+      toast.error("You can only compare up to three products!", {
+        duration: 1800,
+      });
+      return;
+    }
+    comparisonProducts?.some((compareProduct) => {
+      if (compareProduct?.categoryId !== product?.categoryId) {
+        toast.error("You can not compare different product category!!", {
+          duration: 1800,
+        });
+      }
+
+      if (compareProduct?.id === product?.id) {
+        toast.error("This product is already selected !!", {
+          duration: 1800,
+        });
+      }
+    });
+
+    dispatch(addToComparison(product));
+  };
+
   //
   useEffect(() => {
     if (productData?.data?.id) {
@@ -261,8 +292,17 @@ const ProductDetail = () => {
                   </div>
                   {/* price - end  */}
 
+                  {/* product category starts  */}
+                  <div className="mb-2 flex items-center gap-2 text-gray-600">
+                    <span className="text-sm text-gray-800 font-medium ">
+                      Category :
+                    </span>
+                    {productData?.data?.category?.name}
+                  </div>
+                  {/* product category ends  */}
+
                   {/* {/* shipping notice - start  */}
-                  <div className="mb-2 flex items-center gap-2 text-gray-500">
+                  <div className="mb-6 flex items-center gap-2 text-gray-500">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6"
@@ -283,34 +323,45 @@ const ProductDetail = () => {
                   </div>
                   {/* shipping notice - end  */}
 
-                  {/* product category starts  */}
-                  <div className="mb-6 flex items-center gap-2 text-gray-500">
-                    <span className="text-sm">
-                      Category : {productData?.data?.category?.name}
-                    </span>
-                  </div>
-                  {/* product category ends  */}
-
                   {/* {/* buttons - start  */}
                   <div className="   ">
                     {userRole === "VENDOR" ? (
                       "  "
                     ) : (
-                      <Button
-                        disabled={
-                          productData?.data?.inventoryCount === 0 ? true : false
-                        }
-                        className={`   text-center text-sm font-semibold text-white transition duration-100  ${
-                          productData?.data?.inventoryCount === 0
-                            ? "cursor-not-allowed bg-gray-400"
-                            : "cursor-pointer bg-prime50 hover:bg-prime100 focus-visible:ring active:bg-prime50"
-                        }`}
-                        onClick={() => handleAddCart(productData?.data)}
-                      >
-                        {productData?.data?.inventoryCount === 0
-                          ? "Out of Stock"
-                          : `  Add to cart  `}
-                      </Button>
+                      <div className="btnSection flex items-center gap-x-4 ">
+                        {/*  */}
+
+                        <Button
+                          disabled={
+                            productData?.data?.inventoryCount === 0
+                              ? true
+                              : false
+                          }
+                          className={`   text-center text-sm font-semibold text-white transition duration-100  ${
+                            productData?.data?.inventoryCount === 0
+                              ? "cursor-not-allowed bg-gray-400"
+                              : "bg-prime50 hover:bg-prime100 active:bg-prime50"
+                          }`}
+                          onClick={() => handleAddCart(productData?.data)}
+                        >
+                          {productData?.data?.inventoryCount === 0
+                            ? "Out of Stock"
+                            : `  Add to cart  `}
+                        </Button>
+
+                        {/*  */}
+
+                        <Button
+                          onClick={() =>
+                            addProductComparison(productData?.data)
+                          }
+                          className=" bg-prime50 hover:bg-prime100 active:bg-prime50 "
+                        >
+                          Add To Compate
+                        </Button>
+
+                        {/*  */}
+                      </div>
                     )}
                   </div>
                   {/* buttons - end  */}
