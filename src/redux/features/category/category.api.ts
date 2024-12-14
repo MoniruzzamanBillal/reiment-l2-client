@@ -37,12 +37,11 @@ const categoryApi = baseApi.injectEndpoints({
 
     // ! for updating a category
     updateCategory: builder.mutation({
-      query: (payload) => {
-        const { id, data } = payload;
+      query: ({ formData, id }) => {
         return {
           url: `/category/update-category/${id}`,
           method: "PATCH",
-          body: data,
+          body: formData,
         };
       },
     }),

@@ -27,38 +27,66 @@ const UpdateCategory = () => {
   const [updateCategory, { isLoading: categoryUpdationLoading }] =
     useUpdateCategoryMutation();
 
-  //   console.log(categoryDetail?.data);
+  // console.log(categoryDetail?.data);
 
   let defaultValues;
 
   defaultValues = {
     name: categoryDetail?.data?.name,
+    categoryImg: categoryDetail?.data?.categoryImg,
   };
 
   //   ! for updating category
   const handleUpdateCategory = async (data: FieldValues) => {
-    const result = await updateCategory({ id, data });
+    try {
+      const { name, categoryImg } = data;
 
-    //  *  for any  error
-    if (result?.error) {
-      console.log(result?.error);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const errorMessage = (result?.error as any)?.data?.message;
-      toast.error(errorMessage, {
-        duration: 1500,
-      });
-    }
+      const payload = {
+        name,
+      };
 
-    // * for successful updation
-    if (result?.data) {
-      const successMsg = result?.data?.message;
-      toast.success(successMsg, {
+      const formData = new FormData();
+
+      formData.append("data", JSON.stringify(payload));
+
+      if (categoryImg) {
+        formData.append("categoryImg", categoryImg);
+      }
+
+      const taostId = toast.loading("Updating Category....", {
         duration: 1000,
       });
 
-      setTimeout(() => {
-        navigate("/dashboard/admin/categories");
-      }, 600);
+      const result = await updateCategory({ formData, id });
+
+      //  *  for any  error
+      if (result?.error) {
+        console.log(result?.error);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const errorMessage = (result?.error as any)?.data?.message;
+        toast.error(errorMessage, {
+          duration: 1500,
+          id: taostId,
+        });
+      }
+
+      // * for successful updation
+      if (result?.data) {
+        const successMsg = result?.data?.message;
+        toast.success(successMsg, {
+          duration: 1000,
+          id: taostId,
+        });
+
+        setTimeout(() => {
+          navigate("/dashboard/admin/categories");
+        }, 600);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong while updating category", {
+        duration: 1400,
+      });
     }
   };
 
@@ -68,6 +96,7 @@ const UpdateCategory = () => {
     if (categoryDetail?.data) {
       defaultValues = {
         name: categoryDetail?.data?.name,
+        categoryImg: categoryDetail?.data?.categoryImg,
       };
     }
   }, [categoryDetail]);
@@ -98,6 +127,9 @@ const UpdateCategory = () => {
           name="name"
           placeholder="Enter Category Name"
         />
+
+        {/* Product Image */}
+        <ReimentInput type="file" label="Category Image :" name="categoryImg" />
 
         <Button
           className={`px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base active:scale-95 duration-500 bg-prime50 hover:bg-prime100`}

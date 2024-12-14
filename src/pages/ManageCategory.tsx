@@ -29,7 +29,7 @@ const ManageCategory = () => {
   const [deleteCategory, { isLoading: categoryDeleteLoaging }] =
     useDeleteCategoryMutation();
 
-  console.log(categoryData?.data);
+  // console.log(categoryData?.data);
 
   // ! for deleting a category
   const handleDeleteCategory = async (id: string) => {
