@@ -21,6 +21,16 @@ type TCategory = {
   name: string;
 };
 
+type TProductPayload = {
+  name: string;
+  categoryId: string;
+  price: number;
+  description: string;
+  inventoryCount: number;
+  shopId: string;
+  discount?: number;
+};
+
 const AddProduct = () => {
   //   let categoryOptions = [];
   const navigate = useNavigate();
@@ -41,7 +51,7 @@ const AddProduct = () => {
     const { name, categoryId, price, productImg, description, inventoryCount } =
       data;
 
-    const payload = {
+    const payload: TProductPayload = {
       name,
       categoryId,
       price: parseFloat(price),
@@ -49,6 +59,10 @@ const AddProduct = () => {
       inventoryCount: parseFloat(inventoryCount),
       shopId: shopData?.data?.id,
     };
+
+    if (data?.discount) {
+      payload.discount = parseFloat(data?.discount);
+    }
 
     const formData = new FormData();
 
@@ -64,7 +78,7 @@ const AddProduct = () => {
       if (result?.error) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const errorMessage = (result?.error as any)?.data?.message;
-
+        console.log(errorMessage);
         toast.error(errorMessage, {
           id: taostId,
           duration: 1400,
@@ -147,6 +161,13 @@ const AddProduct = () => {
                 label="Price :"
                 name="price"
                 placeholder="Enter Product Price"
+              />
+              {/* Product Discount Price */}
+              <ReimentInput
+                type="number"
+                label="Discount Amount :"
+                name="discount"
+                placeholder="Enter Discount (Optional)"
               />
 
               {/* Product Image */}

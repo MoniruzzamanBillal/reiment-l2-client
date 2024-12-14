@@ -39,8 +39,6 @@ const ManageVendorProduct = () => {
   const [duplicateProduct, { isLoading: productDuplicatingLoading }] =
     useDuplicateProductMutation();
 
-  // console.log(productData?.data);
-
   // ! for deleting product
   const handleDeleteProduct = async (prodId: string) => {
     try {
@@ -183,6 +181,9 @@ const ManageVendorProduct = () => {
         </td>
         <td className="p-4 text-center">{product?.category?.name}</td>
         <td className="p-4 text-center">${product?.price}</td>
+        <td className="p-4 text-center">
+          {product?.discount ? ` $ ${product?.discount}` : "N/A"}
+        </td>
 
         <td className="p-4 text-center">{product?.inventoryCount}</td>
         <td className="p-4 text-center">{product?.shop?.name}</td>
@@ -243,6 +244,7 @@ const ManageVendorProduct = () => {
                   <th className="px-4 font-medium">Image </th>
                   <th className="px-4 font-medium">Category </th>
                   <th className="px-4 font-medium">Price </th>
+                  <th className="px-4 font-medium">Discount </th>
 
                   <th className="px-4 font-medium">Inventory Count </th>
                   <th className="px-4 font-medium">Shop Name </th>

@@ -81,7 +81,7 @@ const DashboardLinks = () => {
         icon: <CiBookmark className=" text-xl font-bold " />,
       },
       {
-        name: "Products",
+        name: "Manage Inventory",
         path: "/dashboard/vendor/manage-products",
         icon: <CiBookmark className=" text-xl font-bold " />,
       },

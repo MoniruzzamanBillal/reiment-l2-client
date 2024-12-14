@@ -16,6 +16,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { useGetAllCategoryQuery } from "@/redux/features/category/category.api";
 
+type TProductPayload = {
+  name?: string;
+  categoryId?: string;
+  price?: number;
+  description?: string;
+  inventoryCount?: number;
+  shopId?: string;
+  discount?: number;
+};
+
 const UpdateProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -37,6 +47,8 @@ const UpdateProduct = () => {
     value: category.id,
   }));
 
+  console.log(productData?.data);
+
   let defaultValues;
 
   defaultValues = {
@@ -45,6 +57,7 @@ const UpdateProduct = () => {
     price: productData?.data?.price,
     description: productData?.data?.description,
     inventoryCount: productData?.data?.inventoryCount,
+    discount: productData?.data?.discount,
   };
 
   // ! for updating product
@@ -52,13 +65,22 @@ const UpdateProduct = () => {
     const { name, categoryId, price, productImg, description, inventoryCount } =
       data;
 
-    const payload = {
+    const payload: TProductPayload = {
       name,
       categoryId,
       price: parseFloat(price),
       description,
       inventoryCount: parseFloat(inventoryCount),
     };
+
+    if (parseFloat(data?.price) <= parseFloat(data?.discount)) {
+      toast.error("Discount amount cann't exceed product price !!!");
+      return;
+    }
+
+    if (data?.discount) {
+      payload.discount = parseFloat(data?.discount);
+    }
 
     const formData = new FormData();
 
@@ -77,7 +99,7 @@ const UpdateProduct = () => {
       if (result?.error) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const errorMessage = (result?.error as any)?.data?.message;
-
+        console.log(errorMessage);
         toast.error(errorMessage, {
           id: taostId,
           duration: 1400,
@@ -114,6 +136,7 @@ const UpdateProduct = () => {
         price: productData?.data?.price,
         description: productData?.data?.description,
         inventoryCount: productData?.data?.inventoryCount,
+        discount: productData?.data?.discount,
       };
     }
   }, [productData]);
@@ -153,6 +176,14 @@ const UpdateProduct = () => {
           label="Price :"
           name="price"
           placeholder="Enter Product Price"
+        />
+
+        {/* Product Discount Price */}
+        <ReimentInput
+          type="number"
+          label="Discount Amount :"
+          name="discount"
+          placeholder="Enter Discount (Optional)"
         />
 
         {/* Product Image */}
