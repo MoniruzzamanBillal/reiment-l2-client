@@ -87,7 +87,7 @@ const ShopDetail = () => {
   // ! for unfollowing user
   const handleUnfollowShop = async () => {
     try {
-      const taostId = toast.loading("Following Shop....");
+      const taostId = toast.loading("Unfollowing Shop....");
 
       const result = await unfollowShop({ shopId: shopData?.data?.id });
 
@@ -114,7 +114,7 @@ const ShopDetail = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong while following shop  !!!", {
+      toast.error("Something went wrong while unfollowing shop  !!!", {
         duration: 1400,
       });
     }

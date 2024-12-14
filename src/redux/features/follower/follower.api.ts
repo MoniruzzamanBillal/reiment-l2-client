@@ -24,9 +24,23 @@ const followerApi = baseApi.injectEndpoints({
       },
     }),
 
+    // ! for getting logged in follower data
+    getLoggedUserFollowData: builder.query({
+      query: () => {
+        return {
+          url: "/follow/logged-user-data",
+          method: "GET",
+        };
+      },
+    }),
+
     //
   }),
 });
 
 //
-export const { useFollowShopMutation, useUnfollowShopMutation } = followerApi;
+export const {
+  useFollowShopMutation,
+  useUnfollowShopMutation,
+  useGetLoggedUserFollowDataQuery,
+} = followerApi;

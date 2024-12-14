@@ -9,7 +9,7 @@ const CustomerOrderHistory = () => {
     isError: orderDataError,
   } = useGetUserOrderHistoryQuery(undefined);
 
-  console.log(userOrderData?.data);
+  // console.log(userOrderData?.data);
 
   let content = null;
 

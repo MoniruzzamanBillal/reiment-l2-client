@@ -34,11 +34,6 @@ const DashboardLinks = () => {
       path: "/dashboard/customer/order-history",
       icon: <CiBookmark className="text-xl font-bold" />,
     },
-    {
-      name: "Compare Products",
-      path: "/dashboard/customer/compare-products",
-      icon: <CiBookmark className="text-xl font-bold" />,
-    },
   ];
 
   // ! admin role links
