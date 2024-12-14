@@ -5,6 +5,9 @@ import { FiEdit } from "react-icons/fi";
 import { useGetLoggedInUserQuery } from "@/redux/features/user/user.api";
 import { FormSubmitLoading } from "@/components/ui";
 
+const defaultImg =
+  "https://i.postimg.cc/T19x1Pzh/istockphoto-1341046662-612x612.jpg";
+
 const Dashboard = () => {
   const { data: userData, isLoading: userDataLoading } =
     useGetLoggedInUserQuery(undefined);
@@ -26,7 +29,14 @@ const Dashboard = () => {
                 <div className="profileLeftSection  flex  items-center gap-x-5 ">
                   {/* left image section starts  */}
                   <div className="imgSection rounded-full overflow-auto w-[8rem] sm:w-[10rem] md:w-[10rem] xmd:w-[12rem] ">
-                    <img src={userData?.data?.profileImg} alt="" />
+                    <img
+                      src={
+                        userData?.data?.profileImg
+                          ? userData?.data?.profileImg
+                          : defaultImg
+                      }
+                      alt=""
+                    />
                   </div>
                   {/* left image section ends */}
 

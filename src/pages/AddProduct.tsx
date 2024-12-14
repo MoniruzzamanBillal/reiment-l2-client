@@ -32,7 +32,6 @@ type TProductPayload = {
 };
 
 const AddProduct = () => {
-  //   let categoryOptions = [];
   const navigate = useNavigate();
 
   const [categoryOptions, setCategoryOptions] = useState([]);

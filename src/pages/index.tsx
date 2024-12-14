@@ -30,3 +30,6 @@ export { default as HomePage } from "./HomePage";
 export { default as FlashSale } from "./FlashSale";
 export { default as RecentProducts } from "./RecentProducts";
 export { default as ComparisonTable } from "./ComparisonTable";
+export { default as Register } from "./Register";
+export { default as ForgotPassword } from "./ForgotPassword";
+export { default as ChangePassword } from "./ChangePassword";

@@ -38,7 +38,7 @@ const VendorCustomerReview = () => {
     isError: vendorProductReviewDataError,
   } = useGetVendorProductReviewsQuery(undefined);
 
-  console.log(vendorProductReviewData?.data);
+  // console.log(vendorProductReviewData?.data);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;

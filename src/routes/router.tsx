@@ -5,6 +5,7 @@ import {
   AddShop,
   AdminStatistics,
   AllProducts,
+  ChangePassword,
   Checkout,
   ComparisonTable,
   CustomerOrderHistory,
@@ -12,6 +13,7 @@ import {
   DashboardLayout,
   FlashSale,
   FollowedShop,
+  ForgotPassword,
   HomePage,
   Login,
   ManageCategory,
@@ -24,6 +26,7 @@ import {
   OrderSuccess,
   ProductDetail,
   RecentProducts,
+  Register,
   ShopDetail,
   UpdateCategory,
   UpdateProduct,
@@ -47,6 +50,18 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/change-password",
+        element: <ChangePassword />,
+      },
+      {
+        path: "/sign-up",
+        element: <Register />,
+      },
+      {
+        path: "/forgotPassword",
+        element: <ForgotPassword />,
       },
       {
         path: "/products",

@@ -32,7 +32,17 @@ const Login = () => {
 
       const result = await logIn(payload).unwrap();
 
-      if (result?.success) {
+      console.log(result);
+      console.log(result?.data?.needsPasswordChange);
+
+      if (result?.data?.needsPasswordChange) {
+        const token = result?.token;
+        const user = verifyToken(token) as TUser;
+        dispatch(setUser({ user, token }));
+        navigate("/change-password");
+
+        toast.success(result?.message, { id: toastId, duration: 1400 });
+      } else if (result?.success) {
         const token = result?.token;
 
         const user = verifyToken(token) as TUser;
@@ -84,12 +94,6 @@ const Login = () => {
                 name="password"
                 placeholder="Enter Your Password"
               />
-
-              {/* ${
-              isLoading
-                ? " cursor-not-allowed bg-gray-300  "
-                : " bg-prime50 hover:bg-prime100"
-            } */}
 
               <Button
                 // disabled={isLoading}

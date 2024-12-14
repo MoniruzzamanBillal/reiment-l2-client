@@ -80,6 +80,17 @@ const authApi = baseApi.injectEndpoints({
       },
     }),
 
+    // ! for changing password 1st time login
+    changePassword: builder.mutation({
+      query: (payload) => {
+        return {
+          url: "/auth/change1st-password",
+          method: "PATCH",
+          body: payload,
+        };
+      },
+    }),
+
     //
   }),
 });
@@ -93,4 +104,5 @@ export const {
   useUnblockUserMutation,
   useBlockVendorMutation,
   useUnblockVendorMutation,
+  useChangePasswordMutation,
 } = authApi;
