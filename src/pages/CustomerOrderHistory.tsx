@@ -9,7 +9,7 @@ const CustomerOrderHistory = () => {
     isError: orderDataError,
   } = useGetUserOrderHistoryQuery(undefined);
 
-  // console.log(userOrderData?.data);
+  console.log(userOrderData?.data);
 
   let content = null;
 
@@ -51,6 +51,16 @@ const CustomerOrderHistory = () => {
       <tr key={orderHistory.id} className="border-b">
         <td className="p-4 text-center"> {orderHistory?.trxnNumber} </td>
         <td className="p-4 text-center">{orderHistory?.totalPrice}</td>
+        {/* <td className="p-4 text-center">Products</td> */}
+
+        <td className="p-4 text-center">
+          <ul>
+            {orderHistory.orderItem.map((item, index) => (
+              <li key={index}>{item?.product?.name}</li>
+            ))}
+          </ul>
+        </td>
+
         <td className="p-4 text-center">
           {format(new Date(orderHistory?.updatedAt), "dd-MMM-yyyy")}
         </td>
@@ -70,6 +80,7 @@ const CustomerOrderHistory = () => {
               <tr className="w-full text-sm bg-sky-100  ">
                 <th className="px-4 font-medium">Transaction Number </th>
                 <th className="px-4 font-medium">Total Price </th>
+                <th className="px-4 font-medium">Products </th>
                 <th className="px-4 font-medium">Order Date </th>
               </tr>
             </thead>
