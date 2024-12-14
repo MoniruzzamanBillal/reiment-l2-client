@@ -33,7 +33,7 @@ const MonitorTransaction = () => {
     isError: transactionDataError,
   } = useGetAllTransactionDataQuery(undefined);
 
-  console.log(transactionData?.data);
+  // console.log(transactionData?.data);
 
   // *  if data is loading
   if (transactionDataLoading) {
@@ -92,7 +92,7 @@ const MonitorTransaction = () => {
 
   return (
     <div className="MonitorTransactionContainer">
-      <div className="MonitorTransactionWrapper bg-gray-100  shadow rounded-md p-3  ">
+      <div className="MonitorTransactionWrapper bg-gray-100  border border-gray-300 shadow rounded-md p-3  ">
         <h3 className="brand text-2xl font-medium mb-4 ">
           {" "}
           Monitor Transaction{" "}

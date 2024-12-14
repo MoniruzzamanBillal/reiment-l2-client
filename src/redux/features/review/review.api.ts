@@ -34,6 +34,27 @@ const reviewApi = baseApi.injectEndpoints({
       },
     }),
 
+    // ! for getting all review
+    getAllReview: builder.query({
+      query: () => {
+        return {
+          url: `/review/all-review`,
+          method: "GET",
+        };
+      },
+    }),
+
+    // ! for updating review
+    updateReview: builder.mutation({
+      query: (payload) => {
+        return {
+          url: `/review/update-review`,
+          method: "PATCH",
+          body: payload,
+        };
+      },
+    }),
+
     //
   }),
 });
@@ -43,4 +64,6 @@ export const {
   useCheckEligibleForReviewQuery,
   useGiveReviewMutation,
   useGetVendorProductReviewsQuery,
+  useGetAllReviewQuery,
+  useUpdateReviewMutation,
 } = reviewApi;

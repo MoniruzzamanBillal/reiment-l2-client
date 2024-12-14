@@ -192,7 +192,7 @@ const ManageUsers = () => {
       )}
 
       <div className="ManageUsersContainer">
-        <div className="ManageUsersWrapper bg-gray-100  shadow rounded-md p-3  ">
+        <div className="ManageUsersWrapper bg-gray-100 border border-gray-300 shadow rounded-md p-3  ">
           <h3 className="brand text-2xl font-medium mb-4 "> Manage Users </h3>
 
           {/* manage user table starts  */}

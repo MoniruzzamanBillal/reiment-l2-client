@@ -149,7 +149,7 @@ const ManageCategory = () => {
       {categoryDeleteLoaging && <FormSubmitLoading />}
 
       <div className="ManageCategoryContainer">
-        <div className="ManageCategoryWrapper bg-gray-100  shadow rounded-md p-3  ">
+        <div className="ManageCategoryWrapper bg-gray-100 border border-gray-300 shadow rounded-md p-3  ">
           <h3 className="brand text-2xl font-medium mb-6 ">Manage Category</h3>
 
           {/* new category add  container starts  */}
