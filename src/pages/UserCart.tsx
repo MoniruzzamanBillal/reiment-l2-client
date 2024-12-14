@@ -12,7 +12,7 @@ import { calculateCartPrice } from "@/utils/CalculateCartPrice";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { setCouponId } from "@/redux/features/cupon/cupon.slice";
+import { resetCoupon, setCouponId } from "@/redux/features/cupon/cupon.slice";
 import { useAppDispatch } from "@/redux/hook";
 
 const UserCart = () => {
@@ -150,8 +150,6 @@ const UserCart = () => {
     try {
       const result = await getCoupon({ coupon });
 
-      console.log(result);
-
       //  *  for any  error
       if (result?.error) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -160,6 +158,8 @@ const UserCart = () => {
         toast.error(errorMessage, {
           duration: 1800,
         });
+        setCoupon("");
+        dispatch(resetCoupon());
       }
 
       // * for successful insertion

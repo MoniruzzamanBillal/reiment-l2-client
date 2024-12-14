@@ -1,5 +1,6 @@
 import { TableDataError, TableDataLoading } from "@/components/ui";
 import { useGetUserOrderHistoryQuery } from "@/redux/features/order/order.api";
+import { format } from "date-fns";
 
 const CustomerOrderHistory = () => {
   const {
@@ -50,8 +51,9 @@ const CustomerOrderHistory = () => {
       <tr key={orderHistory.id} className="border-b">
         <td className="p-4 text-center"> {orderHistory?.trxnNumber} </td>
         <td className="p-4 text-center">{orderHistory?.totalPrice}</td>
-        <td className="p-4 text-center">{orderHistory?.updatedAt}</td>
-        <td className="p-4 text-center">product.name</td>
+        <td className="p-4 text-center">
+          {format(new Date(orderHistory?.updatedAt), "dd-MMM-yyyy")}
+        </td>
       </tr>
     ));
   }
@@ -69,7 +71,6 @@ const CustomerOrderHistory = () => {
                 <th className="px-4 font-medium">Transaction Number </th>
                 <th className="px-4 font-medium">Total Price </th>
                 <th className="px-4 font-medium">Order Date </th>
-                <th className="px-4 font-medium">Order Items </th>
               </tr>
             </thead>
             <tbody>{content}</tbody>
