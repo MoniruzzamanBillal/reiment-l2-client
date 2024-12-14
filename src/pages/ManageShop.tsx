@@ -35,8 +35,41 @@ const ManageShop = () => {
   // console.log(shopData?.data);
 
   // ! function for unblocking  shop
-  const handleUnblockVendor = (id: string) => {
-    console.log(id);
+  const handleUnblockVendor = async (id: string) => {
+    try {
+      const taostId = toast.loading("Blocking Vendor....");
+      const payload = {
+        vendorShopId: id,
+      };
+      const result = await unblockVendor(payload);
+
+      //  *  for any  error
+      if (result?.error) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const errorMessage = (result?.error as any)?.data?.message;
+        console.log(errorMessage);
+        toast.error(errorMessage, {
+          id: taostId,
+          duration: 1400,
+        });
+      }
+
+      // * for successful insertion
+      if (result?.data) {
+        shopDataRefetch();
+        const successMsg = result?.data?.message;
+
+        toast.success(successMsg, {
+          id: taostId,
+          duration: 1000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong while unblocking vendor !!!", {
+        duration: 1400,
+      });
+    }
   };
 
   // ! for blacklist vendor
