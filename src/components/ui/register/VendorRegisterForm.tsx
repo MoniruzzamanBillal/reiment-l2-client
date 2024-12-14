@@ -5,9 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { useSignUpMutation } from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
 import FormSubmitLoading from "../FormSubmitLoading";
+import { verifyToken } from "@/utils/verifyToken";
+import { TUser } from "@/types/globalTypes";
+import { setUser } from "@/redux/features/auth/auth.slice";
+import { useAppDispatch } from "@/redux/hook";
 
 const VendorRegisterForm = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const [signUp, { isLoading: registerLoading }] = useSignUpMutation();
 
@@ -28,12 +33,9 @@ const VendorRegisterForm = () => {
     formData.append("profileImg", profileImg);
 
     try {
-      const taostId = toast.loading("Registering new user ....");
+      const taostId = toast.loading("Registering new vendor ....");
 
       const result = await signUp(formData);
-
-      console.log(result);
-      console.log(result?.data);
 
       //  *  for any  error
       if (result?.error) {
@@ -55,13 +57,17 @@ const VendorRegisterForm = () => {
           duration: 1000,
         });
 
-        // setTimeout(() => {
-        //   navigate("/login");
-        // }, 700);
+        const token = result?.data?.token;
+        const user = verifyToken(token) as TUser;
+        dispatch(setUser({ user, token }));
+
+        setTimeout(() => {
+          navigate("/dashboard/vendor/manage-shop");
+        }, 700);
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong while Registering new user !!!", {
+      toast.error("Something went wrong while Registering new vendor !!!", {
         duration: 1400,
       });
     }

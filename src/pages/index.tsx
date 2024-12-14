@@ -33,3 +33,4 @@ export { default as ComparisonTable } from "./ComparisonTable";
 export { default as Register } from "./Register";
 export { default as ForgotPassword } from "./ForgotPassword";
 export { default as ChangePassword } from "./ChangePassword";
+export { default as EmailResetConfirmation } from "./EmailResetConfirmation";

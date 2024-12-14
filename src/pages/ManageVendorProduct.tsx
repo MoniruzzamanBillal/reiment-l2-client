@@ -182,7 +182,7 @@ const ManageVendorProduct = () => {
   ) {
     content = (
       <tr>
-        <td colSpan={8}>
+        <td colSpan={10}>
           <TableDataError message="Nothing Found" />
         </td>
       </tr>

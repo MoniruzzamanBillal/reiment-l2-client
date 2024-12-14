@@ -11,6 +11,7 @@ import {
   CustomerOrderHistory,
   Dashboard,
   DashboardLayout,
+  EmailResetConfirmation,
   FlashSale,
   FollowedShop,
   ForgotPassword,
@@ -36,6 +37,7 @@ import {
   VendorCustomerReview,
   VendorOderHistory,
 } from "@/pages";
+import ResetPassword from "@/pages/ResetPassword";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -54,6 +56,14 @@ const router = createBrowserRouter([
       {
         path: "/change-password",
         element: <ChangePassword />,
+      },
+      {
+        path: "/reset-password/:token",
+        element: <ResetPassword />,
+      },
+      {
+        path: "/email-reset-confirmation/:email",
+        element: <EmailResetConfirmation />,
       },
       {
         path: "/sign-up",
