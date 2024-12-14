@@ -5,7 +5,10 @@ import {
   TableDataError,
   TableDataLoading,
 } from "@/components/ui";
-import { useDeleteUserMutation } from "@/redux/features/auth/auth.api";
+import {
+  useDeleteUserMutation,
+  useUnblockUserMutation,
+} from "@/redux/features/auth/auth.api";
 import { useGetUserQuery } from "@/redux/features/user/user.api";
 import { toast } from "sonner";
 
@@ -24,6 +27,9 @@ const ManageUsers = () => {
 
   const [deleteUser, { isLoading: userDeletationLoading }] =
     useDeleteUserMutation();
+
+  const [unblockUser, { isLoading: userUnblockingLoading }] =
+    useUnblockUserMutation();
 
   console.log(userData?.data);
 
@@ -61,7 +67,7 @@ const ManageUsers = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong while crating product !!!", {
+      toast.error("Something went wrong while deleting user !!!", {
         duration: 1400,
       });
     }
@@ -69,7 +75,40 @@ const ManageUsers = () => {
 
   // ! function for unblocking user
   const handleUnblockUser = async (id: string) => {
-    console.log(id);
+    try {
+      const taostId = toast.loading("Unblocking user....");
+      const payload = {
+        userId: id,
+      };
+      const result = await unblockUser(payload);
+
+      //  *  for any  error
+      if (result?.error) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const errorMessage = (result?.error as any)?.data?.message;
+        console.log(errorMessage);
+        toast.error(errorMessage, {
+          id: taostId,
+          duration: 1400,
+        });
+      }
+
+      // * for successful insertion
+      if (result?.data) {
+        userDataRefetch();
+        const successMsg = result?.data?.message;
+
+        toast.success(successMsg, {
+          id: taostId,
+          duration: 1000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong while unblocking user !!!", {
+        duration: 1400,
+      });
+    }
   };
 
   // *  if data is loading
@@ -148,7 +187,9 @@ const ManageUsers = () => {
 
   return (
     <>
-      {userDeletationLoading && <FormSubmitLoading />}
+      {(userDeletationLoading || userUnblockingLoading) && (
+        <FormSubmitLoading />
+      )}
 
       <div className="ManageUsersContainer">
         <div className="ManageUsersWrapper bg-gray-100  shadow rounded-md p-3  ">

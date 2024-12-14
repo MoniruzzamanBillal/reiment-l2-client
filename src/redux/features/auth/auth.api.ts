@@ -47,6 +47,17 @@ const authApi = baseApi.injectEndpoints({
       },
     }),
 
+    // ! for unblocking a user
+    unblockUser: builder.mutation({
+      query: (payload) => {
+        return {
+          url: "/auth/unblock-user",
+          method: "PATCH",
+          body: payload,
+        };
+      },
+    }),
+
     //
   }),
 });
@@ -57,4 +68,5 @@ export const {
   useSignUpMutation,
   useUpdateUserMutation,
   useDeleteUserMutation,
+  useUnblockUserMutation,
 } = authApi;
