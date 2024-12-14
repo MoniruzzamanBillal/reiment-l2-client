@@ -28,7 +28,7 @@ const ComparisonTable = () => {
             <table>
               <thead>
                 <tr>
-                  <th>Attribute</th>
+                  <th>Product Name</th>
                   {comparisonProducts.map((product) => (
                     <th key={product.id}>
                       {product.name}

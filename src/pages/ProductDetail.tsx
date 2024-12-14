@@ -203,6 +203,8 @@ const ProductDetail = () => {
 
   // ! for adding product in comparison
   const addProductComparison = (product) => {
+    console.log(product);
+
     if (comparisonProducts?.length === 3) {
       toast.error("You can only compare up to three products!", {
         duration: 1800,
@@ -222,6 +224,8 @@ const ProductDetail = () => {
         });
       }
     });
+
+    dispatch(addToComparison(product));
   };
 
   //

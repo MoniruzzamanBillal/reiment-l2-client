@@ -31,7 +31,7 @@ const ManageUsers = () => {
   const [unblockUser, { isLoading: userUnblockingLoading }] =
     useUnblockUserMutation();
 
-  console.log(userData?.data);
+  // console.log(userData?.data);
 
   let content = null;
 

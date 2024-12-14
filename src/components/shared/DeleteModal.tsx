@@ -15,12 +15,14 @@ type TDeleteModalProps = {
   handleDeleteFunction: (id: string) => void;
   id: string;
   alertMessage: string;
+  btnText?: string;
 };
 
 const DeleteModal = ({
   handleDeleteFunction,
   id,
   alertMessage,
+  btnText,
 }: TDeleteModalProps) => {
   return (
     <div className="DeleteModalContainer">
@@ -30,7 +32,7 @@ const DeleteModal = ({
         {/* alert trigger  */}
         <AlertDialogTrigger asChild>
           <Button className="px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base bg-red-600 hover:bg-red-700 active:scale-95 duration-500">
-            Delete
+            {btnText ? btnText : "Delete"}
           </Button>
         </AlertDialogTrigger>
 

@@ -58,6 +58,28 @@ const authApi = baseApi.injectEndpoints({
       },
     }),
 
+    // ! for blocking vendor shop
+    blockVendor: builder.mutation({
+      query: (payload) => {
+        return {
+          url: "/auth/block-vendor-shop",
+          method: "PATCH",
+          body: payload,
+        };
+      },
+    }),
+
+    // ! for unblocking vendor shop
+    unblockVendor: builder.mutation({
+      query: (payload) => {
+        return {
+          url: "/auth/unblock-vendor-shop",
+          method: "PATCH",
+          body: payload,
+        };
+      },
+    }),
+
     //
   }),
 });
@@ -69,4 +91,6 @@ export const {
   useUpdateUserMutation,
   useDeleteUserMutation,
   useUnblockUserMutation,
+  useBlockVendorMutation,
+  useUnblockVendorMutation,
 } = authApi;
