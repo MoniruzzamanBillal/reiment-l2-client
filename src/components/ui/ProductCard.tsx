@@ -4,7 +4,7 @@ import { CiShop } from "react-icons/ci";
 import { TCustomerProduct } from "@/constants/customer";
 
 const ProductCard = ({ product }: { product: TCustomerProduct }) => {
-  // console.log(product);
+  // console.log(product?.discount);
   return (
     <div className="ProductCardContainer bg-white border border-gray-300 shadow-md group  rounded-md overflow-auto hover:shadow-lg hover:scale-[1.01] duration-200 ">
       <Link to={`/product/detail/${product?.id}`}>
@@ -30,7 +30,7 @@ const ProductCard = ({ product }: { product: TCustomerProduct }) => {
             <div className="productPriceShopName flex justify-between items-center ">
               {/* prod price  */}
               <div className="prodPrice flex items-center gap-x-2 ">
-                {product?.discount ? (
+                {product?.discount && product?.discount > 60 ? (
                   <>
                     <p className=" font-semibold  text-lg ">
                       $ {product?.price - product?.discount}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { RiMenu3Fill, RiCloseFill } from "react-icons/ri";
 
@@ -21,6 +21,7 @@ const Links = [
 ];
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const userInfo = UseGetUser();
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,6 +29,15 @@ const Navbar = () => {
   const { data: cartData } = useGetUserCartQuery(undefined);
 
   // console.log(userInfo);
+
+  const handleSearchProduct = () => {
+    if (!searchTerm) {
+      return;
+    }
+
+    navigate(`/products?paramSearchTerm=${searchTerm}`);
+    setSearchTerm("");
+  };
 
   return (
     <div
@@ -64,14 +74,20 @@ const Navbar = () => {
         </div>
 
         {/* middle search section  */}
-        <div className="middleSection searchSection  w-[30%] border border-prime50/40 rounded-md  ">
+        <div className="middleSection searchSection  w-[28%] border border-prime50/40 rounded-md flex items-center  ">
           <Input
             type="text"
             placeholder="Looking for...."
-            className="    "
+            className=" rounded-none text-xs  "
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+          <Button
+            onClick={() => handleSearchProduct()}
+            className=" rounded-none text-xs bg-prime100 hover:bg-prime100  "
+          >
+            Search
+          </Button>
         </div>
 
         {/* rigth section  */}

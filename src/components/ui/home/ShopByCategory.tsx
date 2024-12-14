@@ -64,7 +64,7 @@ const ShopByCategory = () => {
     }
   }, [categoryData?.data, categoryDataLoading]);
 
-  console.log(categoryOptions);
+  // console.log(categoryOptions);
 
   return (
     <div className="categoryContainer bg-gray-50 py-8   ">

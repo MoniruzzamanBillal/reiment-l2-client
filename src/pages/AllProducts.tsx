@@ -17,10 +17,12 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useGetAllProductQuery } from "@/redux/features/product/product.api";
 import useDebounce from "@/utils/DebounceTerm";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const AllProducts = () => {
-  const { ParamCategory } = useParams();
+  const [searchParams] = useSearchParams();
+  const paramSearchTerm = searchParams.get("paramSearchTerm");
+  const ParamCategory = searchParams.get("ParamCategory");
 
   const [searchTerm, setSearchTerm] = useState("");
   const [pprice, setPprice] = useState<number | null>(null);
@@ -52,6 +54,13 @@ const AllProducts = () => {
       setpPcategory(ParamCategory);
     }
   }, [ParamCategory]);
+
+  // ! to set searchterm if  exists
+  useEffect(() => {
+    if (paramSearchTerm) {
+      setSearchTerm(paramSearchTerm);
+    }
+  }, [paramSearchTerm]);
 
   //! Use effect to track param value
   useEffect(() => {
