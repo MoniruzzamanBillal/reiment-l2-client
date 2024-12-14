@@ -33,6 +33,16 @@ const orderApi = baseApi.injectEndpoints({
       },
     }),
 
+    // ! get all order transaction data
+    getAllTransactionData: builder.query({
+      query: () => {
+        return {
+          url: "/order/all-transaction",
+          method: "GET",
+        };
+      },
+    }),
+
     //
   }),
 });
@@ -42,4 +52,5 @@ export const {
   useOrderItemMutation,
   useGetUserOrderHistoryQuery,
   useGetVendorOrderHistoryQuery,
+  useGetAllTransactionDataQuery,
 } = orderApi;

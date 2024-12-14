@@ -1,5 +1,94 @@
+import { TableDataError, TableDataLoading } from "@/components/ui";
+import { useGetAllTransactionDataQuery } from "@/redux/features/order/order.api";
+import { format } from "date-fns";
+
+type TCustomer = {
+  id: string;
+  username: string;
+  email: string;
+  profileImg: string;
+  password: string;
+  role: string;
+  status: string;
+};
+
+type TOrderHistory = {
+  id: string;
+  customerId: string;
+  customer: TCustomer;
+  isDelated: boolean;
+  status: string;
+  totalPrice: number;
+  trxnNumber: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
 const MonitorTransaction = () => {
-  const content = null;
+  let content = null;
+
+  const {
+    data: transactionData,
+    isLoading: transactionDataLoading,
+    isError: transactionDataError,
+  } = useGetAllTransactionDataQuery(undefined);
+
+  console.log(transactionData?.data);
+
+  // *  if data is loading
+  if (transactionDataLoading) {
+    content = (
+      <tr>
+        <td colSpan={4} className="p-4">
+          <TableDataLoading />
+        </td>
+      </tr>
+    );
+  }
+
+  // *  if any error
+  if (!transactionDataLoading && transactionDataError) {
+    content = (
+      <tr>
+        <td colSpan={4}>
+          <TableDataError message="Something went wrong" />
+        </td>
+      </tr>
+    );
+  }
+
+  // * for no data
+  if (
+    !transactionDataLoading &&
+    !transactionDataError &&
+    transactionData?.data?.length < 1
+  ) {
+    content = (
+      <tr>
+        <td colSpan={4}>
+          <TableDataError message="No transactions found" />
+        </td>
+      </tr>
+    );
+  }
+
+  // * if data exists
+  if (
+    !transactionDataLoading &&
+    !transactionDataError &&
+    transactionData?.data?.length
+  ) {
+    content = transactionData?.data?.map((transaction: TOrderHistory) => (
+      <tr key={transaction.id} className="border-b">
+        <td className="p-4 text-center">{transaction?.customer?.username}</td>
+        <td className="p-4 text-center">{transaction?.trxnNumber}</td>
+        <td className="p-4 text-center">${transaction?.totalPrice}</td>
+        <td className="p-4 text-center">
+          {format(new Date(transaction?.createdAt), "dd-MMM-yyyy")}
+        </td>
+      </tr>
+    ));
+  }
 
   return (
     <div className="MonitorTransactionContainer">
