@@ -23,9 +23,23 @@ const orderApi = baseApi.injectEndpoints({
       },
     }),
 
+    // ! for getting vendor shop  order history
+    getVendorOrderHistory: builder.query({
+      query: () => {
+        return {
+          url: "/order/vendorShop-order-history",
+          method: "GET",
+        };
+      },
+    }),
+
     //
   }),
 });
 
 //
-export const { useOrderItemMutation, useGetUserOrderHistoryQuery } = orderApi;
+export const {
+  useOrderItemMutation,
+  useGetUserOrderHistoryQuery,
+  useGetVendorOrderHistoryQuery,
+} = orderApi;

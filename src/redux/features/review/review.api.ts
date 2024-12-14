@@ -24,10 +24,23 @@ const reviewApi = baseApi.injectEndpoints({
       },
     }),
 
+    // ! for getting vendor prosuct review
+    getVendorProductReviews: builder.query({
+      query: () => {
+        return {
+          url: `/review/getVendorProductReviews`,
+          method: "GET",
+        };
+      },
+    }),
+
     //
   }),
 });
 
 //
-export const { useCheckEligibleForReviewQuery, useGiveReviewMutation } =
-  reviewApi;
+export const {
+  useCheckEligibleForReviewQuery,
+  useGiveReviewMutation,
+  useGetVendorProductReviewsQuery,
+} = reviewApi;
