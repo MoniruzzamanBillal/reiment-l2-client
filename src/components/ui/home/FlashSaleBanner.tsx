@@ -12,6 +12,7 @@ import "swiper/css/navigation";
 
 import { Autoplay, Pagination } from "swiper/modules";
 import ProductCard from "../ProductCard";
+import { Button } from "../button";
 
 const FlashSaleBanner = () => {
   const { data: allProducts } = useGetFlashSaleProductQuery(undefined);
@@ -24,13 +25,6 @@ const FlashSaleBanner = () => {
           <h1 className=" mb-8 font-semibold text-prime100 text-xl xsm:text-2xl sm:text-3xl md:text-3xl xl:text-4xl  ">
             Flash Sale
           </h1>
-
-          <Link
-            to={"/flash-sale"}
-            className=" font-medium text-prime100 hover:bg-prime100 hover:text-gray-50 py-2 px-4 rounded-md "
-          >
-            Show more
-          </Link>
         </div>
         {/* heading section  */}
 
@@ -55,6 +49,14 @@ const FlashSaleBanner = () => {
               </SwiperSlide>
             ))}
         </Swiper>
+
+        <div className="btnSection  flex justify-center my-2 ">
+          <Link to={"/flash-sale"}>
+            <Button className="font-medium bg-prime100  hover:bg-prime100  ">
+              Show More{" "}
+            </Button>
+          </Link>
+        </div>
       </Wrapper>
     </div>
   );

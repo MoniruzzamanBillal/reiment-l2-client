@@ -10,7 +10,7 @@ const CartItemCard = ({
   return (
     <div className=" bg-white border border-gray-300 my-4 py-2 sm:py-4 px-5  flex justify-between items-center rounded-md ">
       {/* product name image section  */}
-      <div className="productNameImg flex gap-x-3 ">
+      <div className="productNameImg flex gap-x-2  w-[50%] ">
         {/* product img  */}
         <div className=" imgContainer group relative block size-[5.6rem] overflow-hidden rounded-lg bg-gray-100  ">
           <img
@@ -21,13 +21,13 @@ const CartItemCard = ({
         </div>
 
         {/* prod name  */}
-        <div className="prodName text-lg font-medium ">
+        <div className="prodName text-lg font-medium   ">
           <p> {item?.product?.name}</p>
         </div>
       </div>
 
       {/* quantity section  */}
-      <div className="cartQuantity flex items-center  ">
+      <div className="cartQuantity flex items-center  w-[20%] ">
         <div className="decBtn text-xl font-semibold">
           <button
             onClick={() => handleReduceQuantity(item)}
@@ -53,7 +53,7 @@ const CartItemCard = ({
 
       {/* price section  */}
 
-      <div className="priceSection ml-4 pt-3 sm:pt-2 md:ml-8 lg:ml-16">
+      <div className="priceSection w-[20%] ml-4 pt-3 sm:pt-2 md:ml-8 lg:ml-16">
         <span className="block font-bold text-gray-800 md:text-lg">
           $ {item?.price * item?.quantity}
         </span>

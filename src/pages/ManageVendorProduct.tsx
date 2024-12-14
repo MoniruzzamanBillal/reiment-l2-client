@@ -12,6 +12,7 @@ import {
   useGetVendorShopProductsQuery,
 } from "@/redux/features/product/product.api";
 import { useGetVendorShopQuery } from "@/redux/features/shop/shop.api";
+import { useState } from "react";
 
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -21,6 +22,9 @@ const alertMessage =
 
 const ManageVendorProduct = () => {
   let content = null;
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   const { data: vendorShopData } = useGetVendorShopQuery(undefined);
 
@@ -32,6 +36,16 @@ const ManageVendorProduct = () => {
   } = useGetVendorShopProductsQuery(vendorShopData?.data?.id, {
     skip: !vendorShopData?.data?.id,
   });
+
+  // console.log(productData?.data?.length);
+
+  const totalItems = productData?.data?.length || 0;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const paginatedProducts = productData?.data?.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const [deleteProduct, { isLoading: productDeleteLoading }] =
     useDeleteProductMutation();
@@ -130,6 +144,14 @@ const ManageVendorProduct = () => {
     }
   };
 
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
   // *  if data is loading
   if (productDataLoading) {
     content = (
@@ -169,7 +191,7 @@ const ManageVendorProduct = () => {
 
   // * Render product data
   if (!productDataLoading && !productDataError && productData?.data?.length) {
-    content = productData?.data?.map((product: TVendorProduct) => (
+    content = paginatedProducts?.map((product: TVendorProduct) => (
       <tr key={product.id} className="border-b">
         <td className="p-4 text-center">{product.name}</td>
         <td className="p-4 text-center">
@@ -255,6 +277,32 @@ const ManageVendorProduct = () => {
               </thead>
               <tbody>{content}</tbody>
             </table>
+
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            <div className="flex justify-center items-center gap-4 mt-4">
+              <button
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+                className="px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-700 disabled:opacity-50"
+              >
+                Prev
+              </button>
+              <span className="text-sm font-medium">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-700 disabled:opacity-50"
+              >
+                Next
+              </button>
+            </div>
+            {/*  */}
+            {/*  */}
+            {/*  */}
           </div>
           {/* manage product  table ends  */}
 

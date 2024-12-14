@@ -109,7 +109,7 @@ const ProductsFilter = ({
             ))}
         </ul>
       </div>
-      {/* * car type input ends   */}
+      {/* *  category input  ends   */}
 
       {/* reset btn  */}
       <div className="resetBtn w-[98%] m-auto   ">
