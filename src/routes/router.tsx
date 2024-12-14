@@ -6,6 +6,7 @@ import {
   AdminStatistics,
   AllProducts,
   Checkout,
+  ComparisonTable,
   CustomerOrderHistory,
   Dashboard,
   DashboardLayout,
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
       {
         path: "/recent-products",
         element: <RecentProducts />,
+      },
+      {
+        path: "/comparison-product",
+        element: <ComparisonTable />,
       },
       {
         path: "/checkout",

@@ -199,7 +199,7 @@ const ProductDetail = () => {
     }
   };
 
-  console.log(comparisonProducts);
+  // console.log(comparisonProducts);
 
   // ! for adding product in comparison
   const addProductComparison = (product) => {
@@ -222,8 +222,6 @@ const ProductDetail = () => {
         });
       }
     });
-
-    dispatch(addToComparison(product));
   };
 
   //

@@ -150,6 +150,8 @@ const UserCart = () => {
     try {
       const result = await getCoupon({ coupon });
 
+      console.log(result);
+
       //  *  for any  error
       if (result?.error) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -161,7 +163,8 @@ const UserCart = () => {
       }
 
       // * for successful insertion
-      if (result?.data) {
+      if (result?.data?.success) {
+        toast.success("Coupon applied successfully !!", { duration: 1600 });
         const cuponId = result?.data?.data?.id;
         dispatch(setCouponId(cuponId));
 

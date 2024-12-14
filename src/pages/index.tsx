@@ -29,3 +29,4 @@ export { default as AllProducts } from "./AllProducts";
 export { default as HomePage } from "./HomePage";
 export { default as FlashSale } from "./FlashSale";
 export { default as RecentProducts } from "./RecentProducts";
+export { default as ComparisonTable } from "./ComparisonTable";
