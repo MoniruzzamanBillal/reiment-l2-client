@@ -8,6 +8,11 @@ type TCategory = {
   name: string;
 };
 
+type TCategoryOption = {
+  name: string;
+  value: string;
+};
+
 interface TProductsFilterProps {
   priceRange: number | null;
   category: string;
@@ -26,7 +31,7 @@ const ProductsFilter = ({
 }: TProductsFilterProps) => {
   const { data: categoryData, isLoading: categoryDataLoading } =
     useGetAllCategoryQuery(undefined);
-  const [categoryOptions, setCategoryOptions] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState<TCategoryOption[]>([]);
 
   // console.log(categoryData?.data);
 
@@ -42,7 +47,7 @@ const ProductsFilter = ({
         return optionValue;
       });
 
-      const initialData = {
+      const initialData: TCategoryOption = {
         name: "All",
         value: "",
       };

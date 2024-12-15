@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import DeleteModal from "@/components/shared/DeleteModal";
 import UnblockModal from "@/components/shared/UnblockModal";
 import {
@@ -45,7 +46,6 @@ const ManageShop = () => {
 
       //  *  for any  error
       if (result?.error) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const errorMessage = (result?.error as any)?.data?.message;
         console.log(errorMessage);
         toast.error(errorMessage, {
@@ -83,7 +83,6 @@ const ManageShop = () => {
 
       //  *  for any  error
       if (result?.error) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const errorMessage = (result?.error as any)?.data?.message;
         console.log(errorMessage);
         toast.error(errorMessage, {

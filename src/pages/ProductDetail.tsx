@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Wrapper from "@/components/shared/Wrapper";
 import {
   CartItemReplaceModal,
@@ -99,7 +100,6 @@ const ProductDetail = () => {
 
       //  *  for any  error
       if (result?.error) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const errorMessage = (result?.error as any)?.data?.message;
 
         toast.error(errorMessage, {
@@ -129,7 +129,6 @@ const ProductDetail = () => {
 
     //  *  for any  error
     if (result?.error) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const errorMessage = (result?.error as any)?.data?.message;
 
       toast.error(errorMessage, {
@@ -169,7 +168,6 @@ const ProductDetail = () => {
 
       //  *  for any  error
       if (result?.error) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const errorMessage = (result?.error as any)?.data?.message;
         console.log(errorMessage);
         toast.error(errorMessage, {
@@ -202,9 +200,7 @@ const ProductDetail = () => {
   // console.log(comparisonProducts);
 
   // ! for adding product in comparison
-  const addProductComparison = (product) => {
-    console.log(product);
-
+  const addProductComparison = (product: any) => {
     if (comparisonProducts?.length === 3) {
       toast.error("You can only compare up to three products!", {
         duration: 1800,
@@ -233,6 +229,7 @@ const ProductDetail = () => {
     if (productData?.data?.id) {
       dispatch(addRecentProduct(productData?.data?.id));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productData?.data?.id]);
 
   return (
@@ -423,7 +420,7 @@ const ProductDetail = () => {
 
                 {/* user comment card  section  */}
                 {productData?.data?.review &&
-                  productData?.data?.review?.map((comment) => (
+                  productData?.data?.review?.map((comment: any) => (
                     <UserCommentCard review={comment} />
                   ))}
               </div>

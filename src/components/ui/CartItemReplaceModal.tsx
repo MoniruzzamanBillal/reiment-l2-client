@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "./button";
 import {
   Dialog,
@@ -10,6 +11,10 @@ const CartItemReplaceModal = ({
   showReplaceModal,
   setShowReplaceModal,
   handleReplaceCart,
+}: {
+  showReplaceModal: any;
+  setShowReplaceModal: any;
+  handleReplaceCart: any;
 }) => {
   return (
     <div className="mendorChangeModalContainer">

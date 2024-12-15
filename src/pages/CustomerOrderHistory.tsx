@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { TableDataError, TableDataLoading } from "@/components/ui";
 import { useGetUserOrderHistoryQuery } from "@/redux/features/order/order.api";
 import { format } from "date-fns";
@@ -67,7 +68,7 @@ const CustomerOrderHistory = () => {
   }
 
   if (!orderDataLoading && !orderDataError && userOrderData?.data?.length) {
-    content = paginatedProducts?.map((orderHistory) => (
+    content = paginatedProducts?.map((orderHistory: any) => (
       <tr key={orderHistory.id} className="border-b">
         <td className="p-4 text-center"> {orderHistory?.trxnNumber} </td>
         <td className="p-4 text-center">{orderHistory?.totalPrice}</td>
@@ -75,7 +76,7 @@ const CustomerOrderHistory = () => {
 
         <td className="p-4 text-center">
           <ul>
-            {orderHistory.orderItem.map((item, index) => (
+            {orderHistory.orderItem.map((item: any, index: string) => (
               <li key={index}>{item?.product?.name}</li>
             ))}
           </ul>

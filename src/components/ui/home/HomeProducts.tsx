@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Wrapper from "@/components/shared/Wrapper";
 import { useGetAllProductQuery } from "@/redux/features/product/product.api";
 import { Link } from "react-router-dom";
@@ -12,12 +13,17 @@ type TCategory = {
   name: string;
 };
 
+type TCategoryOption = {
+  name: string;
+  value: string;
+};
+
 const HomeProducts = () => {
   const { data: userData } = useGetLoggedInUserQuery(undefined);
 
   const { data: categoryData, isLoading: categoryDataLoading } =
     useGetAllCategoryQuery(undefined);
-  const [categoryOptions, setCategoryOptions] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState<TCategoryOption[]>([]);
 
   // console.log(categoryData?.data);
   // console.log(categoryOptions);
@@ -62,7 +68,7 @@ const HomeProducts = () => {
         return optionValue;
       });
 
-      const initialData = {
+      const initialData: TCategoryOption = {
         name: "All",
         value: "",
       };
@@ -134,7 +140,7 @@ const HomeProducts = () => {
                 <NoProduct />
               ) : (
                 allProducts?.data &&
-                allProducts?.data?.map((product) => (
+                allProducts?.data?.map((product: any) => (
                   <ProductCard product={product} key={product?.id} />
                 ))
               )}

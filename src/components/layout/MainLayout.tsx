@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../shared/NavBar";
+import Footer from "../shared/Footer";
 
 export const MainLayout = () => {
   return (
@@ -17,9 +18,7 @@ export const MainLayout = () => {
       {/* child component  */}
 
       <div className="footerContainer   ">
-        {/* <Footer /> */}
-        <h1>footer</h1>
-        <h1>footer</h1>
+        <Footer />
       </div>
     </div>
   );

@@ -11,29 +11,6 @@ import CategoryCard from "./CategoryCard";
 import { useEffect, useState } from "react";
 import { useGetAllCategoryQuery } from "@/redux/features/category/category.api";
 
-const productsCategory = [
-  {
-    productName: "Sleeping Bag",
-    productIMG: "https://i.postimg.cc/C1Y8bMC2/running-thumb.png",
-  },
-  {
-    productName: "Tent",
-    productIMG: "https://i.postimg.cc/x81bFs4y/soccer-thumb.png",
-  },
-  {
-    productName: "Lantern",
-    productIMG: "https://i.postimg.cc/C1Y8bMC2/running-thumb.png",
-  },
-  {
-    productName: "Char coal",
-    productIMG: "https://i.postimg.cc/x81bFs4y/soccer-thumb.png",
-  },
-  {
-    productName: "Multifunctional Tool",
-    productIMG: "https://i.postimg.cc/C1Y8bMC2/running-thumb.png",
-  },
-];
-
 type TCategory = {
   id: string;
   name: string;

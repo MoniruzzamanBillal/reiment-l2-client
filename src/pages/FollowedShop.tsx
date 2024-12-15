@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   FormSubmitLoading,
   TableDataError,
@@ -5,11 +6,10 @@ import {
 } from "@/components/ui";
 import { Button } from "@/components/ui/button";
 import {
-  useFollowShopMutation,
   useGetLoggedUserFollowDataQuery,
   useUnfollowShopMutation,
 } from "@/redux/features/follower/follower.api";
-import { useGetLoggedInUserQuery } from "@/redux/features/user/user.api";
+
 import { toast } from "sonner";
 
 const FollowedShop = () => {
@@ -38,7 +38,6 @@ const FollowedShop = () => {
 
       //  *  for any  error
       if (result?.error) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const errorMessage = (result?.error as any)?.data?.message;
         console.log(errorMessage);
         toast.error(errorMessage, {
@@ -98,7 +97,7 @@ const FollowedShop = () => {
   }
 
   if (!userDataLoading && !userDataError && userData?.data?.length) {
-    content = userData?.data?.map((item) => (
+    content = userData?.data?.map((item: any) => (
       <tr key={item.id} className="border-b">
         <td className="p-4 text-center"> {item?.shop?.name} </td>
         <td className="p-4 text-center">

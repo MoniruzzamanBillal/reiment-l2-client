@@ -29,7 +29,7 @@ const ResetPassword = () => {
       password,
     };
 
-    console.log(payload);
+    // console.log(payload);
 
     const toastId = toast.loading("Password reseting !!!");
 
@@ -48,7 +48,7 @@ const ResetPassword = () => {
 
       //  * for success
       if (result?.data) {
-        console.log(result?.data);
+        // console.log(result?.data);
         const successMsg = (result?.data as any)?.message;
 
         toast.success(successMsg, {

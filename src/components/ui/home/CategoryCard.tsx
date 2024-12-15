@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
 
-const CategoryCard = ({ product }) => {
+const CategoryCard = ({ product }: { product: any }) => {
   return (
     <div className="categoryCardContainer m-auto  flex justify-center  ">
       <Link to={`/products?ParamCategory=${product?.value}`}>

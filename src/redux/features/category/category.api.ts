@@ -44,6 +44,7 @@ const categoryApi = baseApi.injectEndpoints({
           body: formData,
         };
       },
+      invalidatesTags: ["getAllCategory"],
     }),
 
     // ! for deleting category

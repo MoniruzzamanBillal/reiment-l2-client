@@ -1,6 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FaEdit, FaTrash } from "react-icons/fa";
 
-const AddressCard = ({ address, onEdit, onDelete }) => {
+const AddressCard = ({
+  address,
+  onEdit,
+  onDelete,
+}: {
+  address: any;
+  onEdit: (id: any) => void;
+  onDelete: (id: any) => void;
+}) => {
   return (
     <div className="address-card border rounded-md p-4 shadow-sm bg-white flex flex-col space-y-2 my-4 ">
       <div className="address-details text-gray-700">

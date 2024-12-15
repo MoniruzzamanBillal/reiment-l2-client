@@ -24,6 +24,8 @@ const Checkout = () => {
   const handleAddAddress = async (data: FieldValues) => {
     const taostId = toast.loading("Placing order ....");
 
+    console.log(data);
+
     const payload = {
       cartId: cartData?.data?.id,
       cuponId,

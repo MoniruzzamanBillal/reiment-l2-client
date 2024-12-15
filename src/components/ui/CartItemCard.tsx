@@ -1,8 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 const CartItemCard = ({
   item,
   handleAddQuantity,
   handleReduceQuantity,
   handleDeleteCartItem,
+}: {
+  item: any;
+  handleAddQuantity: (item: any) => void;
+  handleReduceQuantity: (item: any) => void;
+  handleDeleteCartItem: (item: any) => void;
 }) => {
   // console.log(item);
   //   console.log(item?.product);

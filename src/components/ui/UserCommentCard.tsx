@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FaStar } from "react-icons/fa";
 import { useState } from "react";
 import { format } from "date-fns";
@@ -7,7 +8,7 @@ import { toast } from "sonner";
 import FormSubmitLoading from "./FormSubmitLoading";
 import { useGetSingleProductsQuery } from "@/redux/features/product/product.api";
 
-const UserCommentCard = ({ review }) => {
+const UserCommentCard = ({ review }: { review: any }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(review?.comment);
 

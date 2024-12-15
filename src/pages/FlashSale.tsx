@@ -3,11 +3,10 @@ import { ProductCard } from "@/components/ui";
 import { useGetFlashSaleProductQuery } from "@/redux/features/product/product.api";
 
 const FlashSale = () => {
-  const { data: allProducts, isLoading: productDataLoading } =
-    useGetFlashSaleProductQuery(undefined);
+  const { data: allProducts } = useGetFlashSaleProductQuery(undefined);
 
   return (
-    <div className="FlashSaleContainer py-2 bg-gray-100 py-6  ">
+    <div className="FlashSaleContainer bg-gray-100 py-4  ">
       <Wrapper className=" FlashSaleWrapper  ">
         {/* heading section  */}
         <div className="headingSection mb-8 flex items-center gap-x-3  ">
@@ -25,7 +24,8 @@ const FlashSale = () => {
         {/* product card section  */}
         <div className="productCard grid grid-cols-4 gap-x-4 gap-y-8 ">
           {allProducts?.data &&
-            allProducts?.data?.map((product) => (
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            allProducts?.data?.map((product: any) => (
               <ProductCard product={product} key={product?.id} />
             ))}
         </div>

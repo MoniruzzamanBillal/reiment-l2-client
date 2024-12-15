@@ -6,12 +6,11 @@ import { Button } from "@/components/ui/button";
 import { useGetLoggedInUserQuery } from "@/redux/features/user/user.api";
 import { useEffect } from "react";
 import { FieldValues } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUpdateUserMutation } from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
 
 const UpdateProfile = () => {
-  const { id } = useParams();
   const navigate = useNavigate();
 
   const {
@@ -138,6 +137,7 @@ const UpdateProfile = () => {
 
   useEffect(() => {
     if (userData?.data) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       defaultValues = {
         name: userData?.data?.username,
         email: userData?.data?.email,

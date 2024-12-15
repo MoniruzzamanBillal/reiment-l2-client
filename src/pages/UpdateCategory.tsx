@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { ReimentForm, ReimentInput } from "@/components/form";
 import { FormSubmitLoading, TableDataLoading } from "@/components/ui";
 import { Button } from "@/components/ui/button";
@@ -80,7 +81,7 @@ const UpdateCategory = () => {
 
         setTimeout(() => {
           navigate("/dashboard/admin/categories");
-        }, 600);
+        }, 1000);
       }
     } catch (error) {
       console.log(error);

@@ -1,12 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Wrapper from "@/components/shared/Wrapper";
 import { FormSubmitLoading, ProductCard } from "@/components/ui";
 import { useGetRecentProductsQuery } from "@/redux/features/product/product.api";
-import { useAppDispatch } from "@/redux/hook";
 import { UseGetRecentProducts } from "@/utils/SharedFunction";
 
 const RecentProducts = () => {
-  const dispatch = useAppDispatch();
-
   const recentProducts = UseGetRecentProducts();
 
   // console.log(recentProducts);
@@ -28,7 +26,7 @@ const RecentProducts = () => {
 
           <div className="products  grid grid-cols-1 sm:grid-cols-2 xmd:grid-cols-3 xlm:grid-cols-4 gap-x-5 gap-y-8">
             {recentProductsData?.data &&
-              recentProductsData?.data?.map((product) => (
+              recentProductsData?.data?.map((product: any) => (
                 <ProductCard product={product} key={product?.id} />
               ))}
           </div>

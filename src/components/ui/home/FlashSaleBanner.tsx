@@ -1,8 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Wrapper from "@/components/shared/Wrapper";
-import {
-  useGetAllProductQuery,
-  useGetFlashSaleProductQuery,
-} from "@/redux/features/product/product.api";
+import { useGetFlashSaleProductQuery } from "@/redux/features/product/product.api";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -43,7 +41,7 @@ const FlashSaleBanner = () => {
           className="mySwiper  m-auto flex justify-center items-center "
         >
           {allProducts?.data &&
-            allProducts?.data?.map((product) => (
+            allProducts?.data?.map((product: any) => (
               <SwiperSlide className=" mb-9 flex justify-center items-center   ">
                 <ProductCard product={product} key={product?.id} />
               </SwiperSlide>

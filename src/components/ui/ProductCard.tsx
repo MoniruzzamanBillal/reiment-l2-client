@@ -1,9 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
 import { CiShop } from "react-icons/ci";
 
-import { TCustomerProduct } from "@/constants/customer";
-
-const ProductCard = ({ product }: { product: TCustomerProduct }) => {
+const ProductCard = ({ product }: { product: any }) => {
   // console.log(product?.discount);
   return (
     <div className="ProductCardContainer bg-white border border-gray-300 shadow-md group  rounded-md overflow-auto hover:shadow-lg hover:scale-[1.01] duration-200 ">

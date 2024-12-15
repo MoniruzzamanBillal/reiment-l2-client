@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   CategotyDeleteModal,
   FormSubmitLoading,
@@ -9,6 +10,7 @@ import {
   useDeleteCategoryMutation,
   useGetAllCategoryQuery,
 } from "@/redux/features/category/category.api";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -40,7 +42,6 @@ const ManageCategory = () => {
 
       //  *  for any  error
       if (result?.error) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const errorMessage = (result?.error as any)?.data?.message;
         console.log(errorMessage);
         toast.error(errorMessage, {
@@ -143,6 +144,11 @@ const ManageCategory = () => {
       </tr>
     ));
   }
+
+  useEffect(() => {
+    categoryDataRefetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

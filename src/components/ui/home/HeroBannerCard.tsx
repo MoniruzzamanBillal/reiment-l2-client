@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
 import { Button } from "../button";
 
-const HeroBannerCard = ({ banner }) => {
+const HeroBannerCard = ({ banner }: { banner: any }) => {
   return (
     <section className="   flex container flex-col items-center justify-between  lg:flex-row gap-y-10 lg:gap-y-0 ">
       {/* content - start  */}

@@ -1,8 +1,8 @@
 import { ReimentForm, ReimentInput } from "@/components/form";
 import { FormSubmitLoading, TableDataLoading } from "@/components/ui";
-import { zodResolver } from "@hookform/resolvers/zod";
+
 import { useEffect } from "react";
-import { z } from "zod";
+
 import { FieldValues } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -126,6 +126,7 @@ const UpdateShop = () => {
 
   useEffect(() => {
     if (shopData?.data) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       defaultValues = {
         name: shopData?.data?.name,
         logo: shopData?.data?.logo,

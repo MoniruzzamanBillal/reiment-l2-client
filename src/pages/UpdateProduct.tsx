@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   useGetSingleProductsQuery,
   useUpdateProductMutation,
@@ -97,7 +98,6 @@ const UpdateProduct = () => {
 
       //  *  for any  error
       if (result?.error) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const errorMessage = (result?.error as any)?.data?.message;
         console.log(errorMessage);
         toast.error(errorMessage, {
@@ -130,6 +130,7 @@ const UpdateProduct = () => {
   // ! effect for storing default value
   useEffect(() => {
     if (productData?.data) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       defaultValues = {
         name: productData?.data?.name,
         categoryId: productData?.data?.categoryId,

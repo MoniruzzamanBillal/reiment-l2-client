@@ -210,7 +210,8 @@ const AllProducts = () => {
                     <NoProduct />
                   ) : (
                     allProducts?.data &&
-                    allProducts?.data?.map((product) => (
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    allProducts?.data?.map((product: any) => (
                       <ProductCard product={product} key={product?.id} />
                     ))
                   )}

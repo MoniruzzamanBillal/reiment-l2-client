@@ -23,8 +23,8 @@ const ChangePassword = () => {
     try {
       const result = await changePassword(payload);
 
-      console.log(result);
-      console.log(result?.data);
+      // console.log(result);
+      // console.log(result?.data);
 
       //  *  for any  error
       if (result?.error) {
@@ -78,7 +78,14 @@ const ChangePassword = () => {
               name="newPassword"
               placeholder="Enter a new password"
             />
-            <Button className="px-5 py-2 font-semibold text-sm sm:text-base duration-500">
+            <Button
+              disabled={isLoading}
+              className={`px-5 py-2 font-semibold text-sm sm:text-base duration-500  ${
+                isLoading
+                  ? " cursor-not-allowed bg-gray-600 "
+                  : "bg-prime50 hover:bg-prime100  "
+              } `}
+            >
               Change Password
             </Button>
           </ReimentForm>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CartItemCard, FormSubmitLoading, NoCartItem } from "@/components/ui";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,8 +37,7 @@ const UserCart = () => {
   const [deleteCartItem, { isLoading: deleteCartItemLoading }] =
     useDeleteCartItemMutation();
 
-  const [getCoupon, { isLoading: couponRetrivingLoading }] =
-    useGetCouponMutation();
+  const [getCoupon] = useGetCouponMutation();
 
   // console.log(cartData?.data?.cartItem);
   // console.log(cartData?.data);
@@ -45,7 +45,7 @@ const UserCart = () => {
   const totalCartPrice = calculateCartPrice(cartData?.data?.cartItem);
 
   //   ! function for adding cart quantity
-  const handleAddQuantity = async (item) => {
+  const handleAddQuantity = async (item: any) => {
     const payload = {
       productId: item?.productId,
       quantity: 1,
@@ -58,7 +58,6 @@ const UserCart = () => {
 
       //  *  for any  error
       if (result?.error) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const errorMessage = (result?.error as any)?.data?.message;
         toast.error(errorMessage, {
           duration: 1400,
@@ -77,7 +76,7 @@ const UserCart = () => {
   };
 
   // ! function for reducing cart quantity
-  const handleReduceQuantity = async (item) => {
+  const handleReduceQuantity = async (item: any) => {
     if (item?.quantity <= 1) {
       return;
     }
@@ -92,7 +91,6 @@ const UserCart = () => {
       const result = await decreaseCartItemQuantity(payload);
       //  *  for any  error
       if (result?.error) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const errorMessage = (result?.error as any)?.data?.message;
         toast.error(errorMessage, {
           duration: 1400,
@@ -110,7 +108,7 @@ const UserCart = () => {
   };
 
   // ! function for deleting cart item
-  const handleDeleteCartItem = async (item) => {
+  const handleDeleteCartItem = async (item: any) => {
     const payload = {
       cartId: item?.cartId,
       cartItemId: item?.id,
@@ -123,7 +121,6 @@ const UserCart = () => {
 
       //  *  for any  error
       if (result?.error) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const errorMessage = (result?.error as any)?.data?.message;
         toast.error(errorMessage, {
           duration: 1400,
@@ -152,7 +149,6 @@ const UserCart = () => {
 
       //  *  for any  error
       if (result?.error) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const errorMessage = (result?.error as any)?.data?.message;
         console.log(errorMessage);
         toast.error(errorMessage, {
@@ -214,7 +210,7 @@ const UserCart = () => {
               ) : (
                 <div className="cartItemRender p-3  bg-white shadow-md rounded-md border border-gray-300 ">
                   {cartData?.data?.cartItem &&
-                    cartData?.data?.cartItem?.map((item) => (
+                    cartData?.data?.cartItem?.map((item: any) => (
                       // cart item card
                       <CartItemCard
                         key={item?.id}

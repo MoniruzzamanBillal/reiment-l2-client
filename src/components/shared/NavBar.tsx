@@ -7,7 +7,6 @@ import { LuUser } from "react-icons/lu";
 import { FiShoppingCart } from "react-icons/fi";
 import Wrapper from "./Wrapper";
 
-import logo from "@/assets/logo.png";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { UseGetUser } from "@/utils/SharedFunction";
@@ -59,7 +58,8 @@ const Navbar = () => {
               /> */}
 
               <p className="  text-2xl sm:text-2xl md:text-xl lg:text-3xl font-bold font-headingFont ">
-                Reiment
+                Rei
+                <span className=" text-prime100 ">ment </span>
               </p>
             </div>
           </Link>

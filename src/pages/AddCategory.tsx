@@ -18,11 +18,15 @@ const AddCategory = () => {
   const handleAddCategory = async (data: FieldValues) => {
     const { name, categoryImg } = data;
 
-    console.log(categoryImg);
+    // console.log(categoryImg);
 
     const formData = new FormData();
 
-    formData.append("data", JSON.stringify(name));
+    const payload = {
+      name,
+    };
+
+    formData.append("data", JSON.stringify(payload));
     formData.append("categoryImg", categoryImg);
 
     const result = await addCategory(formData);
@@ -31,7 +35,7 @@ const AddCategory = () => {
     if (result?.error) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const errorMessage = (result?.error as any)?.data?.message;
-
+      console.log(errorMessage);
       toast.error(errorMessage, {
         duration: 1400,
       });
@@ -40,9 +44,9 @@ const AddCategory = () => {
     if (result?.data?.success) {
       toast.success(result?.data?.message, { duration: 1200 });
 
-      // setTimeout(() => {
-      //   navigate("/dashboard/admin/categories");
-      // }, 600);
+      setTimeout(() => {
+        navigate("/dashboard/admin/categories");
+      }, 600);
     }
   };
 
