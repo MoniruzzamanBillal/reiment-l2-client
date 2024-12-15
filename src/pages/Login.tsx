@@ -96,8 +96,12 @@ const Login = () => {
               />
 
               <Button
-                // disabled={isLoading}
-                className={`px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base  active:scale-95 duration-500  `}
+                disabled={isLoading}
+                className={`px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base  active:scale-95 duration-500  ${
+                  isLoading
+                    ? " cursor-not-allowed bg-gray-600 "
+                    : "bg-prime50 hover:bg-prime100  "
+                } `}
               >
                 Log in
               </Button>

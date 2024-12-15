@@ -1,6 +1,7 @@
 import { TableDataError, TableDataLoading } from "@/components/ui";
 import { useGetAllReviewQuery } from "@/redux/features/review/review.api";
 import { format } from "date-fns";
+import { useState } from "react";
 
 type TUser = {
   id: string;
@@ -51,6 +52,25 @@ const MonitorReview = () => {
 
   // console.log(allReviewData?.data);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  const totalItems = allReviewData?.data?.length || 0;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const paginatedProducts = allReviewData?.data?.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
   // * If data is loading
   if (reviewProductLoading) {
     content = (
@@ -94,7 +114,7 @@ const MonitorReview = () => {
     !reviewDataError &&
     allReviewData?.data?.length
   ) {
-    content = allReviewData?.data?.map((review: TReview) => (
+    content = paginatedProducts?.map((review: TReview) => (
       <tr key={review.id} className="border-b">
         <td className="p-4 text-center">{review.user.username}</td>
         <td className="p-4 text-center">{review.product.name}</td>
@@ -134,6 +154,32 @@ const MonitorReview = () => {
             </thead>
             <tbody>{content}</tbody>
           </table>
+
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          <div className="flex justify-center items-center gap-4 mt-4">
+            <button
+              onClick={handlePrevPage}
+              disabled={currentPage === 1}
+              className="px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-700 disabled:opacity-50"
+            >
+              Prev
+            </button>
+            <span className="text-sm font-medium">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+              className="px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-700 disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+          {/*  */}
+          {/*  */}
+          {/*  */}
         </div>
         {/* monitor review  table ends  */}
 

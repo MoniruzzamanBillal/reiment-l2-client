@@ -21,15 +21,14 @@ const HomeProducts = () => {
 
   // console.log(categoryData?.data);
   // console.log(categoryOptions);
-  console.log(userData?.data);
+  // console.log(userData?.data);
 
   const [pcategory, setpPcategory] = useState("");
   const [params, setParams] = useState<Record<string, unknown> | undefined>(
     undefined
   );
 
-  const { data: allProducts, isLoading: productDataLoading } =
-    useGetAllProductQuery(params);
+  const { data: allProducts } = useGetAllProductQuery(params);
 
   // console.log(allProducts?.data);
 

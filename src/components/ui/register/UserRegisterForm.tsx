@@ -4,7 +4,6 @@ import { Button } from "../button";
 import { toast } from "sonner";
 import { useSignUpMutation } from "@/redux/features/auth/auth.api";
 import { useNavigate } from "react-router-dom";
-import FormSubmitLoading from "../FormSubmitLoading";
 
 const UserRegisterForm = () => {
   const navigate = useNavigate();
@@ -66,8 +65,6 @@ const UserRegisterForm = () => {
 
   return (
     <>
-      {registerLoading && <FormSubmitLoading />}
-
       <div className="UserRegisterFormContainer">
         {/* form starts  */}
         <ReimentForm onSubmit={handleRegisterUser}>
@@ -99,8 +96,12 @@ const UserRegisterForm = () => {
           />
 
           <Button
-            // disabled={isLoading}
-            className={`px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base  active:scale-95 duration-500  `}
+            disabled={registerLoading}
+            className={`px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base  active:scale-95 duration-500 ${
+              registerLoading
+                ? " cursor-not-allowed bg-gray-600 "
+                : "bg-prime50 hover:bg-prime100  "
+            } `}
           >
             Register
           </Button>

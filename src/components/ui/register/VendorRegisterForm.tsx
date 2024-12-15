@@ -4,7 +4,6 @@ import { Button } from "../button";
 import { useNavigate } from "react-router-dom";
 import { useSignUpMutation } from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
-import FormSubmitLoading from "../FormSubmitLoading";
 import { verifyToken } from "@/utils/verifyToken";
 import { TUser } from "@/types/globalTypes";
 import { setUser } from "@/redux/features/auth/auth.slice";
@@ -75,8 +74,6 @@ const VendorRegisterForm = () => {
 
   return (
     <>
-      {registerLoading && <FormSubmitLoading />}
-
       <div className="VendorRegisterFormContainer">
         {/* form starts  */}
         <ReimentForm onSubmit={handleRegisterVendor}>
@@ -108,8 +105,12 @@ const VendorRegisterForm = () => {
           />
 
           <Button
-            // disabled={isLoading}
-            className={`px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base  active:scale-95 duration-500  `}
+            disabled={registerLoading}
+            className={`px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base  active:scale-95 duration-500  ${
+              registerLoading
+                ? " cursor-not-allowed bg-gray-600 "
+                : "bg-prime50 hover:bg-prime100  "
+            } `}
           >
             Register
           </Button>
