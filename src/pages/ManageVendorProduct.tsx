@@ -37,7 +37,8 @@ const ManageVendorProduct = () => {
     skip: !vendorShopData?.data?.id,
   });
 
-  // console.log(productData?.data?.length);
+  console.log(productData?.data?.length);
+  console.log(vendorShopData?.data?.status);
 
   const totalItems = productData?.data?.length || 0;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -152,8 +153,19 @@ const ManageVendorProduct = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
+  // * if vendor is blocked
+  if (vendorShopData?.data?.status === "BLOCKED") {
+    content = (
+      <tr>
+        <td colSpan={10}>
+          <TableDataError message="Your shop is blocked by the admin " />
+        </td>
+      </tr>
+    );
+  }
+
   // *  if data is loading
-  if (productDataLoading) {
+  else if (productDataLoading) {
     content = (
       <tr>
         <td colSpan={8} className="p-4">
@@ -164,7 +176,7 @@ const ManageVendorProduct = () => {
   }
 
   // *  if any error
-  if (!productDataLoading && productDataError) {
+  else if (!productDataLoading && productDataError) {
     content = (
       <tr>
         <td colSpan={8}>
@@ -175,7 +187,7 @@ const ManageVendorProduct = () => {
   }
 
   // * for no data
-  if (
+  else if (
     !productDataLoading &&
     !productDataError &&
     productData?.data?.length < 1
@@ -247,11 +259,21 @@ const ManageVendorProduct = () => {
 
           {/* new category add  container starts  */}
           <div className="addNewProduct mb-6 ">
-            <Link to={"/dashboard/vendor/add-products"}>
-              <Button className=" px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base bg-prime50 hover:bg-prime100 active:scale-95 duration-500 ">
-                Add Product
-              </Button>
-            </Link>
+            <Button
+              onClick={() => {
+                if (vendorShopData?.data?.status === "ACTIVE") {
+                  window.location.href = `/dashboard/vendor/add-products`;
+                }
+              }}
+              disabled={vendorShopData?.data?.status !== "ACTIVE"}
+              className={`px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base duration-500 ${
+                vendorShopData?.data?.status === "ACTIVE"
+                  ? "bg-prime100 hover:bg-prime100 cursor-pointer"
+                  : "bg-gray-700 cursor-not-allowed"
+              }`}
+            >
+              Add Product
+            </Button>
 
             {/*  */}
           </div>

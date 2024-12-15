@@ -47,17 +47,50 @@ const ManageVendorShop = () => {
           />
         </td>
 
-        <td className="p-4 text-center">{vendorShopData?.data?.status}</td>
+        <td
+          className={`p-4 text-center font-semibold ${
+            vendorShopData?.data?.status === "ACTIVE"
+              ? "text-green-500"
+              : "text-red-500"
+          }`}
+        >
+          {vendorShopData?.data?.status}
+        </td>
 
         <td className="p-4 text-center">
+          <Button
+            onClick={() => {
+              if (vendorShopData?.data?.status === "ACTIVE") {
+                window.location.href = `/dashboard/vendor/update-shop/${vendorShopData?.data?.id}`;
+              }
+            }}
+            disabled={vendorShopData?.data?.status !== "ACTIVE"}
+            className={`px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base duration-500 ${
+              vendorShopData?.data?.status === "ACTIVE"
+                ? "bg-prime100 hover:bg-prime100 cursor-pointer"
+                : "bg-gray-700 cursor-not-allowed"
+            }`}
+          >
+            Update
+          </Button>
+        </td>
+
+        {/* <td className="p-4 text-center">
           <Link
             to={`/dashboard/vendor/update-shop/${vendorShopData?.data?.id}`}
           >
-            <Button className=" px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base bg-prime100 hover:bg-prime100 active:scale-95 duration-500 ">
+            <Button
+              disabled={
+                vendorShopData?.data?.status === "ACTIVE" ? false : true
+              }
+              className=" px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base bg-prime100 hover:bg-prime100 active:scale-95 duration-500 "
+            >
               Update
             </Button>
-          </Link>{" "}
+          </Link>
         </td>
+
+         */}
       </tr>
     );
   }

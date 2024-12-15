@@ -4,8 +4,8 @@ type TMessageProps = {
 
 const TableDataError = ({ message }: TMessageProps) => {
   return (
-    <div className="bg-red-200 px-4 py-2 text-red-800 rounded  w-full">
-      <span className="block text-sm">{message}</span>
+    <div className="bg-red-200 py-4 text-red-700 rounded  w-full">
+      <span className="block  font-medium text-lg ">{message}</span>
     </div>
   );
 };

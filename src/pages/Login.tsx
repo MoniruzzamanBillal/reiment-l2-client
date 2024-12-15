@@ -50,10 +50,11 @@ const Login = () => {
         dispatch(setUser({ user, token }));
 
         toast.success(result?.message, { id: toastId, duration: 1400 });
-
-        navigate("/", {
-          replace: true,
-        });
+        if (user?.userRole === "VENDOR") {
+          navigate("/dashboard/vendor/manage-shop");
+        } else {
+          navigate("/");
+        }
       }
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
