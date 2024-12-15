@@ -91,6 +91,16 @@ const authApi = baseApi.injectEndpoints({
       },
     }),
 
+    // ! for sending reset link
+    sendResetLink: builder.mutation({
+      query: (email: string) => {
+        return {
+          url: `/auth/reset-link/${email}`,
+          method: "PATCH",
+        };
+      },
+    }),
+
     //
   }),
 });
@@ -105,4 +115,5 @@ export const {
   useBlockVendorMutation,
   useUnblockVendorMutation,
   useChangePasswordMutation,
+  useSendResetLinkMutation,
 } = authApi;
