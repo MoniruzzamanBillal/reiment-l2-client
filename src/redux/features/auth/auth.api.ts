@@ -101,6 +101,17 @@ const authApi = baseApi.injectEndpoints({
       },
     }),
 
+    // ! for reseting password
+    resetPassword: builder.mutation({
+      query: (payload) => {
+        return {
+          url: `/auth/reset-password`,
+          method: "PATCH",
+          body: payload,
+        };
+      },
+    }),
+
     //
   }),
 });
@@ -116,4 +127,5 @@ export const {
   useUnblockVendorMutation,
   useChangePasswordMutation,
   useSendResetLinkMutation,
+  useResetPasswordMutation,
 } = authApi;
