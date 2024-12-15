@@ -171,6 +171,7 @@ const ManageUsers = () => {
               handleDeleteFunction={handleDeleteUser}
               id={user?.id}
               alertMessage={alertMessage}
+              btnText="Block User"
             />
           ) : (
             <UnblockModal

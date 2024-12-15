@@ -1,50 +1,91 @@
-# React + TypeScript + Vite
+# Raiment - E-Commerce Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  <img src="https://i.postimg.cc/kgFFvbm4/Vite-React-TS.png" alt="Home page">
+</p>
 
-Currently, two official plugins are available:
+Raiment is a dynamic full-stack e-commerce platform designed for users, vendors, and administrators to offer a seamless online shopping experience. It allows users to browse and purchase products, vendors to manage their shops and inventories, and administrators to oversee the platform operations.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+### User Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. **Home Page**:
 
-- Configure the top-level `parserOptions` property like this:
+   - Displays all available products from various vendors.
+   - Prioritizes products from followed shops for logged-in users.
+   - Advanced filtering
+   - Display list of categories for easy navigation.
+   - Flash sale section with a link to view all flash sale products.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+2. **User Registration & Authentication:**:
+
+   - Sign up as a user or vendor.
+   - Secure login using JWT.
+   - Password management (change password and reset via email).
+
+3. **Product Browsing & Cart:**:
+
+   - Browse products across all vendor shops with advanced search and filter options.
+   - Add products to the cart (can only be from one vendor at a time).
+   - Receive warnings when trying to add products from different vendors.
+   - Apply coupon codes during checkout for discounts.
+
+4. **Product Comparison:**:
+
+   - Compare up to three products from the same category based on their attributes (price, ratings, etc.).
+
+5. **Order History:**:
+
+   - View the list of past purchases with product and order details.
+
+6. **Vendor Features:**:
+   - Manage shop details (name, logo, etc.).
+   - Add, edit, or delete products with attributes like price, inventory, images, etc.
+   - View and respond to customer reviews.
+   - View order history specific to their shop.
+
+##
+
+### Admin Features
+
+1. **Admin Dashboar**:
+   - Full control over the platform, including managing users (vendors and customers).
+   - Ability to suspend or delete accounts and blacklist vendor shops.
+   - Monitor transactions and review platform activities.
+   - Manage product categories (add, edit, delete).
+
+### Technologies Used
+
+- **Frontend**: React.js, Redux, TypeScript
+- **Backend**: Node.js, Express, JWT-based Authentication
+- **Database**: PostgreSQL with Prisma
+- **State Management**: React Context
+- **Authentication**: JWT (JSON Web Tokens)
+- **Payment Integration**: Aamarpay for payment processing
+- **Deployment**: Vercel (API)
+
+## Installation
+
+1.  Clone the repository:
+
+```bash
+git clone https://github.com/MoniruzzamanBillal/reiment-l2-client
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+##
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Credentials :
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- **Admin Email**: admin@gmail.com
+- **password**: 123456
+  ..
+- **Vendor Email**: vendor1@gmail.com
+- **password**: 123456
+  ..
+- **user Email**: user1@gmail.com
+- **password**: 123456
+
+##
+
+### live llink : https://reiment-l2-client.vercel.app

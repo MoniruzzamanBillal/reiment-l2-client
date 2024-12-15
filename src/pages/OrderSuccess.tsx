@@ -6,7 +6,7 @@ const OrderSuccess = () => {
   const navigate = useNavigate();
 
   const handleNavigateProduct = () => {
-    navigate("/");
+    navigate("/products");
   };
 
   return (
