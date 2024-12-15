@@ -8,6 +8,7 @@ import {
 } from "@/redux/features/follower/follower.api";
 import { useGetSingleShopQuery } from "@/redux/features/shop/shop.api";
 import { useGetLoggedInUserQuery } from "@/redux/features/user/user.api";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -39,7 +40,27 @@ const ShopDetail = () => {
     useUnfollowShopMutation();
 
   // console.log(userData?.data?.follower);
-  // console.log(shopData?.data?.id);
+  // console.log(shopData?.data?.Products);
+  console.log(shopData?.data?.Products?.length);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+
+  const totalItems = shopData?.data?.Products?.length || 0;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const paginatedProducts = shopData?.data?.Products?.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
 
   const isFollowing =
     userData?.data?.follower?.some((follower: { shopId: string }) => {
@@ -188,11 +209,37 @@ const ShopDetail = () => {
             <h1 className=" text-2xl font-medium mb-8 ">All Products </h1>
 
             <div className="products grid grid-cols-4 gap-x-4 gap-y-6 ">
-              {shopData?.data?.Products &&
-                shopData?.data?.Products?.map((product: TCustomerProduct) => (
+              {paginatedProducts &&
+                paginatedProducts?.map((product: TCustomerProduct) => (
                   <ProductCard key={product?.id} product={product} />
                 ))}
             </div>
+
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            <div className="flex justify-center items-center gap-4 mt-4">
+              <button
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+                className="px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-700 disabled:opacity-50"
+              >
+                Prev
+              </button>
+              <span className="text-sm font-medium">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-700 disabled:opacity-50"
+              >
+                Next
+              </button>
+            </div>
+            {/*  */}
+            {/*  */}
+            {/*  */}
           </div>
         </Wrapper>
       </div>
