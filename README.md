@@ -79,10 +79,10 @@ git clone https://github.com/MoniruzzamanBillal/reiment-l2-client
 
 - **Admin Email**: admin@gmail.com
 - **password**: 123456
-  ..
+
 - **Vendor Email**: vendor1@gmail.com
 - **password**: 123456
-  ..
+
 - **user Email**: user1@gmail.com
 - **password**: 123456
 
