@@ -34,3 +34,5 @@ export { default as Register } from "./Register";
 export { default as ForgotPassword } from "./ForgotPassword";
 export { default as ChangePassword } from "./ChangePassword";
 export { default as EmailResetConfirmation } from "./EmailResetConfirmation";
+export { default as ManageCoupon } from "./ManageCoupon";
+export { default as AddCoupon } from "./AddCoupon";

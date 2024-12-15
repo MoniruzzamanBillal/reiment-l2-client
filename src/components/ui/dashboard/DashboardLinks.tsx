@@ -60,6 +60,11 @@ const DashboardLinks = () => {
         icon: <CiBookmark className=" text-xl font-bold " />,
       },
       {
+        name: "Coupons",
+        path: "/dashboard/admin/manage-coupon",
+        icon: <CiBookmark className=" text-xl font-bold " />,
+      },
+      {
         name: "Monitor Transaction ",
         path: "/dashboard/admin/monitor-transaction",
         icon: <CiBookmark className=" text-xl font-bold " />,

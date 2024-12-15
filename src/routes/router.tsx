@@ -1,6 +1,7 @@
 import App from "@/App";
 import {
   AddCategory,
+  AddCoupon,
   AddProduct,
   AddShop,
   AdminStatistics,
@@ -18,6 +19,7 @@ import {
   HomePage,
   Login,
   ManageCategory,
+  ManageCoupon,
   ManageShop,
   ManageUsers,
   ManageVendorProduct,
@@ -137,6 +139,14 @@ const router = createBrowserRouter([
           {
             path: "/dashboard/admin/manage-shop",
             element: <ManageShop />,
+          },
+          {
+            path: "/dashboard/admin/manage-coupon",
+            element: <ManageCoupon />,
+          },
+          {
+            path: "/dashboard/admin/manage-coupon/add-coupon",
+            element: <AddCoupon />,
           },
           {
             path: "/dashboard/admin/categories",
