@@ -62,6 +62,8 @@ Raiment is a dynamic full-stack e-commerce platform designed for users, vendors,
 
 I dploy my database in superbase . As a result my project is working slow . So if i add more than 1 cart item , during the checkout , I get this error 'Transaction API error: Transaction already closed: A commit cannot be executed on an expired transaction. The timeout for this transaction was 5000 ms, however 4979 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction.' . If i add 1 cart item at that time , checkout process works fine .
 
+##
+
 ### Technologies Used
 
 - **Frontend**: React.js, Redux, TypeScript
