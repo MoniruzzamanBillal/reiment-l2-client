@@ -50,10 +50,17 @@ Raiment is a dynamic full-stack e-commerce platform designed for users, vendors,
 ### Admin Features
 
 1. **Admin Dashboar**:
+
    - Full control over the platform, including managing users (vendors and customers).
    - Ability to suspend or delete accounts and blacklist vendor shops.
    - Monitor transactions and review platform activities.
    - Manage product categories (add, edit, delete).
+
+   ##
+
+### Known Issues
+
+I dploy my database in superbase . As a result my project is working slow . So if i add more than 1 cart item , during the checkout , I get this error 'Transaction API error: Transaction already closed: A commit cannot be executed on an expired transaction. The timeout for this transaction was 5000 ms, however 4979 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction.' . If i add 1 cart item at that time , checkout process works fine .
 
 ### Technologies Used
 
@@ -85,6 +92,8 @@ git clone https://github.com/MoniruzzamanBillal/reiment-l2-client
 
 - **user Email**: user1@gmail.com
 - **password**: 123456
+
+- **Coupon Code**: welcome100
 
 ##
 
