@@ -102,18 +102,18 @@ const HeroBanner = () => {
 
   return (
     <div className="heroBanner    py-8   ">
-      <Wrapper className="  flex justify-between  ">
+      <Wrapper className="  flex xmd:justify-between  flex-col xmd:flex-row gap-y-6 xmd:gap-y-0  ">
         {/* left category section starts  */}
-        <div className="leftCategory w-[20%] h-full ">
+        <div className="leftCategory  w-full xmd:w-[20%] h-full order-2 xmd:order-1  ">
           {/* category input starts  */}
 
-          <div className="categoryInput bg-gray-100  h-full shadow-md rounded border border-gray-300 py-2 px-4">
+          <div className="categoryInput bg-gray-100 w-full  xmd:w-auto  h-full shadow-md rounded border border-gray-300 py-2 px-4">
             <h1 className="font-medium mb-2 text-gray-800">Category :</h1>
             <ul className="text-sm font-medium text-gray-800">
               {categoryOptions &&
                 categoryOptions?.map(
-                  (item: { name: string; value: string }) => (
-                    <li className="w-full border-b border-gray-300">
+                  (item: { name: string; value: string }, ind: number) => (
+                    <li key={ind} className="w-full border-b border-gray-300">
                       <Link to={`/products?ParamCategory=${item?.value}`}>
                         <p className="  ml-6 py-2  ">{item?.name}</p>
                       </Link>
@@ -126,7 +126,7 @@ const HeroBanner = () => {
         </div>
 
         {/* right banner section  */}
-        <div className="heroBannerContainer  w-[80%]  ">
+        <div className="heroBannerContainer  w-full xmd:w-[80%]  order-1 ">
           <Swiper
             spaceBetween={30}
             centeredSlides={true}

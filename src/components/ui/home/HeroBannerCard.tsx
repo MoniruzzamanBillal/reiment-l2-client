@@ -4,19 +4,19 @@ import { Button } from "../button";
 
 const HeroBannerCard = ({ banner }: { banner: any }) => {
   return (
-    <section className="   flex container flex-col items-center justify-between  lg:flex-row gap-y-10 lg:gap-y-0 ">
+    <section className="   flex container flex-col items-center justify-between  md:flex-row gap-y-5 xmd:gap-y-0 ">
       {/* content - start  */}
 
-      <div className=" w-[99%] xsm:w-[90%] sm:w-[80%]  md:w-[70%] xmd:w-[60%] lg:w-[50%] flex flex-col justify-center sm:text-center  lg:text-left   ">
-        <p className="mb-4 font-semibold text-prime100 md:mb-6 md:text-lg xl:text-xl">
+      <div className=" w-[99%] xsm:w-[90%] sm:w-[80%]  md:w-[70%] xmd:w-[60%] lg:w-[50%] flex flex-col justify-center text-left   ">
+        <p className=" font-semibold text-prime100 mb-4 text-lg  xmd:text-xl">
           {banner?.subHeading}
         </p>
 
-        <h1 className="mb-8 text-3xl font-bold text-black sm:text-4xl md:mb-12 md:text-5xl">
+        <h1 className=" text-2xl font-bold text-black mb-5 sm:text-3xl md:text-3xl  md:mb-4 lg:text-4xl">
           {banner?.heading}
         </h1>
 
-        <p className="mb-8 leading-relaxed text-gray-500 md:mb-12 lg:w-4/5 xl:text-lg">
+        <p className=" leading-relaxed text-gray-700 mb-8 lg:w-4/5 xl:text-lg">
           {banner?.description}
         </p>
 
