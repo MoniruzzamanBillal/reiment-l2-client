@@ -1,15 +1,15 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
-import "swiper/css/pagination";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 import { Autoplay, Pagination } from "swiper/modules";
 
 import Wrapper from "@/components/shared/Wrapper";
-import CategoryCard from "./CategoryCard";
-import { useEffect, useState } from "react";
 import { useGetAllCategoryQuery } from "@/redux/features/category/category.api";
+import { useEffect, useState } from "react";
+import CategoryCard from "./CategoryCard";
 
 type TCategory = {
   id: string;

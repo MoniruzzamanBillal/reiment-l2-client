@@ -14,15 +14,12 @@ import { useOrderItemMutation } from "@/redux/features/order/order.api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { calculateCartPrice } from "@/utils/CalculateCartPrice";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const UserCart = () => {
   const dispatch = useAppDispatch();
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
-
-  const navigate = useNavigate();
 
   const { cuponId } = useAppSelector((state) => state?.coupon);
 

@@ -1,9 +1,13 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
-import "swiper/css/pagination";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
 
+import Wrapper from "@/components/shared/Wrapper";
+import { useGetAllCategoryQuery } from "@/redux/features/category/category.api";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Autoplay, Pagination } from "swiper/modules";
 import HeroBannerCard from "./HeroBannerCard";
 
@@ -12,6 +16,16 @@ export type TBanner = {
   heading: string;
   description: string;
   bannerImg: string;
+};
+
+type TCategoryOption = {
+  name: string;
+  value: string;
+};
+
+type TCategory = {
+  id: string;
+  name: string;
 };
 
 const bannerInfo: TBanner[] = [
@@ -60,29 +74,82 @@ const bannerInfo: TBanner[] = [
 ];
 
 const HeroBanner = () => {
+  const { data: categoryData, isLoading: categoryDataLoading } =
+    useGetAllCategoryQuery(undefined);
+
+  const [categoryOptions, setCategoryOptions] = useState<TCategoryOption[]>([]);
+
+  //   ! effect for get category data
+  useEffect(() => {
+    if (categoryData?.data) {
+      const modifiedData = categoryData?.data?.map((item: TCategory) => {
+        const optionValue = {
+          name: item?.name,
+          value: item?.id,
+        };
+
+        return optionValue;
+      });
+
+      const initialData: TCategoryOption = {
+        name: "All",
+        value: "",
+      };
+
+      setCategoryOptions([initialData, ...modifiedData]);
+    }
+  }, [categoryData?.data, categoryDataLoading]);
+
   return (
-    <div className="heroBannerContainer py-8 ">
-      <Swiper
-        spaceBetween={30}
-        centeredSlides={true}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-        }}
-        pagination={{
-          clickable: true,
-        }}
-        modules={[Autoplay, Pagination]}
-        className="mySwiper"
-      >
-        {bannerInfo &&
-          bannerInfo.map((banner, ind) => (
-            <SwiperSlide>
-              <HeroBannerCard key={ind} banner={banner} />
-            </SwiperSlide>
-          ))}
-      </Swiper>
-      {/* <HeroBannerCard /> */}
+    <div className="heroBanner    py-8   ">
+      <Wrapper className="  flex justify-between  ">
+        {/* left category section starts  */}
+        <div className="leftCategory w-[20%] h-full ">
+          {/* category input starts  */}
+
+          <div className="categoryInput bg-gray-100  h-full shadow-md rounded border border-gray-300 py-2 px-4">
+            <h1 className="font-medium mb-2 text-gray-800">Category :</h1>
+            <ul className="text-sm font-medium text-gray-800">
+              {categoryOptions &&
+                categoryOptions?.map(
+                  (item: { name: string; value: string }) => (
+                    <li className="w-full border-b border-gray-300">
+                      <Link to={`/products?ParamCategory=${item?.value}`}>
+                        <p className="  ml-6 py-2  ">{item?.name}</p>
+                      </Link>
+                    </li>
+                  )
+                )}
+            </ul>
+          </div>
+          {/* *  category input  ends   */}
+        </div>
+
+        {/* right banner section  */}
+        <div className="heroBannerContainer  w-[80%]  ">
+          <Swiper
+            spaceBetween={30}
+            centeredSlides={true}
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
+            }}
+            pagination={{
+              clickable: true,
+            }}
+            modules={[Autoplay, Pagination]}
+            className="mySwiper"
+          >
+            {bannerInfo &&
+              bannerInfo.map((banner, ind) => (
+                <SwiperSlide key={ind}>
+                  <HeroBannerCard key={ind} banner={banner} />
+                </SwiperSlide>
+              ))}
+          </Swiper>
+          {/* <HeroBannerCard /> */}
+        </div>
+      </Wrapper>
     </div>
   );
 };
