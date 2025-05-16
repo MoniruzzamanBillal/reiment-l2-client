@@ -20,6 +20,7 @@ const config: Config = {
       colors: {
         prime50: "#02B8A6",
         prime100: "#009B94",
+        prime200: "#007F79",
         black100: "#020817",
         black50: "#070F2B",
         black20: "#040B24",

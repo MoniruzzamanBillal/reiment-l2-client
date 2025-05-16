@@ -9,12 +9,13 @@ import {
   useIncreaseCartItemQuantityMutation,
 } from "@/redux/features/cart/cart.api";
 import { useGetCouponMutation } from "@/redux/features/cupon/coupon.api";
+import { resetCoupon, setCouponId } from "@/redux/features/cupon/cupon.slice";
+import { useOrderItemMutation } from "@/redux/features/order/order.api";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { calculateCartPrice } from "@/utils/CalculateCartPrice";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { resetCoupon, setCouponId } from "@/redux/features/cupon/cupon.slice";
-import { useAppDispatch } from "@/redux/hook";
 
 const UserCart = () => {
   const dispatch = useAppDispatch();
@@ -22,11 +23,17 @@ const UserCart = () => {
   const [discount, setDiscount] = useState(0);
 
   const navigate = useNavigate();
+
+  const { cuponId } = useAppSelector((state) => state?.coupon);
+
   const {
     data: cartData,
     isLoading: cartDataLoading,
     refetch: refetchCart,
   } = useGetUserCartQuery(undefined);
+
+  const [orderItem, { isLoading: orderingItemLoading }] =
+    useOrderItemMutation();
 
   const [increaseCartItemQuantity, { isLoading: cartItemAddingLoading }] =
     useIncreaseCartItemQuantityMutation();
@@ -138,6 +145,7 @@ const UserCart = () => {
     }
   };
 
+  // ! for applying coupon
   const handleApplyCoupon = async () => {
     if (!coupon) {
       toast.error("Please enter a coupon code!");
@@ -174,6 +182,44 @@ const UserCart = () => {
     }
 
     //
+  };
+
+  // ! for ordering an item
+  const handleOrderItem = async () => {
+    const payload = {
+      cartId: cartData?.data?.id,
+      cuponId,
+    };
+
+    const taostId = toast.loading("Placing order ....");
+
+    try {
+      const result = await orderItem(payload);
+
+      if (result?.error) {
+        const errorMessage = (result?.error as any)?.data?.message;
+        console.log(errorMessage);
+        toast.error(errorMessage, {
+          id: taostId,
+          duration: 1400,
+        });
+      }
+
+      if (result?.data) {
+        const successMsg = result?.data?.message;
+        const paymentUrl = result?.data?.data;
+
+        toast.success(successMsg, {
+          id: taostId,
+          duration: 2000,
+        });
+        dispatch(resetCoupon());
+        window.location.href = paymentUrl;
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong !!!", { id: taostId, duration: 1400 });
+    }
   };
 
   useEffect(() => {
@@ -279,10 +325,11 @@ const UserCart = () => {
                 {/* price card ends   */}
 
                 <Button
+                  disabled={orderingItemLoading}
                   className="  text-sm font-medium text-white  transition duration-100 bg-prime50 hover:bg-prime100 "
-                  onClick={() => navigate("/checkout")}
+                  onClick={() => handleOrderItem()}
                 >
-                  Check out
+                  {orderingItemLoading ? " Ordering Item" : " Order Item"}
                 </Button>
               </div>
             )}

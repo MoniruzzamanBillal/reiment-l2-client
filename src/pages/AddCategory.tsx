@@ -1,13 +1,13 @@
 import { ReimentForm, ReimentInput } from "@/components/form";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
-import { FieldValues } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useAddCategoryMutation } from "@/redux/features/category/category.api";
-import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
 import { FormSubmitLoading } from "@/components/ui";
+import { Button } from "@/components/ui/button";
+import { useAddCategoryMutation } from "@/redux/features/category/category.api";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FieldValues } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const AddCategory = () => {
   const navigate = useNavigate();

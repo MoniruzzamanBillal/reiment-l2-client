@@ -17,21 +17,21 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
-import { TProductDetail } from "@/types/globalTypes";
+import { TRelatedProduct } from "@/constants/customer";
 import {
   useAddProductToCartMutation,
   useGetUserCartQuery,
   useReplaceCartMutation,
 } from "@/redux/features/cart/cart.api";
-import { GetUserRole } from "@/utils/GetUserRole";
-import { TRelatedProduct } from "@/constants/customer";
+import { addToComparison } from "@/redux/features/product/product.slice";
+import { addRecentProduct } from "@/redux/features/recentProducts/recentProducts.slice";
 import {
   useCheckEligibleForReviewQuery,
   useGiveReviewMutation,
 } from "@/redux/features/review/review.api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { addRecentProduct } from "@/redux/features/recentProducts/recentProducts.slice";
-import { addToComparison } from "@/redux/features/product/product.slice";
+import { TProductDetail } from "@/types/globalTypes";
+import { GetUserRole } from "@/utils/GetUserRole";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -339,7 +339,7 @@ const ProductDetail = () => {
                           className={`   text-center text-sm font-semibold text-white transition duration-100  ${
                             productData?.data?.inventoryCount === 0
                               ? "cursor-not-allowed bg-gray-400"
-                              : "bg-prime50 hover:bg-prime100 active:bg-prime50"
+                              : "bg-prime100 hover:bg-prime200 "
                           }`}
                           onClick={() => handleAddCart(productData?.data)}
                         >
@@ -354,9 +354,9 @@ const ProductDetail = () => {
                           onClick={() =>
                             addProductComparison(productData?.data)
                           }
-                          className=" bg-prime50 hover:bg-prime100 active:bg-prime50 "
+                          className=" bg-prime100 hover:bg-prime200  "
                         >
-                          Add To Compate
+                          Add To Compare
                         </Button>
 
                         {/*  */}
