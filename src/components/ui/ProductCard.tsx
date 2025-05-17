@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Link } from "react-router-dom";
 import { CiShop } from "react-icons/ci";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ product }: { product: any }) => {
   // console.log(product?.discount);
