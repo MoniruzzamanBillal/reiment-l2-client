@@ -47,7 +47,7 @@ const HomePage = () => {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-5 right-5 size-[2.8rem]  bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition-all text-xl "
+          className="fixed bottom-5 right-5 size-[2.8rem]  bg-prime100 text-white rounded-md shadow-md hover:bg-prime200 transition-all text-xl "
         >
           ↑
         </button>
