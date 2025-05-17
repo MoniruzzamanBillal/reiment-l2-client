@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useGetAllProductQuery } from "@/redux/features/product/product.api";
+import { TProductDetail } from "@/types/globalTypes";
 import useDebounce from "@/utils/DebounceTerm";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -38,6 +39,8 @@ const AllProducts = () => {
 
   const { data: allProducts, isLoading: productDataLoading } =
     useGetAllProductQuery(params);
+
+  console.log(allProducts?.data);
 
   //   ! for reseting all filter category
   const handleAddReset = () => {
@@ -213,8 +216,7 @@ const AllProducts = () => {
                     <NoProduct />
                   ) : (
                     allProducts?.data &&
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    allProducts?.data?.map((product: any) => (
+                    allProducts?.data?.map((product: TProductDetail) => (
                       <ProductCard product={product} key={product?.id} />
                     ))
                   )}

@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Wrapper from "@/components/shared/Wrapper";
 import { useGetAllProductQuery } from "@/redux/features/product/product.api";
+import { TProductDetail } from "@/types/globalTypes";
 import { Link } from "react-router-dom";
 import ProductCard from "../ProductCard";
 import ProductCardSkeleton from "../ProductCardSkeleton";
@@ -12,6 +12,8 @@ export type TCategoryOption = {
 
 const HomeProducts = () => {
   const { data: allProducts, isLoading } = useGetAllProductQuery(undefined);
+
+  // console.log(allProducts?.data);
 
   return (
     <div className="HomeProductsContainer">
@@ -38,7 +40,7 @@ const HomeProducts = () => {
             ))}
 
           {allProducts?.data &&
-            allProducts?.data?.map((product: any) => (
+            allProducts?.data?.map((product: TProductDetail) => (
               <ProductCard product={product} key={product?.id} />
             ))}
         </div>
