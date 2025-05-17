@@ -3,6 +3,7 @@ import Wrapper from "@/components/shared/Wrapper";
 import { useGetAllProductQuery } from "@/redux/features/product/product.api";
 import { Link } from "react-router-dom";
 import ProductCard from "../ProductCard";
+import ProductCardSkeleton from "../ProductCardSkeleton";
 
 export type TCategoryOption = {
   name: string;
@@ -10,7 +11,7 @@ export type TCategoryOption = {
 };
 
 const HomeProducts = () => {
-  const { data: allProducts } = useGetAllProductQuery(undefined);
+  const { data: allProducts, isLoading } = useGetAllProductQuery(undefined);
 
   return (
     <div className="HomeProductsContainer">
@@ -31,6 +32,11 @@ const HomeProducts = () => {
         {/* heading section  */}
 
         <div className="products  grid grid-cols-1 sm:grid-cols-2 xmd:grid-cols-4 gap-x-5 gap-y-8">
+          {isLoading &&
+            Array.from({ length: 6 })?.map((_, ind) => (
+              <ProductCardSkeleton key={ind} />
+            ))}
+
           {allProducts?.data &&
             allProducts?.data?.map((product: any) => (
               <ProductCard product={product} key={product?.id} />
