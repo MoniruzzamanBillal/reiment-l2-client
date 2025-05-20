@@ -9,15 +9,17 @@ const ComparisonTable = () => {
     (state) => state?.comparison?.products
   );
 
-  console.log(comparisonProducts);
+  // console.log(comparisonProducts);
 
   const dispatch = useDispatch();
 
   return (
-    <div className="ComparisonTableContainer py-6 bg-gray-100 min-h-screen ">
+    <div className="ComparisonTableContainer py-8 bg-gray-100  ">
       <Wrapper>
+        <p className="  text-3xl font-semibold mb-6  ">Product Comparison : </p>
+
         {/*  */}
-        <div className="comparison-table">
+        <div className="comparison-table pt-2 ">
           {comparisonProducts.length === 0 ? (
             <div className="noProduct  min-h-screen w-full flex justify-center items-center ">
               <p className=" text-3xl font-semibold text-prime100 ">

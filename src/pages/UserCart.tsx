@@ -240,7 +240,7 @@ const UserCart = () => {
         <div className="ProductCartWrapper   bg-gray-100 py-6 sm:py-8 lg:py-12">
           <div className="mx-auto max-w-screen-lg px-4 md:px-8">
             <div className="mb-8 ">
-              <h1 className="  text-center font-semibold text-indigo-500 text-lg xsm:text-xl sm:text-3xl md:text-3xl xl:text-4xl text-shadow-blue">
+              <h1 className="  text-center font-semibold text-prime200 text-lg xsm:text-xl sm:text-3xl md:text-3xl xl:text-4xl text-shadow-blue">
                 Your Cart
               </h1>
             </div>

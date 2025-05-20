@@ -1,7 +1,6 @@
 import Wrapper from "@/components/shared/Wrapper";
 import { FormSubmitLoading, ProductCard } from "@/components/ui";
 import { Button } from "@/components/ui/button";
-import { TCustomerProduct } from "@/constants/customer";
 import {
   useFollowShopMutation,
   useUnfollowShopMutation,
@@ -210,7 +209,7 @@ const ShopDetail = () => {
 
             <div className="products grid grid-cols-4 gap-x-4 gap-y-6 ">
               {paginatedProducts &&
-                paginatedProducts?.map((product: TCustomerProduct) => (
+                paginatedProducts?.map((product: any) => (
                   <ProductCard key={product?.id} product={product} />
                 ))}
             </div>
