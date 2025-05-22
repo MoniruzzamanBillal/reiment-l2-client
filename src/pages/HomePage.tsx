@@ -37,7 +37,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="HomePageContainer">
+    <div className="HomePageContainer bg-gray-100 ">
       <HeroBanner />
       <FlashSaleBanner />
       <ShopByCategory />

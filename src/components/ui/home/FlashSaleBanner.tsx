@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
-import "swiper/css/pagination";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 import { Autoplay, Pagination } from "swiper/modules";
 import ProductCard from "../ProductCard";
@@ -27,7 +27,7 @@ const FlashSaleBanner = () => {
         {/* heading section  */}
 
         <Swiper
-          slidesPerView={3}
+          slidesPerView={4}
           spaceBetween={50}
           centeredSlides={true}
           autoplay={{

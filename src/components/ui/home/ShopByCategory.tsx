@@ -44,7 +44,7 @@ const ShopByCategory = () => {
   // console.log(categoryOptions);
 
   return (
-    <div className="categoryContainer bg-gray-50 py-8   ">
+    <div className="categoryContainer bg-gray-50 py-6   ">
       <Wrapper className=" categoryWrapper m-auto ">
         <h1 className=" mb-8   text-center font-semibold text-prime100 text-xl xsm:text-2xl sm:text-3xl md:text-3xl xl:text-4xl  ">
           Browse by categories
@@ -66,7 +66,7 @@ const ShopByCategory = () => {
         >
           {categoryOptions &&
             categoryOptions.map((product, ind) => (
-              <SwiperSlide className=" mb-5 flex justify-center items-center   ">
+              <SwiperSlide className=" mb-9 flex justify-center items-center   ">
                 <CategoryCard key={ind} product={product} />
               </SwiperSlide>
             ))}

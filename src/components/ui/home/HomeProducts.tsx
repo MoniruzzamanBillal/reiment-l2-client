@@ -16,8 +16,8 @@ const HomeProducts = () => {
   // console.log(allProducts?.data);
 
   return (
-    <div className="HomeProductsContainer">
-      <Wrapper className="HomeProductsWrapper">
+    <div className="HomeProductsContainer py-8 ">
+      <Wrapper className="HomeProductsWrapper ">
         {/* heading section  */}
         <div className="headingSection flex justify-between items-center ">
           <h1 className=" mb-8 font-semibold text-prime100 text-xl xsm:text-2xl sm:text-3xl md:text-3xl xl:text-4xl  ">
@@ -40,9 +40,11 @@ const HomeProducts = () => {
             ))}
 
           {allProducts?.data &&
-            allProducts?.data?.map((product: TProductDetail) => (
-              <ProductCard product={product} key={product?.id} />
-            ))}
+            allProducts?.data
+              ?.slice(0, 6)
+              ?.map((product: TProductDetail) => (
+                <ProductCard product={product} key={product?.id} />
+              ))}
         </div>
       </Wrapper>
     </div>
