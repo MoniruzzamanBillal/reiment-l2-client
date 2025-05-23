@@ -73,16 +73,6 @@ const ProductDetail = () => {
 
   const userRole = GetUserRole();
 
-  // console.log(id);
-  // console.log(productData?.data?.id);
-  // console.log(checkEligibelForReview?.data);
-  // console.log(userRole);
-  // console.log(relatedProductData?.data);
-  // console.log(productData?.data);
-  // console.log(productData?.data?.categoryId);
-  // console.log(userCardData?.data);
-  //   console.log(productData?.data?.review);
-
   // ! for adding item to cart
   const handleAddCart = async (product: TProductDetail) => {
     if (
@@ -241,7 +231,7 @@ const ProductDetail = () => {
 
       <div className="ProductDetailContainer  ">
         <div className="ProductDetailWrapper  ">
-          {/* ShadCN Modal */}
+          {/* Cart replace modal  */}
           <CartItemReplaceModal
             showReplaceModal={showReplaceModal}
             setShowReplaceModal={setShowReplaceModal}
