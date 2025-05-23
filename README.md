@@ -1,7 +1,7 @@
 # Raiment - E-Commerce Application
 
 <p align="center">
-  <img src="https://i.postimg.cc/kgFFvbm4/Vite-React-TS.png" alt="Home page">
+  <img src="https://i.postimg.cc/C1VCd9vW/img-1.png" alt="Home page">
 </p>
 
 Raiment is a dynamic full-stack e-commerce platform designed for users, vendors, and administrators to offer a seamless online shopping experience. It allows users to browse and purchase products, vendors to manage their shops and inventories, and administrators to oversee the platform operations.
@@ -58,12 +58,6 @@ Raiment is a dynamic full-stack e-commerce platform designed for users, vendors,
 
    ##
 
-### Known Issues
-
-I dploy my database in superbase . As a result my project is working slow . So if i add more than 1 cart item , during the checkout , I get this error 'Transaction API error: Transaction already closed: A commit cannot be executed on an expired transaction. The timeout for this transaction was 5000 ms, however 4979 ms passed since the start of the transaction. Consider increasing the interactive transaction timeout or doing less work in the transaction.' . If i add 1 cart item at that time , checkout process works fine . In local server , all are working fine .
-
-##
-
 ### Technologies Used
 
 - **Frontend**: React.js, Redux, TypeScript
@@ -86,7 +80,7 @@ git clone https://github.com/MoniruzzamanBillal/reiment-l2-client
 
 ### Credentials :
 
-- **Admin Email**: admin@gmail.com
+- **Admin Email**: abc@d.com
 - **password**: 123456
 
 - **Vendor Email**: vendor1@gmail.com
@@ -94,8 +88,6 @@ git clone https://github.com/MoniruzzamanBillal/reiment-l2-client
 
 - **user Email**: user1@gmail.com
 - **password**: 123456
-
-- **Coupon Code**: welcome100
 
 ##
 

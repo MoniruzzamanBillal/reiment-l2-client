@@ -30,8 +30,7 @@ const ProductCard = ({ product }: { product: TProductDetail }) => {
   const [addProductToCart, { isLoading: addingCartLoading }] =
     useAddProductToCartMutation();
 
-  const [replaceCart, { isLoading: replaceCartItemLoading }] =
-    useReplaceCartMutation();
+  const [replaceCart] = useReplaceCartMutation();
 
   // console.log(product);
   // console.log(userCardData?.data);
