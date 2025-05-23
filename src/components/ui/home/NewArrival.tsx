@@ -5,23 +5,18 @@ import { Link } from "react-router-dom";
 import ProductCard from "../ProductCard";
 import ProductCardSkeleton from "../ProductCardSkeleton";
 
-export type TCategoryOption = {
-  name: string;
-  value: string;
-};
+const NewArrival = () => {
+  const { data: allProducts, isLoading } = useGetAllProductQuery({ limit: 4 });
 
-const HomeProducts = () => {
-  const { data: allProducts, isLoading } = useGetAllProductQuery({ limit: 8 });
-
-  // console.log(allProducts?.data?.length);
+  console.log(allProducts);
 
   return (
-    <div className="HomeProductsContainer py-6 bg-white ">
-      <Wrapper className="HomeProductsWrapper  ">
+    <div className="NewArrivalContainer py-8">
+      <Wrapper className=" NewArrivalWrapper  ">
         {/* heading section  */}
-        <div className="headingSection flex justify-between items-center mb-8 ">
-          <h1 className="  font-semibold text-prime100 text-xl xsm:text-2xl sm:text-3xl md:text-3xl xl:text-4xl  ">
-            Just For You
+        <div className="headingSection flex justify-between items-center ">
+          <h1 className=" mb-8 font-semibold text-prime100 text-xl xsm:text-2xl sm:text-3xl md:text-3xl xl:text-4xl  ">
+            Newly Arrival
           </h1>
 
           <Link
@@ -32,6 +27,7 @@ const HomeProducts = () => {
           </Link>
         </div>
 
+        {/* product section  */}
         <div className="products  grid grid-cols-1 sm:grid-cols-2 xmd:grid-cols-4 gap-x-5 gap-y-8">
           {isLoading &&
             Array.from({ length: 6 })?.map((_, ind) => (
@@ -39,15 +35,13 @@ const HomeProducts = () => {
             ))}
 
           {allProducts?.data &&
-            allProducts?.data
-              ?.slice(4, 8)
-              ?.map((product: TProductDetail) => (
-                <ProductCard product={product} key={product?.id} />
-              ))}
+            allProducts?.data?.map((product: TProductDetail) => (
+              <ProductCard product={product} key={product?.id} />
+            ))}
         </div>
       </Wrapper>
     </div>
   );
 };
 
-export default HomeProducts;
+export default NewArrival;

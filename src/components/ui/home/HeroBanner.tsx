@@ -107,7 +107,7 @@ const HeroBanner = () => {
         <div className="leftCategory  w-full xmd:w-[20%] h-full order-2 xmd:order-1  ">
           {/* category input starts  */}
 
-          <div className="categoryInput bg-gray-50 w-full  xmd:w-auto  h-full shadow-md rounded border border-gray-300 py-2 px-4">
+          <div className="categoryInput bg-white w-full  xmd:w-auto  h-full shadow-md rounded border border-gray-300 py-2 px-4">
             <h1 className="font-medium mb-2 text-gray-800">Category :</h1>
             <ul className="text-sm font-medium text-gray-800">
               {categoryOptions &&

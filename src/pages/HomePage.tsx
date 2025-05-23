@@ -2,6 +2,7 @@ import {
   FlashSaleBanner,
   HeroBanner,
   HomeProducts,
+  NewArrival,
   ShopByCategory,
 } from "@/components/ui/home";
 import { useEffect, useState } from "react";
@@ -41,6 +42,7 @@ const HomePage = () => {
       <HeroBanner />
       <FlashSaleBanner />
       <ShopByCategory />
+      <NewArrival />
       <HomeProducts />
 
       {/* Scroll-to-top button */}
