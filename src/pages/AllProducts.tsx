@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -30,6 +29,9 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 const AllProducts = () => {
+  const limit = 9;
+  const [page, setPage] = useState(1);
+
   const [searchParams] = useSearchParams();
   const paramSearchTerm = searchParams.get("paramSearchTerm");
   const ParamCategory = searchParams.get("ParamCategory");
@@ -47,14 +49,15 @@ const AllProducts = () => {
   const [isXl, setIsXl] = useState(false);
 
   const { data: allProducts, isLoading: productDataLoading } =
-    useGetAllProductQuery(params);
+    useGetAllProductQuery(params, { refetchOnMountOrArgChange: true });
 
   // console.log(allProducts?.data);
-  console.log(allProducts?.data?.meta);
-  console.log(allProducts?.data?.meta?.totalItems);
+  // console.log(allProducts?.data?.meta);
+  // console.log(allProducts?.data?.meta?.totalItems);
 
   //   ! for reseting all filter category
   const handleAddReset = () => {
+    setPage(1);
     setParams(undefined);
     setSearchTerm("");
     setPprice(null);
@@ -79,7 +82,7 @@ const AllProducts = () => {
   //! Use effect to track param value
   useEffect(() => {
     const updateParam = () => {
-      const newParam: Record<string, unknown> = {};
+      const newParam: Record<string, unknown> = { page, limit };
 
       if (debounceTerm) {
         newParam.searchTerm = debounceTerm;
@@ -100,7 +103,7 @@ const AllProducts = () => {
     };
 
     updateParam();
-  }, [searchTerm, pprice, pcategory, sort, debounceTerm]);
+  }, [searchTerm, pprice, pcategory, sort, debounceTerm, page]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -246,24 +249,49 @@ const AllProducts = () => {
             <Pagination>
               <PaginationContent>
                 <PaginationItem>
-                  <PaginationPrevious href="#" />
+                  <PaginationPrevious
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (page > 1) {
+                        setPage(page - 1);
+                      }
+                    }}
+                  />
                 </PaginationItem>
+                {/* isActive */}
+                {Array.from({
+                  length: Math.ceil(
+                    allProducts?.data?.meta?.totalItems / limit
+                  ),
+                })?.map((_, ind) => (
+                  <PaginationItem key={ind}>
+                    <PaginationLink
+                      href="#"
+                      isActive={page === ind + 1}
+                      onClick={(e) => {
+                        setPage(ind + 1);
+                      }}
+                    >
+                      {ind + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+
                 <PaginationItem>
-                  <PaginationLink href="#">1</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#" isActive>
-                    2
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">3</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext href="#" />
+                  <PaginationNext
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const totalPages = Math.ceil(
+                        allProducts?.data?.meta?.totalItems / limit
+                      );
+
+                      if (page < totalPages) {
+                        setPage(page + 1);
+                      }
+                    }}
+                  />
                 </PaginationItem>
               </PaginationContent>
             </Pagination>
