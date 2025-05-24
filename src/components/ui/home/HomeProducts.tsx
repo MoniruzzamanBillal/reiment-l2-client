@@ -13,8 +13,6 @@ export type TCategoryOption = {
 const HomeProducts = () => {
   const { data: allProducts, isLoading } = useGetAllProductQuery({ limit: 8 });
 
-  // console.log(allProducts?.data?.length);
-
   return (
     <div className="HomeProductsContainer py-6 bg-white ">
       <Wrapper className="HomeProductsWrapper  ">
@@ -38,8 +36,8 @@ const HomeProducts = () => {
               <ProductCardSkeleton key={ind} />
             ))}
 
-          {allProducts?.data &&
-            allProducts?.data
+          {allProducts?.data?.data &&
+            allProducts?.data?.data
               ?.slice(4, 8)
               ?.map((product: TProductDetail) => (
                 <ProductCard product={product} key={product?.id} />

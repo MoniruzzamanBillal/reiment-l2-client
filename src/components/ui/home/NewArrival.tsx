@@ -8,7 +8,7 @@ import ProductCardSkeleton from "../ProductCardSkeleton";
 const NewArrival = () => {
   const { data: allProducts, isLoading } = useGetAllProductQuery({ limit: 4 });
 
-  console.log(allProducts);
+  console.log(allProducts?.data?.data);
 
   return (
     <div className="NewArrivalContainer py-8">
@@ -34,8 +34,8 @@ const NewArrival = () => {
               <ProductCardSkeleton key={ind} />
             ))}
 
-          {allProducts?.data &&
-            allProducts?.data?.map((product: TProductDetail) => (
+          {allProducts?.data?.data &&
+            allProducts?.data?.data?.map((product: TProductDetail) => (
               <ProductCard product={product} key={product?.id} />
             ))}
         </div>

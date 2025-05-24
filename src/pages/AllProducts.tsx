@@ -270,6 +270,7 @@ const AllProducts = () => {
                       href="#"
                       isActive={page === ind + 1}
                       onClick={(e) => {
+                        e.preventDefault();
                         setPage(ind + 1);
                       }}
                     >
