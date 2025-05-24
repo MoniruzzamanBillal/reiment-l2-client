@@ -1,7 +1,7 @@
 import { useGetAllCategoryQuery } from "@/redux/features/category/category.api";
+import { useEffect, useState } from "react";
 import { Button } from "./button";
 import { Slider } from "./slider";
-import { useEffect, useState } from "react";
 
 type TCategory = {
   id: string;
@@ -58,7 +58,7 @@ const ProductsFilter = ({
 
   return (
     <div className="ProductsFilterContainer flex flex-col gap-y-6">
-      <h1 className=" mb-3   font-semibold text-indigo-500 text-lg xsm:text-xl sm:text-3xl md:text-2xl xl:text-3xl text-shadow-blue">
+      <h1 className="    font-semibold text-prime200 text-lg xsm:text-xl sm:text-3xl md:text-2xl xl:text-3xl text-shadow-blue">
         Filtered By :
       </h1>
       {/*  price range type starts   */}

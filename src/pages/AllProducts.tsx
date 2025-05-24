@@ -7,6 +7,15 @@ import {
 } from "@/components/ui";
 import { Input } from "@/components/ui/input";
 import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -41,6 +50,8 @@ const AllProducts = () => {
     useGetAllProductQuery(params);
 
   // console.log(allProducts?.data);
+  console.log(allProducts?.data?.meta);
+  console.log(allProducts?.data?.meta?.totalItems);
 
   //   ! for reseting all filter category
   const handleAddReset = () => {
@@ -104,7 +115,7 @@ const AllProducts = () => {
 
   return (
     <>
-      <div className="AllProductsContainer bg-gray-100 py-4 min-h-screen ">
+      <div className="AllProductsContainer bg-gray-50 py-4 min-h-screen ">
         <Wrapper className=" AllProductsWrapper ">
           {/* search section   */}
           <div className="searchSection bg-gray-50 border border-gray-300  w-[40%] m-auto py-1 px-5 rounded-full flex justify-center items-center mb-5  ">
@@ -116,14 +127,13 @@ const AllProducts = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          {/* search section ends  */}
 
           {/* content body starts  */}
           <div className="contentBody  flex justify-between gap-x-3 ">
             {/* left section starts  */}
 
             {/* filter section   */}
-            <div className="contentLeft w-0 xl:w-[30%] hidden xl:block  ">
+            <div className="contentLeft w-0 xl:w-[30%] hidden xl:block   ">
               <ProductsFilter
                 priceRange={pprice}
                 category={pcategory}
@@ -212,11 +222,11 @@ const AllProducts = () => {
                       <ProductCardSkeleton key={ind} />
                     ))}
 
-                  {allProducts?.data?.length === 0 ? (
+                  {allProducts?.data?.data?.length === 0 ? (
                     <NoProduct />
                   ) : (
-                    allProducts?.data &&
-                    allProducts?.data?.map((product: TProductDetail) => (
+                    allProducts?.data?.data &&
+                    allProducts?.data?.data?.map((product: TProductDetail) => (
                       <ProductCard product={product} key={product?.id} />
                     ))
                   )}
@@ -230,7 +240,34 @@ const AllProducts = () => {
 
             {/*  */}
           </div>
-          {/* content body ends   */}
+
+          {/* pagination section  */}
+          <div className="paginatonSection mt-6 ">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious href="#" />
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink href="#">1</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink href="#" isActive>
+                    2
+                  </PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink href="#">3</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationNext href="#" />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
         </Wrapper>
       </div>
     </>
