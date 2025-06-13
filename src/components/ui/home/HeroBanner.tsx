@@ -34,8 +34,7 @@ const bannerInfo: TBanner[] = [
     heading: "Unleash the Joy of Seamless Shopping",
     description:
       "Discover an exciting range of products tailored to your needs. From trendy fashion to must-have gadgets, shop now and enjoy unbeatable deals, fast delivery, and a hassle-free shopping experience. Start your journey today!",
-    bannerImg:
-      "https://i.postimg.cc/9XytS2BK/1000-F-249501466-n-LFWWk-Fb-KW2oi-OA5-FU1p5hjk0o-Qki-Uk-M.jpg",
+    bannerImg: "https://i.postimg.cc/4yLk8bVM/pexels-asphotograpy-230544.jpg",
   },
 
   {
@@ -52,7 +51,8 @@ const bannerInfo: TBanner[] = [
     heading: "Find Everything You Love, All in One Place",
     description:
       "Whether you’re upgrading your wardrobe, enhancing your home, or picking up essentials, we’ve got you covered. Browse, compare, and buy with ease. Start shopping now and turn your dreams into reality!",
-    bannerImg: "https://i.postimg.cc/DwRSnJvg/slider-three-cover.png",
+    bannerImg:
+      "https://i.postimg.cc/HLXmpM1c/pexels-vlada-karpovich-4050388-1.jpg",
   },
 
   {
@@ -69,7 +69,7 @@ const bannerInfo: TBanner[] = [
     description:
       "Enjoy incredible discounts during our daily flash sales. Limited products, limited time—shop now and make the most of these amazing offers before they disappear!",
     bannerImg:
-      "https://i.postimg.cc/L5ktZkX2/flash-sale-banner-with-red-background-and-limited-offer-vector.jpg",
+      "https://i.postimg.cc/BbWMJ8s6/pexels-tamanna-rumee-52377920-7987758-1.jpg",
   },
 ];
 

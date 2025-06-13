@@ -4,7 +4,7 @@ import { Button } from "../button";
 
 const HeroBannerCard = ({ banner }: { banner: any }) => {
   return (
-    <section className="   flex container flex-col items-center justify-between  md:flex-row gap-y-5 xmd:gap-y-0 ">
+    <section className="   flex container flex-col items-center justify-between  md:flex-row gap-y-5 xmd:gap-y-0 gap-x-2 ">
       {/* content - start  */}
 
       <div className=" w-[99%] xsm:w-[90%] sm:w-[80%]  md:w-[70%] xmd:w-[60%] lg:w-[50%] flex flex-col justify-center text-left   ">
