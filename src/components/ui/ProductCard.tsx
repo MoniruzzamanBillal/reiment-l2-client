@@ -124,7 +124,7 @@ const ProductCard = ({ product }: { product: TProductDetail }) => {
   };
 
   return (
-    <div className="ProductCardContainer bg-white border border-gray-300 shadow-md   rounded-md overflow-auto hover:shadow-lg hover:scale-[1.01] duration-200 flex flex-col justify-between ">
+    <div className="ProductCardContainer   ">
       {/* Cart replace modal  */}
       <CartItemReplaceModal
         showReplaceModal={showReplaceModal}
@@ -132,75 +132,86 @@ const ProductCard = ({ product }: { product: TProductDetail }) => {
         handleReplaceCart={handleReplaceCart}
       />
 
-      <Link to={`/product/detail/${product?.id}`}>
-        <div className="ProductCardWrapper flex flex-col justify-between gap-y-1  ">
-          {/* product image section  */}
-          <div className="prodImg  h-[15rem] relative ">
-            <img
-              className=" w-full h-full "
-              src={product?.productImg as string}
-              alt=""
-            />
+      <div className="productCartWrappwer bg-gray-200 border border-gray-400 shadow-md   rounded-md overflow-auto hover:shadow-lg hover:scale-[1.01] duration-200 flex flex-col  justify-between">
+        {/*  */}
+        <Link className=" block  " to={`/product/detail/${product?.id}`}>
+          <div className="ProductCardWrapper flex flex-col    ">
+            {/* product image section  */}
+            <div className="prodImg  h-[14rem] relative ">
+              <img
+                className=" w-full h-full "
+                src={product?.productImg as string}
+                alt=""
+              />
 
-            {/* category name section */}
-            <div className="categorySection bg-prime50/80 py-.5 px-2 rounded-md text-gray-50 text-sm font-medium absolute top-0 left-0 ">
-              <p>{product?.category?.name}</p>
+              {/* category name section */}
+              <div className="categorySection bg-prime50/80 py-.5 px-2 rounded-md text-gray-50 text-xs font-medium absolute top-0 left-0 ">
+                <p>{product?.category?.name}</p>
+              </div>
             </div>
-          </div>
 
-          <div className="prodDes mb-1 p-3 hover:text-prime200  ">
-            {/* prod name  */}
-            <h1 className=" font-medium mb-2.5  "> {product?.name} </h1>
+            <div className="prodDes mb-1 p-3 hover:text-prime200  ">
+              {/* prod name  */}
+              <h1 className=" font-medium mb-2.5 text-sm  ">
+                {" "}
+                {product?.name}{" "}
+              </h1>
 
-            <div className="productPriceShopName flex justify-between items-center ">
-              {/* prod price  */}
-              <div className="prodPrice flex items-center gap-x-2 ">
-                {product?.discount && product?.discount > 60 ? (
-                  <>
+              <div className="productPriceShopName flex justify-between items-center ">
+                {/* prod price  */}
+                <div className="prodPrice flex items-center gap-x-2 text-sm ">
+                  {product?.discount && product?.discount > 60 ? (
+                    <>
+                      <p className=" font-semibold  text-sm ">
+                        $ {product?.price - product?.discount}
+                      </p>
+                      <p className=" font-medium line-through text-gray-600 ">
+                        $ {product?.price}
+                      </p>
+                    </>
+                  ) : (
                     <p className=" font-semibold  text-lg ">
-                      $ {product?.price - product?.discount}
+                      $ {product?.price}{" "}
                     </p>
-                    <p className=" font-medium line-through text-gray-600 ">
-                      $ {product?.price}
-                    </p>
-                  </>
-                ) : (
-                  <p className=" font-semibold  text-lg ">
-                    $ {product?.price}{" "}
-                  </p>
-                )}
-              </div>
+                  )}
+                </div>
 
-              {/* shop name  */}
-              <div className="shopName flex justify-between items-center gap-x-1 bg-prime50/40 p-[0.2rem] rounded-md font-semibold text-gray-900 ">
-                <CiShop className=" text-xl font-bold " />
-                <p className=" text-sm ">{product?.shop?.name}</p>
+                {/* shop name  */}
+                <div className="shopName flex justify-between items-center gap-x-1 bg-prime50/40 p-[0.2rem] rounded-md font-semibold text-gray-900 text-sm ">
+                  <CiShop className="  font-bold " />
+                  <p className=" text-sm ">{product?.shop?.name}</p>
+                </div>
               </div>
             </div>
           </div>
+        </Link>
+        {/*  */}
+
+        <div className="buttonSectio pb-2 px-2 flex justify-between   ">
+          <Button
+            disabled={addingCartLoading}
+            onClick={() => handleAddCart(product)}
+            className=" w-[75%]  text-center text-sm font-semibold text-white transition duration-100  bg-prime100 hover:bg-prime200 "
+          >
+            <span>
+              <IoMdCart />
+            </span>
+            <span>
+              {" "}
+              {addingCartLoading ? "Adding to cart" : "Add To Cart"}{" "}
+            </span>
+          </Button>
+
+          <Button
+            onClick={() => addProductComparison(product)}
+            className=" bg-prime100 hover:bg-prime200"
+          >
+            <IoMdGitCompare />
+          </Button>
         </div>
-      </Link>
-
-      {/*  */}
-      <div className="buttonSectio pb-2 px-2 flex justify-between   ">
-        <Button
-          disabled={addingCartLoading}
-          onClick={() => handleAddCart(product)}
-          className=" w-[75%]  text-center text-sm font-semibold text-white transition duration-100  bg-prime100 hover:bg-prime200 "
-        >
-          <span>
-            <IoMdCart />
-          </span>
-          <span> {addingCartLoading ? "Adding to cart" : "Add To Cart"} </span>
-        </Button>
-
-        <Button
-          onClick={() => addProductComparison(product)}
-          className=" bg-prime100 hover:bg-prime200"
-        >
-          <IoMdGitCompare />
-        </Button>
+        {/*  */}
       </div>
+
       {/*  */}
     </div>
   );
