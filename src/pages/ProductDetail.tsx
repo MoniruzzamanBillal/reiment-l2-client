@@ -4,19 +4,18 @@ import {
   CartItemReplaceModal,
   CommentInput,
   FormSubmitLoading,
-  GlassZoomImage,
   RelatedProductCard,
   UserCommentCard,
 } from "@/components/ui";
-import { Button } from "@/components/ui/button";
 import {
   useGetRelatedProductQuery,
   useGetSingleProductsQuery,
 } from "@/redux/features/product/product.api";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import { ProductDetailTop } from "@/components/ui/ProductDetail";
 import { TRelatedProduct } from "@/constants/customer";
 import {
   useAddProductToCartMutation,
@@ -30,7 +29,7 @@ import {
   useGiveReviewMutation,
 } from "@/redux/features/review/review.api";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { TProductDetail } from "@/types/globalTypes";
+import { TProductDetailType, TReview } from "@/types/ProductDetail";
 import { GetUserRole } from "@/utils/GetUserRole";
 
 const ProductDetail = () => {
@@ -74,7 +73,7 @@ const ProductDetail = () => {
   const userRole = GetUserRole();
 
   // ! for adding item to cart
-  const handleAddCart = async (product: TProductDetail) => {
+  const handleAddCart = async (product: TProductDetailType) => {
     if (
       !userCardData?.data ||
       product?.shopId === userCardData?.data?.vendorId
@@ -222,6 +221,8 @@ const ProductDetail = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productData?.data?.id]);
 
+  // console.log(productData?.data);
+
   return (
     <>
       {(productDataLoading ||
@@ -239,160 +240,37 @@ const ProductDetail = () => {
           />
 
           <div className="bg-gray-100  py-6 sm:py-8 lg:py-12">
-            {/* product detail section starts  */}
-            <div className="mx-auto max-w-screen-lg px-4 md:px-8">
-              <div className="grid gap-8 md:grid-cols-2">
-                {/* images - start  */}
-                <div className="space-y-4">
-                  <div className="relative overflow-hidden rounded-lg bg-gray-100">
-                    <GlassZoomImage imageSrc={productData?.data?.productImg} />
-                  </div>
+            {/* product detail top section starts  */}
+            <ProductDetailTop
+              productData={productData?.data}
+              userRole={userRole as string}
+              handleAddCart={handleAddCart}
+              addProductComparison={addProductComparison}
+            />
+            {/* product detail top section ends */}
+
+            {/* {/* description - start  */}
+            <div className="mt-6 py-6 ">
+              <Wrapper>
+                <div className="mb-2 text-xl font-bold text-gray-900">
+                  Product Description
                 </div>
-                {/* images - end  */}
 
-                {/* {/* content - start  */}
-                <div className="md:py-8">
-                  {/* {/* name - start  */}
-                  <div className="mb-6 md:mb-10">
-                    <h2 className="text-3xl font-semibold text-gray-800 lg:text-4xl">
-                      {productData?.data?.name}
-                    </h2>
-                  </div>
-                  {/* name - end  */}
-
-                  {/* price - start  */}
-                  <div className="mb-6">
-                    <div className="  text-lg mb-1.5  ">
-                      Price :{" "}
-                      <span className=" font-bold text-gray-800 md:text-2xl">
-                        {productData?.data?.discount
-                          ? `${
-                              productData?.data?.price -
-                              productData?.data?.discount
-                            }`
-                          : `${productData?.data?.price}`}{" "}
-                        $
-                      </span>
-                    </div>
-
-                    <span className="text-sm text-gray-500">
-                      incl. VAT plus shipping
-                    </span>
-                  </div>
-                  {/* price - end  */}
-
-                  {/* product category starts  */}
-                  <div className="mb-2 flex items-center gap-2 text-gray-600">
-                    <span className="text-sm text-gray-800 font-medium ">
-                      Category :
-                    </span>
-                    {productData?.data?.category?.name}
-                  </div>
-                  {/* product category ends  */}
-
-                  {/* {/* shipping notice - start  */}
-                  <div className="mb-6 flex items-center gap-2 text-gray-500">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"
-                      />
-                    </svg>
-
-                    <span className="text-sm">2-4 day shipping</span>
-                  </div>
-                  {/* shipping notice - end  */}
-
-                  {/* {/* buttons - start  */}
-                  <div className="   ">
-                    {userRole === "VENDOR" ? (
-                      "  "
-                    ) : (
-                      <div className="btnSection flex items-center gap-x-4 ">
-                        {/*  */}
-
-                        <Button
-                          disabled={
-                            productData?.data?.inventoryCount === 0
-                              ? true
-                              : false
-                          }
-                          className={`   text-center text-sm font-semibold text-white transition duration-100  ${
-                            productData?.data?.inventoryCount === 0
-                              ? "cursor-not-allowed bg-gray-400"
-                              : "bg-prime100 hover:bg-prime200 "
-                          }`}
-                          onClick={() => handleAddCart(productData?.data)}
-                        >
-                          {productData?.data?.inventoryCount === 0
-                            ? "Out of Stock"
-                            : `  Add to cart  `}
-                        </Button>
-
-                        {/*  */}
-
-                        <Button
-                          onClick={() =>
-                            addProductComparison(productData?.data)
-                          }
-                          className=" bg-prime100 hover:bg-prime200  "
-                        >
-                          Add To Compare
-                        </Button>
-
-                        {/*  */}
-                      </div>
-                    )}
-                  </div>
-                  {/* buttons - end  */}
-
-                  {/* shop name starts  */}
-
-                  <div className="shopNameStarts mt-8">
-                    <p className=" text-lg font-semibold text-gray-800">
-                      Sold by :
-                    </p>
-
-                    <p className="text-prime100 text-lg font-medium cursor-pointer ">
-                      <Link to={`/shop/detail/${productData?.data?.shop?.id}`}>
-                        {productData?.data?.shop?.name}
-                      </Link>
-                    </p>
-                  </div>
-
-                  {/* shop name ends  */}
-
-                  {/* {/* description - start  */}
-                  <div className="mt-5 ">
-                    <div className="mb-2 text-lg font-semibold text-gray-800">
-                      Description
-                    </div>
-
-                    <p className="text-gray-500">
-                      {productData?.data?.description}
-                    </p>
-                  </div>
-                  {/* description - end  */}
-                </div>
-                {/* content - end  */}
-              </div>
+                <div
+                  className=" productDetail "
+                  dangerouslySetInnerHTML={{
+                    __html: productData?.data?.description,
+                  }}
+                ></div>
+              </Wrapper>
             </div>
-            {/* product detail section ends */}
+            {/* description - end  */}
 
             {/* detail bottom section starts  */}
             <Wrapper className=" flex flex-col gap-y-8  ">
               {/* review section starts  */}
               <div className="reviewSection    ">
-                <h1 className="   font-semibold text-2xl mt-2 mb-6   ">
+                <h1 className="   font-semibold text-2xl mt-3 mb-5   ">
                   Reviews
                 </h1>
 
@@ -408,9 +286,16 @@ const ProductDetail = () => {
                   />
                 )}
 
+                {/* for no review  */}
+                {!productData?.data?.review?.length && (
+                  <p className=" font-semibold text-red-500 ">
+                    No Review available{" "}
+                  </p>
+                )}
+
                 {/* user comment card  section  */}
                 {productData?.data?.review &&
-                  productData?.data?.review?.map((comment: any) => (
+                  productData?.data?.review?.map((comment: TReview) => (
                     <UserCommentCard review={comment} />
                   ))}
               </div>

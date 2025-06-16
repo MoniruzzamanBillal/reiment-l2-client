@@ -85,3 +85,13 @@ table th {
 .active {
   color: #009b94;
 }
+
+.productDetail ul,
+.productDetail li,
+.productDetail h1,
+.productDetail ol,
+.productDetail p {
+  all: revert !important;
+  margin: 0 !important;
+  padding: revert !important;
+}
