@@ -65,7 +65,7 @@ const ProductDetailTop = ({
           {/* product category ends  */}
 
           {/* {/* shipping notice - start  */}
-          <div className="mb-6 flex items-center gap-2 text-gray-500">
+          <div className="mb-4 flex items-center gap-2 text-gray-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -85,6 +85,20 @@ const ProductDetailTop = ({
             <span className="text-sm">2-4 day shipping</span>
           </div>
           {/* shipping notice - end  */}
+
+          {/* shop name starts  */}
+
+          <div className="shopNameStarts mb-6 ">
+            <p className=" text-lg font-semibold text-gray-800">Sold by :</p>
+
+            <p className="text-prime100 text-lg font-medium cursor-pointer ">
+              <Link to={`/shop/detail/${productData?.shop?.id}`}>
+                {productData?.shop?.name}
+              </Link>
+            </p>
+          </div>
+
+          {/* shop name ends  */}
 
           {/* {/* buttons - start  */}
           <div className="   ">
@@ -122,20 +136,6 @@ const ProductDetailTop = ({
             )}
           </div>
           {/* buttons - end  */}
-
-          {/* shop name starts  */}
-
-          <div className="shopNameStarts mt-8">
-            <p className=" text-lg font-semibold text-gray-800">Sold by :</p>
-
-            <p className="text-prime100 text-lg font-medium cursor-pointer ">
-              <Link to={`/shop/detail/${productData?.shop?.id}`}>
-                {productData?.shop?.name}
-              </Link>
-            </p>
-          </div>
-
-          {/* shop name ends  */}
         </div>
         {/* content - end  */}
       </div>
