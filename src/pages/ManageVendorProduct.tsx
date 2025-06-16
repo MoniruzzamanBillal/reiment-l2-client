@@ -37,8 +37,8 @@ const ManageVendorProduct = () => {
     skip: !vendorShopData?.data?.id,
   });
 
-  console.log(productData?.data?.length);
-  console.log(vendorShopData?.data?.status);
+  // console.log(productData?.data?.length);
+  // console.log(vendorShopData?.data?.status);
 
   const totalItems = productData?.data?.length || 0;
   const totalPages = Math.ceil(totalItems / itemsPerPage);

@@ -44,10 +44,15 @@ const modules = {
   ],
 };
 
+type TCategoryOption = {
+  label: string;
+  value: string;
+};
+
 const AddProduct = () => {
   const navigate = useNavigate();
 
-  const [categoryOptions, setCategoryOptions] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState<TCategoryOption[]>([]);
   const { data: categoryData, isLoading: categoryDataLoading } =
     useGetAllCategoryQuery(undefined);
 
@@ -92,8 +97,7 @@ const AddProduct = () => {
 
   // ! for adding product
   const handleAddProduct = async (data: FieldValues) => {
-    const { name, category, price, productImg, description, inventoryCount } =
-      data;
+    const { name, category, price, description, inventoryCount } = data;
 
     console.log(data);
 
@@ -222,7 +226,8 @@ const AddProduct = () => {
                       {...field}
                       options={categoryOptions}
                       value={categoryOptions?.find(
-                        (option) => option === field?.value
+                        (option: { label: string; value: string }) =>
+                          option === field?.value
                       )}
                       onChange={(selectedOption) =>
                         field.onChange(selectedOption?.value)
