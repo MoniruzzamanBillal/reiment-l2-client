@@ -1,17 +1,17 @@
 import { ReimentForm, ReimentInput } from "@/components/form";
 import Wrapper from "@/components/shared/Wrapper";
+import { FormSubmitLoading } from "@/components/ui";
 import { Button } from "@/components/ui/button";
+import { useLogInMutation } from "@/redux/features/auth/auth.api";
+import { setUser } from "@/redux/features/auth/auth.slice";
+import { useAppDispatch } from "@/redux/hook";
 import loginSchema from "@/schemas/login.schema";
+import { TUser } from "@/types/globalTypes";
+import { verifyToken } from "@/utils/verifyToken";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useLogInMutation } from "@/redux/features/auth/auth.api";
-import { FormSubmitLoading } from "@/components/ui";
-import { verifyToken } from "@/utils/verifyToken";
-import { TUser } from "@/types/globalTypes";
-import { useAppDispatch } from "@/redux/hook";
-import { setUser } from "@/redux/features/auth/auth.slice";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -32,8 +32,8 @@ const Login = () => {
 
       const result = await logIn(payload).unwrap();
 
-      console.log(result);
-      console.log(result?.data?.needsPasswordChange);
+      // console.log(result);
+      // console.log(result?.data?.needsPasswordChange);
 
       if (result?.data?.needsPasswordChange) {
         const token = result?.token;

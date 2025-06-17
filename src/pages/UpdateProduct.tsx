@@ -164,7 +164,7 @@ const UpdateProduct = () => {
     }
   };
 
-  // console.log(productData?.data);
+  // console.log(productData?.data?.productImg);
 
   // ! effect for storing default value
   useEffect(() => {
@@ -386,7 +386,7 @@ const UpdateProduct = () => {
               : "bg-prime50 hover:bg-prime100  "
           }   `}
         >
-          {isSubmitting ? "Adding New Product" : "Add Product "}
+          {isSubmitting ? "Updating New Product..." : "Update Product "}
         </Button>
 
         {/*  */}

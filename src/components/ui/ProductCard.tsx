@@ -132,10 +132,10 @@ const ProductCard = ({ product }: { product: TProductDetail }) => {
         handleReplaceCart={handleReplaceCart}
       />
 
-      <div className="productCartWrappwer bg-gray-200 border border-gray-400 shadow-md   rounded-md overflow-auto hover:shadow-lg hover:scale-[1.01] duration-200 flex flex-col  justify-between">
+      <div className="productCartWrappwer bg-gray-200/70 border border-gray-300 shadow-md   rounded-md overflow-auto hover:shadow-lg hover:scale-[1.01] duration-200 flex flex-col  justify-between  ">
         {/*  */}
-        <Link className=" block  " to={`/product/detail/${product?.id}`}>
-          <div className="ProductCardWrapper flex flex-col    ">
+        <Link className="   " to={`/product/detail/${product?.id}`}>
+          <div className="ProductCardWrapper flex flex-col  justify-between    ">
             {/* product image section  */}
             <div className="prodImg  h-[14rem] relative ">
               <img
@@ -152,10 +152,7 @@ const ProductCard = ({ product }: { product: TProductDetail }) => {
 
             <div className="prodDes mb-1 p-3 hover:text-prime200  ">
               {/* prod name  */}
-              <h1 className=" font-medium mb-2.5 text-sm  ">
-                {" "}
-                {product?.name}{" "}
-              </h1>
+              <h1 className=" font-medium mb-2.5 text-sm  ">{product?.name}</h1>
 
               <div className="productPriceShopName flex justify-between items-center ">
                 {/* prod price  */}
@@ -179,7 +176,7 @@ const ProductCard = ({ product }: { product: TProductDetail }) => {
                 {/* shop name  */}
                 <div className="shopName flex justify-between items-center gap-x-1 bg-prime50/40 p-[0.2rem] rounded-md font-semibold text-gray-900 text-sm ">
                   <CiShop className="  font-bold " />
-                  <p className=" text-sm ">{product?.shop?.name}</p>
+                  <p className=" text-xs ">{product?.shop?.name}</p>
                 </div>
               </div>
             </div>

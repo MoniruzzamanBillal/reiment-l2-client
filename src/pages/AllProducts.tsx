@@ -120,23 +120,12 @@ const AllProducts = () => {
     <>
       <div className="AllProductsContainer bg-gray-50 py-4 min-h-screen ">
         <Wrapper className=" AllProductsWrapper ">
-          {/* search section   */}
-          <div className="searchSection bg-gray-50 border border-gray-300  w-[40%] m-auto py-1 px-5 rounded-full flex justify-center items-center mb-5  ">
-            <Input
-              type="text"
-              placeholder="Looking for...."
-              className=" border-none "
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-
           {/* content body starts  */}
           <div className="contentBody  flex justify-between gap-x-3 ">
             {/* left section starts  */}
 
             {/* filter section   */}
-            <div className="contentLeft w-0 xl:w-[30%] hidden xl:block   ">
+            <div className="contentLeft w-0 xl:w-[20%] hidden xl:block   ">
               <ProductsFilter
                 priceRange={pprice}
                 category={pcategory}
@@ -150,9 +139,9 @@ const AllProducts = () => {
 
             {/* right section starts  */}
             {/* products section  */}
-            <div className="contentRight w-[100%] xl:w-[70%] flex flex-col gap-y-4 ">
+            <div className="contentRight w-[100%] xl:w-[80%] flex flex-col gap-y-4 ">
               {/* content top section  */}
-              <div className="contentTop bg-gray-50 shadow-md rounded border border-gray-300 py-2 px-4 flex justify-between items-center ">
+              <div className="contentTop bg-gray-100/70 shadow-md rounded border border-gray-300 py-2 px-4 flex justify-between items-center ">
                 {/* Conditional rendering of ProductsFilter */}
                 {!isXl ? (
                   <Sheet>
@@ -189,7 +178,16 @@ const AllProducts = () => {
                     </SheetContent>
                   </Sheet>
                 ) : (
-                  <h1 className=" text-lg font-medium ">Product name </h1>
+                  // search section
+                  <div className="searchSection bg-gray-50 border border-gray-300 w-[60%]  m-auto py-0.5 px-5 rounded-full flex justify-center items-center   ">
+                    <Input
+                      type="text"
+                      placeholder="Looking for...."
+                      className=" border-none "
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                  </div>
                 )}
 
                 {/* sort input section starts  */}
