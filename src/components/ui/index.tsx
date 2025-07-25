@@ -5,6 +5,7 @@ export { default as CategotyDeleteModal } from "./CategotyDeleteModal";
 export { default as CommentInput } from "./CommentInput";
 export { default as FormSubmitLoading } from "./FormSubmitLoading";
 export { default as GlassZoomImage } from "./GlassZoomImage";
+export { default as NavSearchInput } from "./NavSearchInput";
 export { default as NoCartItem } from "./NoCartItem";
 export { default as NoProduct } from "./NoProduct";
 export { default as ProductCard } from "./ProductCard";

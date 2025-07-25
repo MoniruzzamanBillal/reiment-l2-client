@@ -32,9 +32,6 @@ const Login = () => {
 
       const result = await logIn(payload).unwrap();
 
-      // console.log(result);
-      // console.log(result?.data?.needsPasswordChange);
-
       if (result?.data?.needsPasswordChange) {
         const token = result?.token;
         const user = verifyToken(token) as TUser;
@@ -61,6 +58,24 @@ const Login = () => {
       const errorMsg = (error as any)?.data?.message;
       toast.error(errorMsg, { id: toastId, duration: 1800 });
       console.log(error);
+    }
+  };
+
+  // ! for demo login as user
+  const demoLogin = async () => {
+    const payload = {
+      email: "user1@gmail.com",
+      password: "123456",
+    };
+
+    const result = await logIn(payload);
+
+    const token = result?.data?.token;
+    const user = verifyToken(token) as TUser;
+
+    if (result?.data?.success) {
+      dispatch(setUser({ user, token }));
+      navigate("/");
     }
   };
 
@@ -108,6 +123,20 @@ const Login = () => {
               </Button>
             </ReimentForm>
             {/* form ends */}
+
+            <div className="demoLoginButton my-3    ">
+              <Button
+                disabled={isLoading}
+                onClick={() => demoLogin()}
+                className={`  px-3 xsm:px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base  active:scale-95 duration-500 bg-prime50 hover:bg-prime100   ${
+                  isLoading
+                    ? " cursor-not-allowed bg-gray-600 "
+                    : "bg-prime50 hover:bg-prime100  "
+                }  `}
+              >
+                Demo Login as user
+              </Button>
+            </div>
 
             <div className="forgotPassword  mt-2  font-semibold underline cursor-pointer text-blue-800 dark:text-blue-500  ">
               <Link to={"/forgotPassword"}>forgot password</Link>

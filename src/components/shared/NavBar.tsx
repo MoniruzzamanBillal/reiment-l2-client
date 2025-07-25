@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { RiMenu3Fill, RiCloseFill } from "react-icons/ri";
+import { RiCloseFill, RiMenu3Fill } from "react-icons/ri";
 
-import { LuUser } from "react-icons/lu";
 import { FiShoppingCart } from "react-icons/fi";
+import { LuUser } from "react-icons/lu";
 import Wrapper from "./Wrapper";
 
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { UseGetUser } from "@/utils/SharedFunction";
 import { useGetUserCartQuery } from "@/redux/features/cart/cart.api";
+import { UseGetUser } from "@/utils/SharedFunction";
+import { NavSearchInput } from "../ui";
+import { Button } from "../ui/button";
 
 const Links = [
   { name: "Home", link: "/" },
@@ -51,12 +51,6 @@ const Navbar = () => {
         <div className="imgContainer  ">
           <Link to={"/"}>
             <div className=" text-2xl cursor-pointer flex items-center  gap-x-1">
-              {/* <img
-                src={logo}
-                className="  w-[3rem] sm:w-[3.6rem] md:w-[2.8rem] lg:w-[4rem]  "
-                alt="logo"
-              /> */}
-
               <p className="  text-2xl sm:text-2xl md:text-xl lg:text-3xl font-bold font-headingFont ">
                 Rei
                 <span className=" text-prime100 ">ment </span>
@@ -74,20 +68,12 @@ const Navbar = () => {
         </div>
 
         {/* middle search section  */}
-        <div className="middleSection searchSection  w-[28%] border border-prime50/40 rounded-md flex items-center  ">
-          <Input
-            type="text"
-            placeholder="Looking for...."
-            className=" rounded-none text-xs  "
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+        <div className="middleSection searchSection hidden md:block  md:w-[28%]   ">
+          <NavSearchInput
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            handleSearchProduct={handleSearchProduct}
           />
-          <Button
-            onClick={() => handleSearchProduct()}
-            className=" rounded-none text-xs bg-prime100 hover:bg-prime100  "
-          >
-            Search
-          </Button>
         </div>
 
         {/* rigth section  */}
@@ -100,7 +86,7 @@ const Navbar = () => {
             md:w-auto md:pl-0 transition-all 
             duration-300 ease-in 
             text-xs xsm:text-sm sm:text-base 
-            md:text-xs xmd:text-sm lg:text-base 
+            md:text-xs xmd:text-sm xlm:text-base 
             ${open ? "top-[3.2rem] block" : "top-[-490px]"}`}
           style={{
             backdropFilter: "blur(3rem)",
@@ -110,7 +96,7 @@ const Navbar = () => {
             Links.map((link, index) => (
               <li
                 key={index}
-                className="  my-5 xsm:my-7 md:ml-8 md:my-0  font-semibold uppercase"
+                className="  my-5 xsm:my-7 ml-4 xl:ml-6 md:my-0  font-semibold uppercase"
               >
                 <Link
                   to={link.link}
