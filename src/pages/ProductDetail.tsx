@@ -223,6 +223,8 @@ const ProductDetail = () => {
 
   // console.log(productData?.data);
 
+  // console.log(productData?.data?.description);
+
   return (
     <>
       {(productDataLoading ||

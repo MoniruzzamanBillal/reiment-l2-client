@@ -17,6 +17,15 @@ type TCategory = {
   categoryImg: string;
 };
 
+// Responsive breakpoints
+const categoryShowbreakpoints = {
+  0: { slidesPerView: 2, spaceBetween: 16 },
+  640: { slidesPerView: 3, spaceBetween: 24 },
+  768: { slidesPerView: 4, spaceBetween: 24 },
+  1024: { slidesPerView: 5, spaceBetween: 32 },
+  1280: { slidesPerView: 6, spaceBetween: 32 },
+};
+
 const ShopByCategory = () => {
   const { data: categoryData, isLoading: categoryDataLoading } =
     useGetAllCategoryQuery(undefined);
@@ -51,8 +60,6 @@ const ShopByCategory = () => {
         </h1>
 
         <Swiper
-          slidesPerView={5}
-          spaceBetween={30}
           centeredSlides={true}
           autoplay={{
             delay: 2000,
@@ -61,13 +68,14 @@ const ShopByCategory = () => {
           pagination={{
             clickable: true,
           }}
+          breakpoints={categoryShowbreakpoints}
           modules={[Pagination, Autoplay]}
           className="mySwiper  m-auto flex justify-center items-center "
         >
           {categoryOptions &&
-            categoryOptions.map((product, ind) => (
+            categoryOptions.map((category, ind) => (
               <SwiperSlide className=" mb-9 flex justify-center items-center   ">
-                <CategoryCard key={ind} product={product} />
+                <CategoryCard key={ind} category={category} />
               </SwiperSlide>
             ))}
         </Swiper>

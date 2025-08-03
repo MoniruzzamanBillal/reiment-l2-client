@@ -8,7 +8,7 @@ import ProductCardSkeleton from "../ProductCardSkeleton";
 const NewArrival = () => {
   const { data: allProducts, isLoading } = useGetAllProductQuery({ limit: 4 });
 
-  console.log(allProducts?.data?.data);
+  // console.log(allProducts?.data?.data);
 
   return (
     <div className="NewArrivalContainer py-8">
