@@ -12,8 +12,17 @@ import { Autoplay, Pagination } from "swiper/modules";
 import ProductCard from "../ProductCard";
 import { Button } from "../button";
 
+const flashProductShowbreakpoints = {
+  0: { slidesPerView: 1, spaceBetween: 16 },
+  500: { slidesPerView: 2, spaceBetween: 24 },
+  780: { slidesPerView: 3, spaceBetween: 24 },
+  1080: { slidesPerView: 4, spaceBetween: 20 },
+};
+
 const FlashSaleBanner = () => {
   const { data: allProducts } = useGetFlashSaleProductQuery(undefined);
+
+  // console.log(allProducts?.data);
 
   return (
     <div className="FlashSaleBannerContainer py-8 ">
@@ -27,8 +36,6 @@ const FlashSaleBanner = () => {
         {/* heading section  */}
 
         <Swiper
-          slidesPerView={4}
-          spaceBetween={50}
           centeredSlides={true}
           autoplay={{
             delay: 2000,
@@ -38,6 +45,7 @@ const FlashSaleBanner = () => {
             clickable: true,
           }}
           modules={[Pagination, Autoplay]}
+          breakpoints={flashProductShowbreakpoints}
           className="mySwiper  m-auto flex justify-center items-center "
         >
           {allProducts?.data &&

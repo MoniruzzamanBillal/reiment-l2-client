@@ -3,14 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { RiCloseFill, RiMenu3Fill } from "react-icons/ri";
 
-import { FiShoppingCart } from "react-icons/fi";
-import { LuUser } from "react-icons/lu";
 import Wrapper from "./Wrapper";
 
-import { useGetUserCartQuery } from "@/redux/features/cart/cart.api";
-import { UseGetUser } from "@/utils/SharedFunction";
-import { NavSearchInput } from "../ui";
-import { Button } from "../ui/button";
+import NavbarTop from "../ui/Navbar/NavbarTop";
 
 const Links = [
   { name: "Home", link: "/" },
@@ -21,11 +16,9 @@ const Links = [
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const userInfo = UseGetUser();
+
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
-  const { data: cartData } = useGetUserCartQuery(undefined);
 
   // console.log(userInfo);
 
@@ -45,19 +38,18 @@ const Navbar = () => {
         backdropFilter: "blur(8px)",
       }}
     >
+      {/* nav top  */}
+      <div className="navbarTopSection bg-orange-300 ">
+        <NavbarTop
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          handleSearchProduct={handleSearchProduct}
+        />
+      </div>
+
       <Wrapper className="   flex items-center justify-between py-2  m-auto   ">
         {/* logo section */}
         {/* left section  */}
-        <div className="imgContainer  ">
-          <Link to={"/"}>
-            <div className=" text-2xl cursor-pointer flex items-center  gap-x-1">
-              <p className="  text-2xl sm:text-2xl md:text-xl lg:text-3xl font-bold font-headingFont ">
-                Rei
-                <span className=" text-prime100 ">ment </span>
-              </p>
-            </div>
-          </Link>
-        </div>
 
         {/* Menu icon */}
         <div
@@ -65,15 +57,6 @@ const Navbar = () => {
           className="   flex justify-center items-center   cursor-pointer md:hidden  font-semibold  text-2xl "
         >
           {open ? <RiCloseFill className="  " /> : <RiMenu3Fill />}
-        </div>
-
-        {/* middle search section  */}
-        <div className="middleSection searchSection hidden md:block  md:w-[28%]   ">
-          <NavSearchInput
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            handleSearchProduct={handleSearchProduct}
-          />
         </div>
 
         {/* rigth section  */}
@@ -107,51 +90,6 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
-
-          <div className="buttonSection  md:ml-5 lg:ml-8  flex  items-center gap-x-0.5  ">
-            {!userInfo ? (
-              <Link to={"/login"}>
-                <Button className=" -z-[1] text-xs sm:text-sm md:text-base bg-prime50 hover:bg-prime100 ">
-                  Sign in
-                </Button>
-              </Link>
-            ) : (
-              <div className="relative">
-                <Link
-                  to="/dashboard"
-                  className="inline-block p-2 rounded-full bg-orange-100 cursor-pointe"
-                >
-                  <LuUser className=" text-2xl font-bold text-gray-800 " />
-                </Link>
-              </div>
-            )}
-
-            {/* cart button  */}
-
-            <Link to={"/cart"}>
-              {userInfo?.userRole == "CUSTOMER" && (
-                <div className="cartBtn  pl-0 md:pl-2 mr-3 md:pr-0  cursor-pointer text-2xl  relative ">
-                  <FiShoppingCart />
-
-                  {/* cart item number  */}
-                  {cartData?.data?.cartItem?.length > 0 && (
-                    <div className="number text-gray-100 text-center size-5 bg-prime100 text-xs rounded-full  absolute transform -translate-x-1/2  -translate-y-1/2  top-[0rem] left-[2rem] ">
-                      {cartData?.data?.cartItem?.length}
-                    </div>
-                  )}
-                </div>
-              )}
-            </Link>
-
-            {/* cart button  */}
-
-            {/*  */}
-            {/*  */}
-            {/*  */}
-
-            {/*  */}
-            {/*  */}
-          </div>
         </ul>
       </Wrapper>
     </div>
