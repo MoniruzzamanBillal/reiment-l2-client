@@ -1,12 +1,13 @@
 import Wrapper from "@/components/shared/Wrapper";
-import { ProductCard } from "@/components/ui";
+import { ProductCard, ProductCardSkeleton } from "@/components/ui";
 import { useGetFlashSaleProductQuery } from "@/redux/features/product/product.api";
 
 const FlashSale = () => {
-  const { data: allProducts } = useGetFlashSaleProductQuery(undefined);
+  const { data: allProducts, isLoading } =
+    useGetFlashSaleProductQuery(undefined);
 
   return (
-    <div className="FlashSaleContainer bg-gray-100 py-4  ">
+    <div className="FlashSaleContainer bg-gray-100 pt-16 pb-4  ">
       <Wrapper className=" FlashSaleWrapper  ">
         {/* heading section  */}
         <div className="headingSection mb-8 flex items-center gap-x-3  ">
@@ -15,14 +16,20 @@ const FlashSale = () => {
           </h1>
 
           <p className=" text-lg font-medium ">
-            {" "}
             ( {allProducts?.data?.length} Products Found){" "}
           </p>
         </div>
         {/* heading section  */}
 
         {/* product card section  */}
-        <div className="productCard grid grid-cols-4 gap-x-4 gap-y-8 ">
+
+        {/* all products  */}
+        <div className="allProducts  mx-auto w-[80%] xsm:w-full grid grid-cols-1 xsm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-8 ">
+          {isLoading &&
+            Array.from({ length: 6 })?.map((_, ind) => (
+              <ProductCardSkeleton key={ind} />
+            ))}
+
           {allProducts?.data &&
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             allProducts?.data?.map((product: any) => (

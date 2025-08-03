@@ -118,7 +118,7 @@ const AllProducts = () => {
 
   return (
     <>
-      <div className="AllProductsContainer bg-gray-50 py-4 min-h-screen ">
+      <div className="AllProductsContainer bg-gray-200 pt-16 pb-4 min-h-screen ">
         <Wrapper className=" AllProductsWrapper ">
           {/* content body starts  */}
           <div className="contentBody  flex justify-between gap-x-3 ">

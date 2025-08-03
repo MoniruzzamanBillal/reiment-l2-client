@@ -2,7 +2,7 @@ import { Skeleton } from "./skeleton";
 
 const ProductCardSkeleton = () => {
   return (
-    <div className="ProductCardContainer bg-white border border-gray-300 shadow-md rounded-md overflow-auto">
+    <div className="ProductCardContainer bg-white border border-gray-400 shadow-md rounded-md overflow-auto">
       <div className="ProductCardWrapper flex flex-col gap-y-1">
         {/* Image Skeleton */}
         <div className="h-[15rem] relative">

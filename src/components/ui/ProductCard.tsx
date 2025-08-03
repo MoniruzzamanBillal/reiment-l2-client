@@ -132,7 +132,7 @@ const ProductCard = ({ product }: { product: TProductDetail }) => {
         handleReplaceCart={handleReplaceCart}
       />
 
-      <div className="productCartWrappwer bg-gray-200/70 border border-gray-300 shadow-md   rounded-md overflow-auto hover:shadow-lg hover:scale-[1.01] duration-200 flex flex-col  justify-between  ">
+      <div className="productCartWrappwer bg-gray-200/70 border border-gray-400 shadow-md   rounded-md overflow-auto hover:shadow-lg hover:scale-[1.01] duration-200 flex flex-col  justify-between  ">
         {/*  */}
         <Link className="   " to={`/product/detail/${product?.id}`}>
           <div className="ProductCardWrapper flex flex-col  justify-between    ">
