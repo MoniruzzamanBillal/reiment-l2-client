@@ -24,7 +24,7 @@ const FlashSale = () => {
         {/* product card section  */}
 
         {/* all products  */}
-        <div className="allProducts  mx-auto w-[80%] xsm:w-full grid grid-cols-1 xsm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-8 ">
+        <div className="allProducts mx-auto w-[80%] xsm:w-full grid grid-cols-1 xsm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-8 ">
           {isLoading &&
             Array.from({ length: 6 })?.map((_, ind) => (
               <ProductCardSkeleton key={ind} />

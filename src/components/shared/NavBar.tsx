@@ -24,7 +24,7 @@ const Navbar = () => {
 
   return (
     <div
-      className="  shadow-md w-full fixed top-0 left-0 z-10 "
+      className="   shadow-md w-full fixed top-0 left-0 z-10 "
       style={{
         backdropFilter: "blur(8px)",
       }}

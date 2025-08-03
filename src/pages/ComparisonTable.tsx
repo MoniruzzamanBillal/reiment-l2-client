@@ -14,7 +14,7 @@ const ComparisonTable = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className="ComparisonTableContainer py-8 bg-gray-100  ">
+    <div className="ComparisonTableContainer pt-16 pb-8 bg-gray-100  ">
       <Wrapper>
         <p className="  text-3xl font-semibold mb-6  ">Product Comparison : </p>
 
@@ -27,7 +27,7 @@ const ComparisonTable = () => {
               </p>
             </div>
           ) : (
-            <table>
+            <table className=" bg-white   ">
               <thead>
                 <tr>
                   <th>Product Name</th>
