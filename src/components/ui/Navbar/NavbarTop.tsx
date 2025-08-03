@@ -1,7 +1,8 @@
 import { useGetUserCartQuery } from "@/redux/features/cart/cart.api";
+import { useAppSelector } from "@/redux/hook";
 import { UseGetUser } from "@/utils/SharedFunction";
-import { GitCompareArrows } from "lucide-react";
 import { FiShoppingCart } from "react-icons/fi";
+import { IoMdGitCompare } from "react-icons/io";
 import { LuUser } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { Button } from "../button";
@@ -22,24 +23,28 @@ const NavbarTop = ({
 
   const { data: cartData } = useGetUserCartQuery(undefined);
 
+  const comparisonProducts = useAppSelector(
+    (state) => state?.comparison?.products
+  );
+
+  //   console.log(comparisonProducts?.length);
+
   return (
-    <div className="NavbarTopContainer flex justify-between  ">
+    <div className="NavbarTopContainer flex justify-between  py-1 ">
       {/* nav left section  */}
-      <div className="navLeft bg-red-500 flex justify-between ">
+      <div className="navLeft flex justify-between items-center w-[70%] md:w-[60%] lg:w-[45%] ">
         {/* logo section  */}
-        <div className="logoContainer bg-pink-300  ">
+        <div className="logoContainer   ">
           <Link to={"/"}>
-            <div className=" text-2xl cursor-pointer flex items-center  gap-x-1">
-              <p className="  text-2xl sm:text-2xl md:text-xl lg:text-3xl font-bold font-headingFont ">
-                Rei
-                <span className=" text-prime100 ">ment </span>
-              </p>
-            </div>
+            <p className="  text-2xl sm:text-3xl font-bold font-headingFont ">
+              Rei
+              <span className=" text-prime100 ">ment </span>
+            </p>
           </Link>
         </div>
 
         {/* search section  */}
-        <div className="searchSection bg-blue-400">
+        <div className="searchSection hidden sm:block sm:w-[70%]   ">
           <NavSearchInput
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
@@ -50,11 +55,17 @@ const NavbarTop = ({
 
       {/* right section  */}
       {/* nav right , icon section  */}
-      <div className="iconSection bg-green-300 flex justify-between items-center gap-x-0.5   ">
+      <div className="iconSection  flex justify-between items-center gap-x-8 sm:gap-x-6 md:gap-x-5   ">
         {/* cart button  */}
 
-        <Link to={"/comparison-product"}>
-          <GitCompareArrows />
+        <Link to={"/comparison-product"} className="  relative ">
+          <IoMdGitCompare className=" text-xl " />
+
+          {comparisonProducts?.length > 0 && (
+            <div className="number text-gray-100 text-center size-5 bg-prime100 text-xs rounded-full  absolute transform -translate-x-1/2  -translate-y-1/2  top-[0rem] left-[1.6rem] ">
+              {comparisonProducts?.length}
+            </div>
+          )}
         </Link>
 
         <Link to={"/cart"}>

@@ -1,3 +1,4 @@
+import { FaSearch } from "react-icons/fa";
 import { Button } from "./button";
 import { Input } from "./input";
 
@@ -25,7 +26,7 @@ const NavSearchInput = ({
         onClick={() => handleSearchProduct()}
         className=" rounded-none text-xs bg-prime100 hover:bg-prime100  "
       >
-        Search
+        <FaSearch />
       </Button>
     </div>
   );
