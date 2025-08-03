@@ -5,9 +5,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import Wrapper from "@/components/shared/Wrapper";
-import { useGetAllCategoryQuery } from "@/redux/features/category/category.api";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Heart, ShoppingBag, Users, Zap } from "lucide-react";
+import { ReactNode } from "react";
 import { Autoplay, Pagination } from "swiper/modules";
 import HeroBannerCard from "./HeroBannerCard";
 
@@ -16,16 +15,15 @@ export type TBanner = {
   heading: string;
   description: string;
   bannerImg: string;
+  primaryCTA: string;
+  secondaryCTA?: string;
 };
 
-type TCategoryOption = {
-  name: string;
-  value: string;
-};
-
-type TCategory = {
-  id: string;
-  name: string;
+type TBottomInfo = {
+  id: number;
+  icnon: ReactNode;
+  subHeading: string;
+  subPara: string;
 };
 
 const bannerInfo: TBanner[] = [
@@ -33,102 +31,87 @@ const bannerInfo: TBanner[] = [
     subHeading: "Shop Smarter, Live Better",
     heading: "Unleash the Joy of Seamless Shopping",
     description:
-      "Discover an exciting range of products tailored to your needs. From trendy fashion to must-have gadgets, shop now and enjoy unbeatable deals, fast delivery, and a hassle-free shopping experience. Start your journey today!",
+      "Discover an exciting range of products tailored to your needs. From trendy fashion to must-have gadgets, shop now and enjoy unbeatable deals, fast delivery, and a hassle-free shopping experience.",
     bannerImg: "https://i.postimg.cc/4yLk8bVM/pexels-asphotograpy-230544.jpg",
+    primaryCTA: "Start Shopping",
+    secondaryCTA: "Explore Categories",
   },
-
   {
     subHeading: "Exclusive Deals Await You",
     heading: "Shop the Best Products at Unmatched Prices",
     description:
-      "Get ready to save big! Explore our exclusive collection of premium products with irresistible discounts and limited-time offers. Don’t miss out—grab your favorites before they’re gone!",
+      "Get ready to save big! Explore our exclusive collection of premium products with irresistible discounts and limited-time offers. Don't miss out—grab your favorites before they're gone!",
     bannerImg:
       "https://i.postimg.cc/x872MmFp/pexels-imin-technology-276315592-12935091.jpg",
+    primaryCTA: "View Deals",
+    secondaryCTA: "Browse Products",
   },
-
   {
     subHeading: "Your Dream Products Are Just a Click Away",
     heading: "Find Everything You Love, All in One Place",
     description:
-      "Whether you’re upgrading your wardrobe, enhancing your home, or picking up essentials, we’ve got you covered. Browse, compare, and buy with ease. Start shopping now and turn your dreams into reality!",
+      "Whether you're upgrading your wardrobe, enhancing your home, or picking up essentials, we've got you covered. Browse, compare, and buy with ease.",
     bannerImg:
       "https://i.postimg.cc/HLXmpM1c/pexels-vlada-karpovich-4050388-1.jpg",
+    primaryCTA: "Shop Now",
+    secondaryCTA: "Learn More",
   },
-
   {
     subHeading: "Follow Your Favorite Shops",
     heading: "Get Personalized Recommendations",
     description:
-      "Follow your favorite shops and stay updated with their latest collections and exclusive deals. Discover products handpicked just for you and elevate your shopping game like never before!",
+      "Follow your favorite shops and stay updated with their latest collections and exclusive deals. Discover products handpicked just for you and elevate your shopping game.",
     bannerImg: "https://i.postimg.cc/26r8SnP4/pexels-quintingellar-696205.jpg",
+    primaryCTA: "Discover Shops",
+    secondaryCTA: "Sign Up Free",
   },
-
   {
     subHeading: "Flash Sales Every Day!",
-    heading: "Don’t Miss Out on Today’s Best Deals",
+    heading: "Don't Miss Out on Today's Best Deals",
     description:
       "Enjoy incredible discounts during our daily flash sales. Limited products, limited time—shop now and make the most of these amazing offers before they disappear!",
     bannerImg:
       "https://i.postimg.cc/BbWMJ8s6/pexels-tamanna-rumee-52377920-7987758-1.jpg",
+    primaryCTA: "Shop Flash Sale",
+    secondaryCTA: "Set Alert",
+  },
+];
+
+const bottomSectionInfo: TBottomInfo[] = [
+  {
+    id: 1,
+    icnon: <ShoppingBag className="w-6 h-6 text-prime100" />,
+    subHeading: "Multi-Vendor Marketplace",
+    subPara: "Shop from thousands of trusted vendors",
+  },
+  {
+    id: 2,
+    icnon: <Zap className="w-6 h-6 text-prime100" />,
+    subHeading: "Lightning Fast",
+    subPara: "Quick delivery and seamless experience",
+  },
+  {
+    id: 3,
+    icnon: <Heart className="w-6 h-6 text-prime100" />,
+    subHeading: "Customer First",
+    subPara: "24/7 support and satisfaction guarantee",
+  },
+  {
+    id: 4,
+    icnon: <Users className="w-6 h-6 text-prime100" />,
+    subHeading: "Join Community",
+    subPara: "Connect with vendors and shoppers",
   },
 ];
 
 const HeroBanner = () => {
-  const { data: categoryData, isLoading: categoryDataLoading } =
-    useGetAllCategoryQuery(undefined);
-
-  const [categoryOptions, setCategoryOptions] = useState<TCategoryOption[]>([]);
-
-  //   ! effect for get category data
-  useEffect(() => {
-    if (categoryData?.data) {
-      const modifiedData = categoryData?.data?.map((item: TCategory) => {
-        const optionValue = {
-          name: item?.name,
-          value: item?.id,
-        };
-
-        return optionValue;
-      });
-
-      const initialData: TCategoryOption = {
-        name: "All",
-        value: "",
-      };
-
-      setCategoryOptions([initialData, ...modifiedData]);
-    }
-  }, [categoryData?.data, categoryDataLoading]);
-
   return (
-    <div className="heroBanner    py-8 bg-gray-50   ">
-      <Wrapper className="  flex xmd:justify-between  flex-col xmd:flex-row gap-y-6 xmd:gap-y-0  ">
-        {/* left category section starts  */}
-        <div className="leftCategory  w-full xmd:w-[20%] h-full order-2 xmd:order-1  ">
-          {/* category input starts  */}
-
-          <div className="categoryInput bg-white w-full  xmd:w-auto  h-full shadow-md rounded border border-gray-300 py-2 px-4">
-            <h1 className="font-medium mb-2 text-gray-800">Category :</h1>
-            <ul className="text-sm font-medium text-gray-800">
-              {categoryOptions &&
-                categoryOptions?.map(
-                  (item: { name: string; value: string }, ind: number) => (
-                    <li key={ind} className="w-full border-b border-gray-300">
-                      <Link to={`/products?ParamCategory=${item?.value}`}>
-                        <p className="  ml-6 py-2  ">{item?.name}</p>
-                      </Link>
-                    </li>
-                  )
-                )}
-            </ul>
-          </div>
-          {/* *  category input  ends   */}
-        </div>
-
-        {/* right banner section  */}
-        <div className="heroBannerContainer  w-full xmd:w-[80%]  order-1 ">
+    <div className="heroBanner relative pt-14 pb-8 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+      <Wrapper className="relative ">
+        {/* Main banner carousel */}
+        <div className="heroBannerContainer w-full">
           <Swiper
-            spaceBetween={30}
+            spaceBetween={0}
             centeredSlides={true}
             autoplay={{
               delay: 2500,
@@ -138,16 +121,34 @@ const HeroBanner = () => {
               clickable: true,
             }}
             modules={[Autoplay, Pagination]}
-            className="mySwiper"
+            className="mySwiper rounded-2xl  shadow"
           >
             {bannerInfo &&
               bannerInfo.map((banner, ind) => (
                 <SwiperSlide key={ind}>
-                  <HeroBannerCard key={ind} banner={banner} />
+                  <HeroBannerCard banner={banner} />
                 </SwiperSlide>
               ))}
           </Swiper>
-          {/* <HeroBannerCard /> */}
+        </div>
+
+        {/* Bottom features */}
+        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {bottomSectionInfo &&
+            bottomSectionInfo?.map((info: TBottomInfo) => (
+              <div
+                key={info?.id}
+                className="text-center p-6 bg-gray-200/70 border border-gray-300 rounded-xl shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="w-12 h-12 bg-prime100/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  {info?.icnon}
+                </div>
+                <h3 className="font-semibold text-gray-800 mb-2">
+                  {info?.subHeading}
+                </h3>
+                <p className="text-sm text-gray-600">{info?.subPara}</p>
+              </div>
+            ))}
         </div>
       </Wrapper>
     </div>

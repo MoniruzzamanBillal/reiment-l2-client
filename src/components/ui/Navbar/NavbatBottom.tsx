@@ -23,6 +23,7 @@ type TCategory = {
 const Links = [
   { name: "Home", link: "/" },
   { name: "Products", link: "/products" },
+  { name: "Flash Sale", link: "/flash-sale" },
   { name: "Recent Products", link: "/recent-products" },
   { name: "Compare Product", link: "/comparison-product" },
 ];
