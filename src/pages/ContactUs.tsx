@@ -3,7 +3,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 
 const ContactUs = () => {
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen py-14 px-4 md:px-6 bg-gray-100 ">
+    <main className="flex flex-col items-center justify-center min-h-screen pt-20 pb-14 px-4 md:px-6 bg-gray-100 ">
       <section className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 md:p-12">
         <div className="text-center mb-10">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-50 mb-4">
@@ -16,7 +16,7 @@ const ContactUs = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-          <div className="flex flex-col items-center text-center p-6 bg-gray-100 dark:bg-gray-700 rounded-lg">
+          <div className="flex flex-col items-center text-center p-6 bg-gray-200/70   rounded-md border border-gray-200 shadow-md">
             <Mail className="h-10 w-10 text-rose-500 mb-4" />
             <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-50 mb-2">
               Email Us
@@ -32,7 +32,7 @@ const ContactUs = () => {
             </a>
           </div>
 
-          <div className="flex flex-col items-center text-center p-6 bg-gray-100 dark:bg-gray-700 rounded-lg">
+          <div className="flex flex-col items-center text-center p-6 bg-gray-200/70   rounded-md border border-gray-200 shadow-md">
             <Phone className="h-10 w-10 text-rose-500 mb-4" />
             <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-50 mb-2">
               Call Us
@@ -48,7 +48,7 @@ const ContactUs = () => {
             </a>
           </div>
 
-          <div className="md:col-span-2 flex flex-col items-center text-center p-6 bg-gray-100 dark:bg-gray-700 rounded-lg">
+          <div className="md:col-span-2 flex flex-col items-center text-center bg-gray-200/70  p-6 rounded-md border border-gray-200 shadow-md">
             <MapPin className="h-10 w-10 text-rose-500 mb-4" />
             <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-50 mb-2">
               Visit Us

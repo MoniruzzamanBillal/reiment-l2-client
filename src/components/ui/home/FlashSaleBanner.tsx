@@ -26,7 +26,7 @@ const FlashSaleBanner = () => {
   const { data: allProducts, isLoading } =
     useGetFlashSaleProductQuery(undefined);
 
-  console.log(allProducts?.data);
+  // console.log(allProducts?.data);
 
   return (
     <div className="FlashSaleBannerContainer py-8 ">

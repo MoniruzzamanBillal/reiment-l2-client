@@ -100,7 +100,7 @@ const NavbatBottom = () => {
         {/* Menu icon */}
         <div
           onClick={() => setOpen(!open)}
-          className="   flex justify-center items-center   cursor-pointer md:hidden  font-semibold  text-2xl "
+          className="   flex justify-center items-center   cursor-pointer xmd:hidden  font-semibold  text-2xl "
         >
           {open ? <RiCloseFill /> : <RiMenu3Fill />}
         </div>
@@ -108,14 +108,14 @@ const NavbatBottom = () => {
         {/* rigth section  */}
         {/* linke items */}
         <ul
-          className={`absolute bg-gray-100 shadow-md 
-            md:shadow-none z-[-1] left-0 w-full pr-5 
-            md:flex text-end md:items-center pb-8 md:pb-0 
-            md:static md:bg-transparent md:z-auto 
-            md:w-auto md:pl-0 transition-all 
+          className={`absolute bg-gray-100/90 shadow-md 
+            xmd:shadow-none z-[-1] left-0 w-full pr-5 sm:pr-8  
+            xmd:flex text-end md:items-center pb-2 xmd:pb-0 
+            xmd:static xmd:bg-transparent xmd:z-auto 
+            xmd:w-auto xmd:pl-0 transition-all 
             duration-300 ease-in 
             text-xs xsm:text-sm sm:text-base 
-            md:text-xs xmd:text-sm xlm:text-base 
+             xmd:text-sm xlm:text-base 
             ${open ? "top-[6.8rem] block" : "top-[-490px]"}`}
           style={{
             backdropFilter: "blur(3rem)",
@@ -125,7 +125,7 @@ const NavbatBottom = () => {
             Links.map((link, index) => (
               <li
                 key={index}
-                className="   my-5 xsm:my-7 ml-4 xl:ml-6 md:my-0  font-semibold uppercase"
+                className="   my-4 ml-3 xl:ml-6   font-semibold uppercase"
               >
                 <Link
                   to={link.link}

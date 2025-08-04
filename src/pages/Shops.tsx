@@ -17,7 +17,7 @@ const Shops = () => {
         </h1>
 
         {/* shop card  */}
-        <div className="shopcards grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ">
+        <div className="shopcards mx-auto w-[80%] xsm:w-full grid grid-cols-1 xsm:grid-cols-2 lg:grid-cols-4 gap-6 ">
           {isLoading &&
             Array.from({ length: 6 })?.map((_, ind) => (
               <ShopCardSkeleton key={ind} />

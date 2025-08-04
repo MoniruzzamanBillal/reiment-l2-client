@@ -16,9 +16,11 @@ const ShopCard = ({ shop }: { shop: TShopDetail }) => {
 
         <h2 className="text-lg font-semibold mb-1">{shop?.name}</h2>
 
-        <p className="text-gray-900 text-sm mb-2 h-24 ">{shop?.description}</p>
+        <p className="text-gray-900 text-sm mb-2.5 h-24 ">
+          {shop?.description}
+        </p>
 
-        <p className="text-gray-600 text-sm mb-6">
+        <p className="text-gray-700 text-sm mb-6">
           {format(new Date(shop?.createdAt), "dd-MMM-yyyy")}
         </p>
 
