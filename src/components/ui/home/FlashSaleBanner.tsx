@@ -13,6 +13,7 @@ import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Button } from "../button";
 import FlashSaleProductCard from "../FlashSaleProductCard";
+import ProductCardSkeleton from "../ProductCardSkeleton";
 
 const flashProductShowbreakpoints = {
   0: { slidesPerView: 1, spaceBetween: 16 },
@@ -22,7 +23,8 @@ const flashProductShowbreakpoints = {
 };
 
 const FlashSaleBanner = () => {
-  const { data: allProducts } = useGetFlashSaleProductQuery(undefined);
+  const { data: allProducts, isLoading } =
+    useGetFlashSaleProductQuery(undefined);
 
   console.log(allProducts?.data);
 
@@ -38,6 +40,13 @@ const FlashSaleBanner = () => {
         </div>
         {/* heading section  */}
 
+        <div className="allProducts mx-auto w-[80%] xsm:w-full grid grid-cols-1 xsm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-8 ">
+          {isLoading &&
+            Array.from({ length: 4 })?.map((_, ind) => (
+              <ProductCardSkeleton key={ind} />
+            ))}
+        </div>
+
         <Swiper
           centeredSlides={true}
           autoplay={{
@@ -49,7 +58,7 @@ const FlashSaleBanner = () => {
           }}
           modules={[Pagination, Autoplay]}
           breakpoints={flashProductShowbreakpoints}
-          className="mySwiper  m-auto flex justify-center items-center "
+          className="mySwiper  mx-auto w-[80%] xsm:w-full flex justify-center items-center "
         >
           {allProducts?.data &&
             allProducts?.data?.map((product: any) => (

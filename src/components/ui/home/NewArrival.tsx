@@ -28,7 +28,7 @@ const NewArrival = () => {
         </div>
 
         {/* product section  */}
-        <div className="products  grid grid-cols-1 sm:grid-cols-2 xmd:grid-cols-4 gap-x-5 gap-y-8">
+        <div className="products  mx-auto w-[80%] xsm:w-full  grid grid-cols-1 xsm:grid-cols-2 xmd:grid-cols-4 gap-x-5 gap-y-8">
           {isLoading &&
             Array.from({ length: 6 })?.map((_, ind) => (
               <ProductCardSkeleton key={ind} />

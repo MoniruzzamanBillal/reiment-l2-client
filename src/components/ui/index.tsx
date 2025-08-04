@@ -1,6 +1,7 @@
 export { default as AddressCard } from "./AddressCard";
 export { default as CartItemCard } from "./CartItemCard";
 export { default as CartItemReplaceModal } from "./CartItemReplaceModal";
+export { default as CategoryCardSkeleton } from "./CategoryCardSkeleton";
 export { default as CategotyDeleteModal } from "./CategotyDeleteModal";
 export { default as CommentInput } from "./CommentInput";
 export { default as FlashSaleProductCard } from "./FlashSaleProductCard";

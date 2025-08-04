@@ -133,7 +133,7 @@ const HeroBanner = () => {
         </div>
 
         {/* Bottom features */}
-        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="mt-5  mx-auto w-[80%] xsm:w-full grid grid-cols-1 xsm:grid-cols-2 lg:grid-cols-4 gap-6">
           {bottomSectionInfo &&
             bottomSectionInfo?.map((info: TBottomInfo) => (
               <div

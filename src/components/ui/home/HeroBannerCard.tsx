@@ -5,7 +5,7 @@ import { TBanner } from "./HeroBanner";
 
 const HeroBannerCard = ({ banner }: { banner: TBanner }) => {
   return (
-    <section className="relative min-h-[480px] flex items-center">
+    <section className="relative h-[18rem] xsm:h-[20rem] sm:h-[25rem] xmd:h-[30rem] flex items-center">
       {/* Background Image with Overlay */}
       <div className="absolute ">
         <img
@@ -24,26 +24,26 @@ const HeroBannerCard = ({ banner }: { banner: TBanner }) => {
           {/* Text Content */}
           <div className="w-full lg:w-1/2 text-center lg:text-left">
             {/* Badge */}
-            <div className="inline-flex items-center px-4 py-2 bg-prime100/20 backdrop-blur-sm border border-prime100/30 rounded-full mb-6">
+            <div className="inline-flex items-center px-4 py-2 bg-prime100/20 backdrop-blur-sm border border-prime100/30 rounded-full mb-5 ">
               <span className="text-sm font-medium text-white">
                 {banner?.subHeading}
               </span>
             </div>
 
             {/* Main Heading */}
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl  font-bold text-white mb-6 leading-tight">
+            <h1 className="  text-2xl  md:text-3xl lg:text-5xl  font-bold text-white mb-6 leading-tight">
               {banner?.heading}
             </h1>
 
             {/* Description */}
-            <p className="text-lg  text-gray-200 mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+            <p className="   text-base md:text-lg  text-gray-200 mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0">
               {banner?.description}
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <div className="flex  justify-center lg:justify-start">
               <Link to="/products">
-                <Button className="group bg-prime100 hover:bg-prime100/90 text-white px-6 py-3 text-base font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2">
+                <Button className="group bg-prime100 hover:bg-prime100/90 text-white px-6 py-3 text-sm sm:text-base font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2">
                   {banner?.primaryCTA || "Shop Now"}
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>

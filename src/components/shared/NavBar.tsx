@@ -29,7 +29,7 @@ const Navbar = () => {
         backdropFilter: "blur(8px)",
       }}
     >
-      <Wrapper className="      ">
+      <Wrapper className="  ">
         {/* nav top  */}
 
         <NavbarTop

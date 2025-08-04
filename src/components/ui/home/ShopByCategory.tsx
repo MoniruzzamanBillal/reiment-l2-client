@@ -9,6 +9,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 import Wrapper from "@/components/shared/Wrapper";
 import { useGetAllCategoryQuery } from "@/redux/features/category/category.api";
 import { useEffect, useState } from "react";
+import CategoryCardSkeleton from "../CategoryCardSkeleton";
 import CategoryCard from "./CategoryCard";
 
 type TCategory = {
@@ -58,6 +59,13 @@ const ShopByCategory = () => {
         <h1 className=" mb-8   text-center font-semibold text-prime100 text-xl xsm:text-2xl sm:text-3xl md:text-3xl xl:text-4xl  ">
           Browse by categories
         </h1>
+
+        <div className="allProducts mx-auto w-[80%] xsm:w-full grid grid-cols-1 xsm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-8 ">
+          {categoryDataLoading &&
+            Array.from({ length: 5 })?.map((_, ind) => (
+              <CategoryCardSkeleton key={ind} />
+            ))}
+        </div>
 
         <Swiper
           centeredSlides={true}
