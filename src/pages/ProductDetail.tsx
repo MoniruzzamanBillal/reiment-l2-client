@@ -54,16 +54,20 @@ const ProductDetail = () => {
   } = useGetSingleProductsQuery(id, { skip: !id });
   const { data: userCardData, refetch: refetchCart } =
     useGetUserCartQuery(undefined);
+
   const { data: relatedProductData, isLoading: RelatedProductLoading } =
     useGetRelatedProductQuery(productData?.data?.categoryId, {
       skip: !productData?.data?.categoryId,
     });
+
   const { data: checkEligibelForReview, refetch: checkEligibility } =
     useCheckEligibleForReviewQuery(id, {
       skip: !id,
     });
+
   const [addProductToCart, { isLoading: addingCartLoading }] =
     useAddProductToCartMutation();
+
   const [replaceCart, { isLoading: replaceCartItemLoading }] =
     useReplaceCartMutation();
 
@@ -225,6 +229,8 @@ const ProductDetail = () => {
 
   // console.log(productData?.data?.description);
 
+  console.log(relatedProductData?.data);
+
   return (
     <>
       {(productDataLoading ||
@@ -232,7 +238,7 @@ const ProductDetail = () => {
         replaceCartItemLoading ||
         RelatedProductLoading) && <FormSubmitLoading />}
 
-      <div className="ProductDetailContainer  ">
+      <div className="ProductDetailContainer pt-8 pb-4  ">
         <div className="ProductDetailWrapper  ">
           {/* Cart replace modal  */}
           <CartItemReplaceModal
@@ -241,7 +247,7 @@ const ProductDetail = () => {
             handleReplaceCart={handleReplaceCart}
           />
 
-          <div className="bg-gray-100  py-6 sm:py-8 lg:py-12">
+          <div className="bg-gray-100  py-6 sm:py-8 lg:py-12 ">
             {/* product detail top section starts  */}
             <ProductDetailTop
               productData={productData?.data}
@@ -309,7 +315,7 @@ const ProductDetail = () => {
                   You may also like
                 </h1>
 
-                <div className="relatedProductCards mt-4 grid grid-cols-4 gap-x-5  ">
+                <div className="relatedProductCards mt-4 grid grid-cols-2 sm:grid-cols-3 xmd:grid-cols-4 lg:grid-cols-5 gap-x-5 gap-y-6  ">
                   {relatedProductData?.data &&
                     relatedProductData?.data?.map(
                       (product: TRelatedProduct) => (
