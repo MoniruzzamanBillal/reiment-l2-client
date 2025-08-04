@@ -30,6 +30,7 @@ export { default as ProductDetail } from "./ProductDetail";
 export { default as RecentProducts } from "./RecentProducts";
 export { default as Register } from "./Register";
 export { default as ShopDetail } from "./ShopDetail";
+export { default as Shops } from "./Shops";
 export { default as UpdateCategory } from "./UpdateCategory";
 export { default as UpdateProduct } from "./UpdateProduct";
 export { default as UpdateProfile } from "./UpdateProfile";

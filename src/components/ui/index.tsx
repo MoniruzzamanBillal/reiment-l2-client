@@ -14,6 +14,8 @@ export { default as ProductCard } from "./ProductCard";
 export { default as ProductCardSkeleton } from "./ProductCardSkeleton";
 export { default as ProductsFilter } from "./ProductsFilter";
 export { default as RelatedProductCard } from "./RelatedProductCard";
+export { default as ShopCard } from "./ShopCard";
+export { default as ShopCardSkeleton } from "./ShopCardSkeleton";
 export { default as TableDataError } from "./TableDataError";
 export { default as TableDataLoading } from "./TableDataLoading";
 export { default as UserCommentCard } from "./UserCommentCard";

@@ -32,6 +32,7 @@ import {
   RecentProducts,
   Register,
   ShopDetail,
+  Shops,
   UpdateCategory,
   UpdateProduct,
   UpdateProfile,
@@ -95,6 +96,10 @@ const router = createBrowserRouter([
       {
         path: "/contact",
         element: <ContactUs />,
+      },
+      {
+        path: "/shops",
+        element: <Shops />,
       },
       {
         path: "/product/detail/:id",

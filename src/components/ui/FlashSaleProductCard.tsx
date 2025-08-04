@@ -3,7 +3,6 @@ import {
   useGetUserCartQuery,
   useReplaceCartMutation,
 } from "@/redux/features/cart/cart.api";
-import { TProductDetail } from "@/types/globalTypes";
 import { useState } from "react";
 import { IoMdCart } from "react-icons/io";
 import { Link } from "react-router-dom";
@@ -62,7 +61,7 @@ const FlashSaleProductCard = ({ product }: { product: TProduct }) => {
   // console.log(userCardData?.data);
 
   // ! for adding item to cart
-  const handleAddCart = async (product: TProductDetail) => {
+  const handleAddCart = async (product: TProduct) => {
     if (
       !userCardData?.data ||
       product?.shopId === userCardData?.data?.vendorId

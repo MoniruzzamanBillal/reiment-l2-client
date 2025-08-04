@@ -24,6 +24,7 @@ export const baseApi = createApi({
     "addCategory",
     "getAllCategory",
     "getAllShop",
+    "getAllPublicShop",
     "getVendorShop",
     "getVendorShopProduct",
     "getSingleProduct",

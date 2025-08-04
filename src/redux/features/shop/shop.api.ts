@@ -13,6 +13,17 @@ const shopApi = baseApi.injectEndpoints({
       providesTags: ["getAllShop"],
     }),
 
+    // ! for getting all shop data (public route )
+    getAllPublicShop: builder.query({
+      query: () => {
+        return {
+          url: "/shop/all-shop",
+          method: "GET",
+        };
+      },
+      providesTags: ["getAllPublicShop"],
+    }),
+
     // ! for crating a shop
     addShop: builder.mutation({
       query: (payload) => {
@@ -67,4 +78,5 @@ export const {
   useGetVendorShopQuery,
   useGetSingleShopQuery,
   useUpdateShopMutation,
+  useGetAllPublicShopQuery,
 } = shopApi;

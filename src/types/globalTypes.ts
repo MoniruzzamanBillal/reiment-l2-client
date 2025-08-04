@@ -86,3 +86,13 @@ type TProductDetailReview = {
     status: "ACTIVE" | "INACTIVE" | "SUSPENDED";
   };
 };
+
+export type TShopDetail = {
+  id: string;
+  vendorId: string;
+  name: string;
+  logo: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+};
