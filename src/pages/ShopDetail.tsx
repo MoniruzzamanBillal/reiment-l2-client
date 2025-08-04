@@ -1,5 +1,5 @@
 import Wrapper from "@/components/shared/Wrapper";
-import { FormSubmitLoading, ProductCard } from "@/components/ui";
+import { ProductCard, ProductCardSkeleton } from "@/components/ui";
 import { Button } from "@/components/ui/button";
 import {
   useFollowShopMutation,
@@ -7,6 +7,7 @@ import {
 } from "@/redux/features/follower/follower.api";
 import { useGetSingleShopQuery } from "@/redux/features/shop/shop.api";
 import { useGetLoggedInUserQuery } from "@/redux/features/user/user.api";
+import { TProductDetail } from "@/types/globalTypes";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -123,80 +124,78 @@ const ShopDetail = () => {
   };
 
   return (
-    <>
-      {(shopDataLoading ||
-        shopDataError ||
-        userDataLoading ||
-        unfollowShopLoading) && <FormSubmitLoading />}
+    <div className="ShopDetailContainer bg-gray-100 min-h-screen pt-16 pb-6 ">
+      <Wrapper className=" ShopDetailWrapper flex flex-col gap-y-6 ">
+        {/* shop name sectio starts  */}
+        <div
+          className="shopNameSection border border-gray-300 p-3 rounded overflow-auto flex  items-center  "
+          style={{
+            backgroundImage: `url('https://i.postimg.cc/bNFjCb9j/7d918b0c437f1db11c738e4de8aed608-jpg-2200x2200q75-jpg-ezgif-com-webp-to-jpg-converter.jpg')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <div className="shopDetailCard bg-gray-50 p-2 rounded flex justify-between items-center gap-x-8 ">
+            {/* left logo starts  */}
+            <div className="leftLogo size-[4.5rem] rounded overflow-auto ">
+              <img
+                className=" w-full h-full "
+                src={shopData?.data?.logo}
+                alt=""
+              />
+            </div>
+            {/* middle detail starts  */}
+            <div className="middleDetail">
+              <p className=" text-lg font-medium "> {shopData?.data?.name} </p>
 
-      <div className="ShopDetailContainer bg-gray-100 min-h-screen pt-16 pb-6 ">
-        <Wrapper className=" ShopDetailWrapper flex flex-col gap-y-6 ">
-          {/* shop name sectio starts  */}
-          <div
-            className="shopNameSection border border-gray-300 p-3 rounded overflow-auto flex  items-center  "
-            style={{
-              backgroundImage: `url('https://i.postimg.cc/bNFjCb9j/7d918b0c437f1db11c738e4de8aed608-jpg-2200x2200q75-jpg-ezgif-com-webp-to-jpg-converter.jpg')`,
-              backgroundSize: "cover",
-              backgroundPosition: "center center",
-              backgroundRepeat: "no-repeat",
-            }}
-          >
-            <div className="shopDetailCard bg-gray-50 p-2 rounded flex justify-between items-center gap-x-8 ">
-              {/* left logo starts  */}
-              <div className="leftLogo size-[4.5rem] rounded overflow-auto ">
-                <img
-                  className=" w-full h-full "
-                  src={shopData?.data?.logo}
-                  alt=""
-                />
-              </div>
-              {/* middle detail starts  */}
-              <div className="middleDetail">
-                <p className=" text-lg font-medium ">
-                  {" "}
-                  {shopData?.data?.name}{" "}
-                </p>
+              <p> {shopData?.data?.follower?.length} Follower </p>
+            </div>
 
-                <p> {shopData?.data?.follower?.length} Follower </p>
-              </div>
+            {/* right follow unfollow button starts  */}
 
-              {/* right follow unfollow button starts  */}
-
-              <div className="rightSection">
-                {isFollowing ? (
-                  <Button
-                    onClick={() => handleUnfollowShop()}
-                    className=" bg-red-600 hover:bg-red-700 px-8 "
-                  >
-                    Unfollow
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={handleFollowShop}
-                    className="bg-prime50 hover:bg-prime100 px-8"
-                    disabled={followShopLoading}
-                  >
-                    Follow
-                  </Button>
-                )}
-              </div>
+            <div className="rightSection">
+              {isFollowing ? (
+                <Button
+                  onClick={() => handleUnfollowShop()}
+                  className=" bg-red-600 hover:bg-red-700 px-8 "
+                >
+                  Unfollow
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleFollowShop}
+                  className="bg-prime50 hover:bg-prime100 px-8"
+                  disabled={followShopLoading}
+                >
+                  Follow
+                </Button>
+              )}
             </div>
           </div>
-          {/* shop name sectio ends  */}
+        </div>
+        {/* shop name sectio ends  */}
 
-          <div className="productCardsSection">
-            <h1 className=" text-2xl font-medium mb-8 ">All Products </h1>
+        <div className="productCardsSection">
+          <h1 className=" text-2xl font-medium mb-8 ">All Products </h1>
 
-            <div className="products grid grid-cols-4 gap-x-4 gap-y-6 ">
-              {shopData &&
-                shopData?.data?.Products?.map((product: any) => (
-                  <ProductCard key={product?.id} product={product} />
-                ))}
-            </div>
+          <div className="products grid  mx-auto w-[82%] xsm:w-full grid-cols-1 xsm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-6 ">
+            {(shopDataLoading ||
+              shopDataError ||
+              userDataLoading ||
+              unfollowShopLoading) &&
+              Array.from({ length: 8 })?.map((_, ind) => (
+                <ProductCardSkeleton key={ind} />
+              ))}
+
+            {shopData &&
+              shopData?.data?.Products?.map((product: TProductDetail) => (
+                <ProductCard key={product?.id} product={product} />
+              ))}
           </div>
-        </Wrapper>
-      </div>
-    </>
+        </div>
+      </Wrapper>
+    </div>
   );
 };
 

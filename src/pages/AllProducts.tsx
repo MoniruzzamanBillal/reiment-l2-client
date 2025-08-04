@@ -154,7 +154,7 @@ const AllProducts = () => {
                           viewBox="0 0 24 24"
                           strokeWidth={1.5}
                           stroke="currentColor"
-                          className="size-6"
+                          className="  size-4 xsm:size-6"
                         >
                           <path
                             strokeLinecap="round"
@@ -164,7 +164,9 @@ const AllProducts = () => {
                         </svg>
 
                         {/* icon ends */}
-                        <p className=" font-medium  ">Filter</p>
+                        <p className=" font-medium text-xs xsm:text-base  ">
+                          Filter
+                        </p>
                       </div>
                     </SheetTrigger>
                     <SheetContent>
@@ -191,7 +193,7 @@ const AllProducts = () => {
                 )}
 
                 {/* sort input section starts  */}
-                <div className="sortSection  flex  justify-between items-center gap-x-1 ">
+                <div className="sortSection  flex  justify-between items-center gap-x-1 text-xs xsm:text-base ">
                   <p className="text-gray-600 "> sort by : </p>
 
                   {/* input section  */}
@@ -199,7 +201,7 @@ const AllProducts = () => {
                     value={sort}
                     onValueChange={(value) => setSortBy(value)}
                   >
-                    <SelectTrigger className="w-[14rem]  outline-none border-gray-400 ring-0 focus:ring-0  ">
+                    <SelectTrigger className="w-[14rem]  outline-none border-gray-400 ring-0 focus:ring-0 text-xs xsm:text-base ">
                       <SelectValue placeholder="sort by price" />
                     </SelectTrigger>
                     <SelectContent>
@@ -217,7 +219,7 @@ const AllProducts = () => {
               {/* products content starts  */}
               <div className="productsContent  py-3 px-4 ">
                 {/* all products  */}
-                <div className="allProducts grid grid-cols-1 sm:grid-cols-2 xmd:grid-cols-3 gap-x-5 gap-y-8 ">
+                <div className="allProducts mx-auto w-[80%] xsm:w-full grid grid-cols-1 xsm:grid-cols-2 xmd:grid-cols-3 gap-x-5 gap-y-8 ">
                   {productDataLoading &&
                     Array.from({ length: 6 })?.map((_, ind) => (
                       <ProductCardSkeleton key={ind} />
