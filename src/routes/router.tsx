@@ -9,6 +9,7 @@ import {
   ChangePassword,
   Checkout,
   ComparisonTable,
+  ContactUs,
   CustomerOrderHistory,
   Dashboard,
   DashboardLayout,
@@ -90,6 +91,10 @@ const router = createBrowserRouter([
       {
         path: "/flash-sale",
         element: <FlashSale />,
+      },
+      {
+        path: "/contact",
+        element: <ContactUs />,
       },
       {
         path: "/product/detail/:id",

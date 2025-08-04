@@ -6,6 +6,7 @@ export { default as CommentInput } from "./CommentInput";
 export { default as FlashSaleProductCard } from "./FlashSaleProductCard";
 export { default as FormSubmitLoading } from "./FormSubmitLoading";
 export { default as GlassZoomImage } from "./GlassZoomImage";
+export { default as MapContainer } from "./MapContainer";
 export { default as NavSearchInput } from "./NavSearchInput";
 export { default as NoCartItem } from "./NoCartItem";
 export { default as NoProduct } from "./NoProduct";

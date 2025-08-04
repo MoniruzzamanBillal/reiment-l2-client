@@ -26,6 +26,7 @@ const Links = [
   { name: "Flash Sale", link: "/flash-sale" },
   { name: "Recent Products", link: "/recent-products" },
   { name: "Compare Product", link: "/comparison-product" },
+  { name: "Contact", link: "/contact" },
 ];
 
 const NavbatBottom = () => {
