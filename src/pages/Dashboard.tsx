@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
-import { useGetLoggedInUserQuery } from "@/redux/features/user/user.api";
 import { FormSubmitLoading } from "@/components/ui";
+import { useGetLoggedInUserQuery } from "@/redux/features/user/user.api";
 
 const defaultImg =
   "https://i.postimg.cc/T19x1Pzh/istockphoto-1341046662-612x612.jpg";
@@ -18,7 +18,7 @@ const Dashboard = () => {
     <>
       {userDataLoading && <FormSubmitLoading />}
 
-      <div className="DashboardContainer">
+      <div className="DashboardContainer  ">
         <div className="dashBoardWrapper  bg-gray-100  shadow rounded-md p-3 flex flex-col gap-y-4 ">
           {/* profile section starts  */}
           <div className="profileSection">

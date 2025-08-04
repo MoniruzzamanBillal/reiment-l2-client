@@ -2,7 +2,6 @@
 import { TableDataError, TableDataLoading } from "@/components/ui";
 import { useGetUserOrderHistoryQuery } from "@/redux/features/order/order.api";
 import { format } from "date-fns";
-import { useState } from "react";
 
 const CustomerOrderHistory = () => {
   const {
@@ -12,25 +11,6 @@ const CustomerOrderHistory = () => {
   } = useGetUserOrderHistoryQuery(undefined);
 
   // console.log(userOrderData?.data?.length);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
-
-  const totalItems = userOrderData?.data?.length || 0;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-  const paginatedProducts = userOrderData?.data?.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
 
   let content = null;
 
@@ -68,7 +48,7 @@ const CustomerOrderHistory = () => {
   }
 
   if (!orderDataLoading && !orderDataError && userOrderData?.data?.length) {
-    content = paginatedProducts?.map((orderHistory: any) => (
+    content = userOrderData?.data?.map((orderHistory: any) => (
       <tr key={orderHistory.id} className="border-b">
         <td className="p-4 text-center"> {orderHistory?.trxnNumber} </td>
         <td className="p-4 text-center">{orderHistory?.totalPrice}</td>
@@ -107,32 +87,6 @@ const CustomerOrderHistory = () => {
             </thead>
             <tbody>{content}</tbody>
           </table>
-
-          {/*  */}
-          {/*  */}
-          {/*  */}
-          <div className="flex justify-center items-center gap-4 mt-4">
-            <button
-              onClick={handlePrevPage}
-              disabled={currentPage === 1}
-              className="px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-700 disabled:opacity-50"
-            >
-              Prev
-            </button>
-            <span className="text-sm font-medium">
-              Page {currentPage} of {totalPages}
-            </span>
-            <button
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              className="px-3 py-1 bg-gray-500 text-white rounded hover:bg-gray-700 disabled:opacity-50"
-            >
-              Next
-            </button>
-          </div>
-          {/*  */}
-          {/*  */}
-          {/*  */}
         </div>
         {/* Followed shop table ends  */}
 
