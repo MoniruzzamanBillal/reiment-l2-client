@@ -10,7 +10,7 @@ const Shops = () => {
   console.log(allShopData?.data);
 
   return (
-    <div className="ShopsContainer bg-gray-100 pt-16 pb-4 min-h-screen ">
+    <div className="ShopsContainer bg-gray-100 pt-20 pb-8 min-h-screen ">
       <Wrapper>
         <h1 className="   font-semibold text-prime100 text-xl xsm:text-2xl sm:text-3xl md:text-3xl xl:text-4xl mb-6 ">
           Shops

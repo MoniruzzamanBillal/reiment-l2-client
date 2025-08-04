@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 const DashboardLayout = () => {
   return (
     <div className="DashboardLayoutContainer bg-gray-50 dark:bg-black50 ">
-      <Wrapper className="dashbaordWrapper min-h-screen mx-auto sm:flex py-4 px-2 gap-x-4 gap-y-6  pt-14 ">
+      <Wrapper className="dashbaordWrapper min-h-screen mx-auto sm:flex py-4 px-2 gap-x-4 gap-y-6  pt-20 ">
         {/* sidebar section  */}
 
         <div

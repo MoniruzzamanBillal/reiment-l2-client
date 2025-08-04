@@ -106,7 +106,7 @@ const bottomSectionInfo: TBottomInfo[] = [
 
 const HeroBanner = () => {
   return (
-    <div className="heroBanner relative pt-14 pb-8 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+    <div className="heroBanner relative pt-20 pb-8 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
       <Wrapper className="relative ">
         {/* Main banner carousel */}
         <div className="heroBannerContainer w-full">

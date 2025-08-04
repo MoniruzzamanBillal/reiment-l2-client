@@ -9,7 +9,7 @@ const FlashSale = () => {
   // console.log(allProducts?.data);
 
   return (
-    <div className="FlashSaleContainer bg-gray-100 pt-16 pb-4  ">
+    <div className="FlashSaleContainer bg-gray-100 pt-20 pb-8  ">
       <Wrapper className=" FlashSaleWrapper  ">
         {/* heading section  */}
         <div className="headingSection mb-8 flex items-center gap-x-3  ">

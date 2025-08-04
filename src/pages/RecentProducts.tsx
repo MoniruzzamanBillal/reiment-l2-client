@@ -18,7 +18,7 @@ const RecentProducts = () => {
     <>
       {recentProductsLoading && <FormSubmitLoading />}
 
-      <div className="RecentProductsContainer pt-16 pb-4 bg-gray-100 ">
+      <div className="RecentProductsContainer pt-20 pb-8 bg-gray-100 ">
         <Wrapper className=" RecentProductsWrapper ">
           <h1 className=" mb-8  font-semibold text-prime100 text-xl xsm:text-2xl sm:text-3xl md:text-3xl xl:text-4xl  ">
             Recent Products
