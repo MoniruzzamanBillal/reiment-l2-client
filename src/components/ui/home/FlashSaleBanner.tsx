@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Wrapper from "@/components/shared/Wrapper";
 import { useGetFlashSaleProductQuery } from "@/redux/features/product/product.api";
+
+import { FaFireFlameCurved } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -9,8 +11,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import { Autoplay, Pagination } from "swiper/modules";
-import ProductCard from "../ProductCard";
 import { Button } from "../button";
+import FlashSaleProductCard from "../FlashSaleProductCard";
 
 const flashProductShowbreakpoints = {
   0: { slidesPerView: 1, spaceBetween: 16 },
@@ -22,14 +24,15 @@ const flashProductShowbreakpoints = {
 const FlashSaleBanner = () => {
   const { data: allProducts } = useGetFlashSaleProductQuery(undefined);
 
-  // console.log(allProducts?.data);
+  console.log(allProducts?.data);
 
   return (
     <div className="FlashSaleBannerContainer py-8 ">
       <Wrapper className=" FlashSaleBannerWrapper ">
         {/* heading section  */}
-        <div className="headingSection flex justify-between items-center ">
-          <h1 className=" mb-8 font-semibold text-prime100 text-xl xsm:text-2xl sm:text-3xl md:text-3xl xl:text-4xl  ">
+        <div className="headingSection mb-8 flex  items-center gap-x-1  ">
+          <FaFireFlameCurved className=" text-2xl text-orange-400 font-semibold " />
+          <h1 className="  font-semibold text-prime100 text-xl xsm:text-2xl sm:text-3xl md:text-3xl xl:text-4xl  ">
             Flash Sale
           </h1>
         </div>
@@ -51,7 +54,7 @@ const FlashSaleBanner = () => {
           {allProducts?.data &&
             allProducts?.data?.map((product: any) => (
               <SwiperSlide className=" mb-9 flex justify-center items-center   ">
-                <ProductCard product={product} key={product?.id} />
+                <FlashSaleProductCard product={product} key={product?.id} />
               </SwiperSlide>
             ))}
         </Swiper>

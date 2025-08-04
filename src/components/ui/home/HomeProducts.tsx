@@ -11,7 +11,7 @@ export type TCategoryOption = {
 };
 
 const HomeProducts = () => {
-  const { data: allProducts, isLoading } = useGetAllProductQuery({ limit: 8 });
+  const { data: allProducts, isLoading } = useGetAllProductQuery({ limit: 12 });
 
   return (
     <div className="HomeProductsContainer py-6 bg-white ">
@@ -38,7 +38,7 @@ const HomeProducts = () => {
 
           {allProducts?.data?.data &&
             allProducts?.data?.data
-              ?.slice(4, 8)
+              ?.slice(4, 12)
               ?.map((product: TProductDetail) => (
                 <ProductCard product={product} key={product?.id} />
               ))}

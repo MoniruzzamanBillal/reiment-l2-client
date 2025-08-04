@@ -6,6 +6,8 @@ const FlashSale = () => {
   const { data: allProducts, isLoading } =
     useGetFlashSaleProductQuery(undefined);
 
+  // console.log(allProducts?.data);
+
   return (
     <div className="FlashSaleContainer bg-gray-100 pt-16 pb-4  ">
       <Wrapper className=" FlashSaleWrapper  ">
