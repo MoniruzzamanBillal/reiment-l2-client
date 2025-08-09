@@ -193,6 +193,8 @@ const UserCart = () => {
     try {
       const result = await orderItem(payload);
 
+      console.log(result);
+
       if (result?.error) {
         const errorMessage = (result?.error as any)?.data?.message;
         console.log(errorMessage);
