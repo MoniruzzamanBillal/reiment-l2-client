@@ -14,7 +14,8 @@ import {
 } from "@/components/ui/card";
 import { useGetAdminStatsQuery } from "@/redux/features/admin/admin.api";
 
-import { ShieldX, Store, Users, UserX } from "lucide-react";
+import { CreditCard, Store, Tag, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import {
   Bar,
@@ -28,16 +29,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-
-const categoryData = [
-  { name: "Fashion", value: 35 },
-  { name: "Electronics", value: 25 },
-  { name: "Home & Garden", value: 20 },
-  { name: "Sports", value: 12 },
-  { name: "Books", value: 8 },
-  { name: "Books", value: 8 },
-  { name: "Books", value: 8 },
-];
 
 const COLORS = [
   "#0088FE",
@@ -181,34 +172,44 @@ const AdminStatistics = () => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Button
-                variant="outline"
-                className="h-20 border border-gray-300  flex-col gap-2 bg-transparent"
-              >
-                <Users className="w-5 h-5" />
-                <span>Manage Users</span>
-              </Button>
-              <Button
-                variant="outline"
-                className="h-20 flex-col gap-2 bg-transparent"
-              >
-                <Store className="w-5 h-5" />
-                <span>Manage Vendors</span>
-              </Button>
-              <Button
-                variant="outline"
-                className="h-20 flex-col gap-2 bg-transparent"
-              >
-                <UserX className="w-5 h-5" />
-                <span>Suspend Account</span>
-              </Button>
-              <Button
-                variant="outline"
-                className="h-20 flex-col gap-2 bg-transparent"
-              >
-                <ShieldX className="w-5 h-5" />
-                <span>Blacklist Shop</span>
-              </Button>
+              <Link to={"/dashboard/admin/manage-user"} className="   ">
+                <Button
+                  variant="outline"
+                  className="h-20  w-full border border-gray-400  flex-col gap-2 bg-transparent"
+                >
+                  <Users className="w-5 h-5" />
+                  <span>Manage Users</span>
+                </Button>
+              </Link>
+
+              <Link to={"/dashboard/admin/manage-shop"} className="   ">
+                <Button
+                  variant="outline"
+                  className="h-20  w-full border border-gray-400  flex-col gap-2 bg-transparent"
+                >
+                  <Store className="w-5 h-5" />
+                  <span>Manage Vendors</span>
+                </Button>
+              </Link>
+
+              <Link to={"/dashboard/admin/categories"} className="   ">
+                <Button
+                  variant="outline"
+                  className="h-20  w-full border border-gray-400  flex-col gap-2 bg-transparent"
+                >
+                  <Tag className="w-5 h-5" />
+                  <span>Manage Category</span>
+                </Button>
+              </Link>
+              <Link to={"/dashboard/admin/monitor-transaction"} className="   ">
+                <Button
+                  variant="outline"
+                  className="h-20  w-full border border-gray-400  flex-col gap-2 bg-transparent"
+                >
+                  <CreditCard className="w-5 h-5" />
+                  <span>Monitor Transaction </span>
+                </Button>
+              </Link>
             </div>
           </CardContent>
         </Card>

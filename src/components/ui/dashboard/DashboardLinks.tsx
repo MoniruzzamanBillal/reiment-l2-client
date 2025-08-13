@@ -1,6 +1,15 @@
 import { TDashboardLinks } from "@/types/globalTypes";
 import { UserRoleConst } from "@/utils/Constants";
 import { GetUserRole } from "@/utils/GetUserRole";
+import {
+  BarChart2,
+  CreditCard,
+  Layers,
+  MessageCircle,
+  Store,
+  Tag,
+  Users,
+} from "lucide-react";
 import { CiBookmark } from "react-icons/ci";
 import { NavLink } from "react-router-dom";
 
@@ -42,37 +51,37 @@ const DashboardLinks = () => {
       {
         name: "Statistics",
         path: "/dashboard/admin/statistics",
-        icon: <CiBookmark className=" text-xl font-bold " />,
+        icon: <BarChart2 className="text-xl font-bold" />,
       },
       {
         name: "Manage Users",
         path: "/dashboard/admin/manage-user",
-        icon: <CiBookmark className=" text-xl font-bold " />,
+        icon: <Users className="text-xl font-bold" />,
       },
       {
         name: "Manage Shops",
         path: "/dashboard/admin/manage-shop",
-        icon: <CiBookmark className=" text-xl font-bold " />,
+        icon: <Store className="text-xl font-bold" />,
       },
       {
         name: "Categories",
         path: "/dashboard/admin/categories",
-        icon: <CiBookmark className=" text-xl font-bold " />,
+        icon: <Layers className="text-xl font-bold" />,
       },
       {
         name: "Coupons",
         path: "/dashboard/admin/manage-coupon",
-        icon: <CiBookmark className=" text-xl font-bold " />,
+        icon: <Tag className="text-xl font-bold" />,
       },
       {
-        name: "Monitor Transaction ",
+        name: "Monitor Transaction",
         path: "/dashboard/admin/monitor-transaction",
-        icon: <CiBookmark className=" text-xl font-bold " />,
+        icon: <CreditCard className="text-xl font-bold" />,
       },
       {
-        name: "Monitor Review ",
+        name: "Monitor Review",
         path: "/dashboard/admin/monitor-review",
-        icon: <CiBookmark className=" text-xl font-bold " />,
+        icon: <MessageCircle className="text-xl font-bold" />,
       },
     ];
   }
