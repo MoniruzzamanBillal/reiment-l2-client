@@ -4,8 +4,10 @@ import { GetUserRole } from "@/utils/GetUserRole";
 import {
   BarChart2,
   CreditCard,
+  History,
   Layers,
   MessageCircle,
+  Package,
   Store,
   Tag,
   Users,
@@ -92,22 +94,22 @@ const DashboardLinks = () => {
       {
         name: "Manage Shop",
         path: "/dashboard/vendor/manage-shop",
-        icon: <CiBookmark className=" text-xl font-bold " />,
+        icon: <Store className="text-xl font-bold" />,
       },
       {
         name: "Manage Inventory",
         path: "/dashboard/vendor/manage-products",
-        icon: <CiBookmark className=" text-xl font-bold " />,
+        icon: <Package className="text-xl font-bold" />,
       },
       {
         name: "Order History",
         path: "/dashboard/vendor/order-history",
-        icon: <CiBookmark className=" text-xl font-bold " />,
+        icon: <History className="text-xl font-bold" />,
       },
       {
         name: "Customer Reviews",
         path: "/dashboard/vendor/monitor-reviews",
-        icon: <CiBookmark className=" text-xl font-bold " />,
+        icon: <MessageCircle className="text-xl font-bold" />,
       },
     ];
   }
