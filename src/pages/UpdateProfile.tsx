@@ -3,11 +3,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { FormSubmitLoading } from "@/components/ui";
 import { Button } from "@/components/ui/button";
+import { useUpdateUserMutation } from "@/redux/features/auth/auth.api";
 import { useGetLoggedInUserQuery } from "@/redux/features/user/user.api";
 import { useEffect } from "react";
 import { FieldValues } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useUpdateUserMutation } from "@/redux/features/auth/auth.api";
 import { toast } from "sonner";
 
 const UpdateProfile = () => {

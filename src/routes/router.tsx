@@ -143,6 +143,14 @@ const router = createBrowserRouter([
             element: <UpdateProfile />,
           },
           {
+            path: "/dashboard/admin/statistics",
+            element: <AdminStatistics />,
+          },
+          {
+            path: "/dashboard/admin/manage-user",
+            element: <ManageUsers />,
+          },
+          {
             path: "/dashboard/admin/manage-user",
             element: <ManageUsers />,
           },
@@ -170,10 +178,7 @@ const router = createBrowserRouter([
             path: "/dashboard/admin/categories/update-category/:id",
             element: <UpdateCategory />,
           },
-          {
-            path: "/dashboard/admin/statistics",
-            element: <AdminStatistics />,
-          },
+
           {
             path: "/dashboard/admin/monitor-transaction",
             element: <MonitorTransaction />,

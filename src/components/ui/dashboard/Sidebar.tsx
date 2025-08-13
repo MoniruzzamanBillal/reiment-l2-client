@@ -11,8 +11,6 @@ const Sidebar = () => {
 
   // ! for logout
   const handleLogout = () => {
-    console.log("log out !!!");
-
     dispatch(logOut());
     navigate("/");
   };

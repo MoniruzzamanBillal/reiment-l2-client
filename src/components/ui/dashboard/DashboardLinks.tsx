@@ -1,7 +1,7 @@
+import { TDashboardLinks } from "@/types/globalTypes";
+import { UserRoleConst } from "@/utils/Constants";
 import { GetUserRole } from "@/utils/GetUserRole";
 import { CiBookmark } from "react-icons/ci";
-import { UserRoleConst } from "@/utils/Constants";
-import { TDashboardLinks } from "@/types/globalTypes";
 import { NavLink } from "react-router-dom";
 
 const LinkItem = ({ link }: { link: TDashboardLinks }) => {
@@ -39,11 +39,11 @@ const DashboardLinks = () => {
   // ! admin role links
   if (userRole === UserRoleConst.ADMIN) {
     links = [
-      // {
-      //   name: "Statistics",
-      //   path: "/dashboard/admin/statistics",
-      //   icon: <CiBookmark className=" text-xl font-bold " />,
-      // },
+      {
+        name: "Statistics",
+        path: "/dashboard/admin/statistics",
+        icon: <CiBookmark className=" text-xl font-bold " />,
+      },
       {
         name: "Manage Users",
         path: "/dashboard/admin/manage-user",
