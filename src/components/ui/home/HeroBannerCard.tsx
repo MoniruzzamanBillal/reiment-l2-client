@@ -5,14 +5,14 @@ import { TBanner } from "./HeroBanner";
 
 const HeroBannerCard = ({ banner }: { banner: TBanner }) => {
   return (
-    <section className="relative h-[18rem] xsm:h-[20rem] sm:h-[25rem] xmd:h-[30rem] flex items-center">
+    <section className="relative h-[18rem] xsm:h-[20rem] sm:h-[25rem] xmd:h-[30rem] flex items-center ">
       {/* Background Image with Overlay */}
-      <div className="absolute ">
+      <div className="absolute  w-full ">
         <img
           src={banner?.bannerImg || "/placeholder.svg"}
           loading="lazy"
           alt="Hero Banner"
-          className="h-full w-full object-cover object-center"
+          className="h-full w-full object-cover  object-center "
         />
         <div className="absolute inset-0 bg-black/40"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent"></div>
