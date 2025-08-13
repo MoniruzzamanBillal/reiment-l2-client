@@ -1,6 +1,7 @@
 import {
   AdminStatCard,
   AdminStatCardSkeleton,
+  CategoryDistributionChartSkeleton,
   RevenueChartSkeleton,
 } from "@/components/ui/admin";
 import { Button } from "@/components/ui/button";
@@ -28,27 +29,6 @@ import {
   YAxis,
 } from "recharts";
 
-// Mock data - replace with real API calls
-const statsData = {
-  totalUsers: 12847,
-  totalVendors: 342,
-  totalOrders: 8934,
-  totalRevenue: 284750,
-  userGrowth: 12.5,
-  vendorGrowth: 8.3,
-  orderGrowth: 15.2,
-  revenueGrowth: 18.7,
-};
-
-const revenueData = [
-  { month: "Jan", revenue: 45000, orders: 1200 },
-  { month: "Feb", revenue: 52000, orders: 1400 },
-  { month: "Mar", revenue: 48000, orders: 1300 },
-  { month: "Apr", revenue: 61000, orders: 1650 },
-  { month: "May", revenue: 55000, orders: 1500 },
-  { month: "Jun", revenue: 67000, orders: 1800 },
-];
-
 const categoryData = [
   { name: "Fashion", value: 35 },
   { name: "Electronics", value: 25 },
@@ -73,7 +53,7 @@ const AdminStatistics = () => {
   const { data: adminStats, isLoading } = useGetAdminStatsQuery(undefined);
 
   // console.log(adminStats?.data);
-  console.log(adminStats?.data?.revenueDatas);
+  console.log(adminStats?.data?.categoryDataPercentage);
 
   return (
     <div className="min-h-screen bg-gray-100  border border-gray-300 shadow rounded-md p-3 ">
@@ -101,7 +81,7 @@ const AdminStatistics = () => {
         </div>
 
         {/* Charts and Analytics */}
-        <div className="  ">
+        <div className="border border-gray-300 rounded-md  ">
           {isLoading && <RevenueChartSkeleton />}
 
           {adminStats?.data?.revenueDatas && (
@@ -128,59 +108,74 @@ const AdminStatistics = () => {
           )}
         </div>
 
-        <div className=" ">
-          <Card>
-            <CardHeader>
-              <CardTitle>Category Distribution</CardTitle>
-              <CardDescription>Product categories breakdown</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={250}>
-                <PieChart>
-                  <Pie
-                    data={categoryData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={100}
-                    paddingAngle={5}
-                    dataKey="value"
-                  >
-                    {categoryData.map((entry, index) => (
-                      <Cell
-                        key={`cell-${entry?.name}`}
-                        fill={COLORS[index % COLORS?.length]}
-                      />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-              <div className="mt-4 space-y-2">
-                {categoryData.map((category, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between text-sm"
-                  >
-                    <div className="flex items-center gap-2">
+        {/* category product percentage  */}
+        <div className=" border border-gray-300 rounded-md ">
+          {isLoading && <CategoryDistributionChartSkeleton />}
+
+          {adminStats?.data?.categoryDataPercentage && (
+            <Card className="  ">
+              <CardHeader>
+                <CardTitle>Category Distribution</CardTitle>
+                <CardDescription>Product categories breakdown</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={250}>
+                  <PieChart>
+                    <Pie
+                      data={adminStats?.data?.categoryDataPercentage}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={100}
+                      paddingAngle={5}
+                      dataKey="value"
+                    >
+                      {adminStats?.data?.categoryDataPercentage?.map(
+                        (
+                          entry: { name: string; value: number },
+                          index: number
+                        ) => (
+                          <Cell
+                            key={`cell-${entry?.name}`}
+                            fill={COLORS[index % COLORS?.length]}
+                          />
+                        )
+                      )}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="mt-4 space-y-2">
+                  {adminStats?.data?.categoryDataPercentage?.map(
+                    (
+                      category: { name: string; value: number },
+                      index: number
+                    ) => (
                       <div
-                        className="w-3 h-3 rounded-full"
-                        style={{
-                          backgroundColor: COLORS[index % COLORS?.length],
-                        }}
-                      />
-                      <span>{category.name}</span>
-                    </div>
-                    <span className="font-medium">{category.value}%</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                        key={index}
+                        className="flex items-center justify-between text-sm"
+                      >
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="w-3 h-3 rounded-full"
+                            style={{
+                              backgroundColor: COLORS[index % COLORS?.length],
+                            }}
+                          />
+                          <span>{category.name}</span>
+                        </div>
+                        <span className="font-medium">{category.value}%</span>
+                      </div>
+                    )
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {/* Quick Actions */}
-        <Card>
+        <Card className=" border border-gray-300 rounded-md ">
           <CardHeader>
             <CardTitle>Quick Actions</CardTitle>
           </CardHeader>
