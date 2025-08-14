@@ -46,7 +46,7 @@ const vendors = [
   },
 ];
 
-const TestPage = () => {
+const FeaturedVendor = () => {
   return (
     <section className="py-12 bg-white">
       <div className="container mx-auto px-4">
@@ -61,7 +61,7 @@ const TestPage = () => {
           {vendors?.map((vendor, index) => (
             <Card
               key={index}
-              className="hover:shadow-lg transition-shadow duration-300 border border-gray-300 bg-gray-100 "
+              className=" shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-300 bg-gray-50 "
             >
               <CardContent className="p-6 text-center">
                 <div className="relative mb-4">
@@ -86,11 +86,11 @@ const TestPage = () => {
                   <span>{vendor?.followers} Followers</span>
                 </div>
 
-                <Link to={`/shop/detail/${vendor?.id}`} className=" ">
+                <Link to={`/shop/detail/${vendor?.id}`} className="  ">
                   <Button
                     variant="outline"
                     size="sm"
-                    className="w-full bg-transparent"
+                    className="w-full bg-transparent border border-gray-400 "
                   >
                     Visit Shop
                   </Button>
@@ -104,4 +104,4 @@ const TestPage = () => {
   );
 };
 
-export default TestPage;
+export default FeaturedVendor;

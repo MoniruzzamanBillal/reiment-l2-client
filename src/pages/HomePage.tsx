@@ -1,5 +1,6 @@
 import { TestPage } from "@/components/ui";
 import {
+  FeaturedVendor,
   FlashSaleBanner,
   HeroBanner,
   HomeProducts,
@@ -42,10 +43,13 @@ const HomePage = () => {
     <div className="HomePageContainer bg-gray-100 ">
       <HeroBanner />
       <FlashSaleBanner />
-      <TestPage />
+
       <ShopByCategory />
       <NewArrival />
       <HomeProducts />
+      <FeaturedVendor />
+
+      <TestPage />
 
       {/* Scroll-to-top button */}
       {isVisible && (

@@ -7,7 +7,7 @@ import { TShopDetail } from "@/types/globalTypes";
 const Shops = () => {
   const { data: allShopData, isLoading } = useGetAllPublicShopQuery(undefined);
 
-  console.log(allShopData?.data);
+  // console.log(allShopData?.data);
 
   return (
     <div className="ShopsContainer bg-gray-100 pt-20 pb-8 min-h-screen ">

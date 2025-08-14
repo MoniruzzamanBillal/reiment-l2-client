@@ -57,9 +57,6 @@ const FlashSaleProductCard = ({ product }: { product: TProduct }) => {
 
   const [replaceCart] = useReplaceCartMutation();
 
-  // console.log(product);
-  // console.log(userCardData?.data);
-
   // ! for adding item to cart
   const handleAddCart = async (product: TProduct) => {
     if (
@@ -168,6 +165,7 @@ const FlashSaleProductCard = ({ product }: { product: TProduct }) => {
 
         <div className="buttonSectio pb-2 px-2  mx-auto   ">
           <Button
+            size={"sm"}
             disabled={addingCartLoading}
             onClick={() => handleAddCart(product)}
             className="   text-center text-sm font-semibold text-white transition duration-100  bg-prime100 hover:bg-prime200 "
