@@ -19,5 +19,6 @@ export { default as ShopCard } from "./ShopCard";
 export { default as ShopCardSkeleton } from "./ShopCardSkeleton";
 export { default as TableDataError } from "./TableDataError";
 export { default as TableDataLoading } from "./TableDataLoading";
+export { default as TestPage } from "./TestPage";
 export { default as UserCommentCard } from "./UserCommentCard";
 export { default as UserProfileSkeleton } from "./UserProfileSkeleton";

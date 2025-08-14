@@ -1,3 +1,4 @@
+import { TestPage } from "@/components/ui";
 import {
   FlashSaleBanner,
   HeroBanner,
@@ -41,6 +42,7 @@ const HomePage = () => {
     <div className="HomePageContainer bg-gray-100 ">
       <HeroBanner />
       <FlashSaleBanner />
+      <TestPage />
       <ShopByCategory />
       <NewArrival />
       <HomeProducts />
