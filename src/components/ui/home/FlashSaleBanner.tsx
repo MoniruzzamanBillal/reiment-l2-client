@@ -2,7 +2,6 @@
 import Wrapper from "@/components/shared/Wrapper";
 import { useGetFlashSaleProductQuery } from "@/redux/features/product/product.api";
 
-import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
@@ -10,7 +9,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import { Autoplay, Pagination } from "swiper/modules";
-import { Button } from "../button";
 import FlashSaleProductCard from "../FlashSaleProductCard";
 import ProductCardSkeleton from "../ProductCardSkeleton";
 import FlashSaleHeader from "./FlashSaleHeader";
@@ -60,14 +58,6 @@ const FlashSaleBanner = () => {
               </SwiperSlide>
             ))}
         </Swiper>
-
-        <div className="btnSection  flex justify-center my-2 ">
-          <Link to={"/flash-sale"}>
-            <Button className="font-medium bg-prime100  hover:bg-prime100  ">
-              Show More{" "}
-            </Button>
-          </Link>
-        </div>
       </Wrapper>
     </div>
   );

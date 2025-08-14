@@ -1,4 +1,3 @@
-import { TestPage } from "@/components/ui";
 import {
   FeaturedVendor,
   FlashSaleBanner,
@@ -6,6 +5,7 @@ import {
   HomeProducts,
   NewArrival,
   ShopByCategory,
+  WhyChooseUs,
 } from "@/components/ui/home";
 import { useEffect, useState } from "react";
 
@@ -48,8 +48,9 @@ const HomePage = () => {
       <NewArrival />
       <HomeProducts />
       <FeaturedVendor />
+      <WhyChooseUs />
 
-      <TestPage />
+      {/* <TestPage /> */}
 
       {/* Scroll-to-top button */}
       {isVisible && (

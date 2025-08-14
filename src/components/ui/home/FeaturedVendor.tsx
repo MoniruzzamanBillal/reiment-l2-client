@@ -1,3 +1,4 @@
+import Wrapper from "@/components/shared/Wrapper";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -49,7 +50,7 @@ const vendors = [
 const FeaturedVendor = () => {
   return (
     <section className="py-12 bg-white">
-      <div className="container mx-auto px-4">
+      <Wrapper className="  mx-auto  ">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-2">
             Featured Vendors
@@ -61,7 +62,7 @@ const FeaturedVendor = () => {
           {vendors?.map((vendor, index) => (
             <Card
               key={index}
-              className=" shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-300 bg-gray-50 "
+              className=" shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-300 bg-gray-100/90 "
             >
               <CardContent className="p-6 text-center">
                 <div className="relative mb-4">
@@ -99,7 +100,7 @@ const FeaturedVendor = () => {
             </Card>
           ))}
         </div>
-      </div>
+      </Wrapper>
     </section>
   );
 };
