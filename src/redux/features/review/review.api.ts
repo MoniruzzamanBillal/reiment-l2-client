@@ -44,6 +44,16 @@ const reviewApi = baseApi.injectEndpoints({
       },
     }),
 
+    // ! for getting recent
+    getRecentReview: builder.query({
+      query: () => {
+        return {
+          url: `/review/recent-review`,
+          method: "GET",
+        };
+      },
+    }),
+
     // ! for updating review
     updateReview: builder.mutation({
       query: (payload) => {
@@ -66,4 +76,5 @@ export const {
   useGetVendorProductReviewsQuery,
   useGetAllReviewQuery,
   useUpdateReviewMutation,
+  useGetRecentReviewQuery,
 } = reviewApi;
