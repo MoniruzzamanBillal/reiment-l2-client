@@ -4,6 +4,7 @@ import {
   HeroBanner,
   HomeProducts,
   NewArrival,
+  RecentReview,
   ShopByCategory,
   WhyChooseUs,
 } from "@/components/ui/home";
@@ -30,10 +31,8 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    // Add event listener to listen for scroll
     window.addEventListener("scroll", toggleVisibility);
 
-    // Cleanup event listener on component unmount
     return () => {
       window.removeEventListener("scroll", toggleVisibility);
     };
@@ -49,6 +48,7 @@ const HomePage = () => {
       <HomeProducts />
       <FeaturedVendor />
       <WhyChooseUs />
+      <RecentReview />
 
       {/* <TestPage /> */}
 

@@ -6,5 +6,6 @@ export { default as HeroBanner } from "./HeroBanner";
 export { default as HeroBannerCard } from "./HeroBannerCard";
 export { default as HomeProducts } from "./HomeProducts";
 export { default as NewArrival } from "./NewArrival";
+export { default as RecentReview } from "./RecentReview";
 export { default as ShopByCategory } from "./ShopByCategory";
 export { default as WhyChooseUs } from "./WhyChooseUs";

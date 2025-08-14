@@ -1,3 +1,4 @@
+import Wrapper from "@/components/shared/Wrapper";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 const reviews = [
@@ -28,10 +29,10 @@ const reviews = [
   },
 ];
 
-const TestPage = () => {
+const RecentReview = () => {
   return (
     <section className="py-12 bg-white">
-      <div className="container mx-auto px-4">
+      <Wrapper className="mx-auto ">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-2">
             Recent Reviews
@@ -80,9 +81,9 @@ const TestPage = () => {
             </Card>
           ))}
         </div>
-      </div>
+      </Wrapper>
     </section>
   );
 };
 
-export default TestPage;
+export default RecentReview;
