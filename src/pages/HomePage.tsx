@@ -1,4 +1,5 @@
 import {
+  CustomerTestimonials,
   FeaturedVendor,
   FlashSaleBanner,
   HeroBanner,
@@ -49,7 +50,7 @@ const HomePage = () => {
       <FeaturedVendor />
       <WhyChooseUs />
       <RecentReview />
-
+      <CustomerTestimonials />
       {/* <TestPage /> */}
 
       {/* Scroll-to-top button */}

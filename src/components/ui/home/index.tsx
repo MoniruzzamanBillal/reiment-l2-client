@@ -1,4 +1,5 @@
 export { default as CategoryCard } from "./CategoryCard";
+export { default as CustomerTestimonials } from "./CustomerTestimonials";
 export { default as FeaturedVendor } from "./FeaturedVendor";
 export { default as FlashSaleBanner } from "./FlashSaleBanner";
 export { default as FlashSaleHeader } from "./FlashSaleHeader";

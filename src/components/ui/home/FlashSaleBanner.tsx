@@ -1,30 +1,58 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Wrapper from "@/components/shared/Wrapper";
 import { useGetFlashSaleProductQuery } from "@/redux/features/product/product.api";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-
-import { Autoplay, Pagination } from "swiper/modules";
-import FlashSaleProductCard from "../FlashSaleProductCard";
 import ProductCardSkeleton from "../ProductCardSkeleton";
 import FlashSaleHeader from "./FlashSaleHeader";
 
-const flashProductShowbreakpoints = {
-  0: { slidesPerView: 1, spaceBetween: 16 },
-  500: { slidesPerView: 2, spaceBetween: 24 },
-  780: { slidesPerView: 3, spaceBetween: 24 },
-  1080: { slidesPerView: 4, spaceBetween: 20 },
+import { Autoplay, EffectCoverflow, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
+import FlashSaleSwipperCard from "../FlashSaleSwipperCard";
+
+type TCategory = {
+  categoryImg: string;
+  createdAt: string;
+  id: string;
+  isDelated: boolean;
+  name: string;
+  updatedAt: string;
+  categoryId: string;
+};
+
+type TShop = {
+  createdAt: string;
+  description: string;
+  id: string;
+  isDelated: boolean;
+  logo: string;
+  name: string;
+  status: "ACTIVE" | "INACTIVE";
+  updatedAt: string;
+  vendorId: string;
+};
+
+type TProduct = {
+  category: TCategory;
+  categoryId: string;
+  createdAt: string;
+  description: string;
+  discount: number;
+  id: string;
+  inventoryCount: number;
+  isDelated: boolean;
+  name: string;
+  price: number;
+  productImg: string;
+  shop: TShop;
+  shopId: string;
+  updatedAt: string;
 };
 
 const FlashSaleBanner = () => {
   const { data: allProducts, isLoading } =
     useGetFlashSaleProductQuery(undefined);
-
-  // console.log(allProducts?.data);
 
   return (
     <div className="FlashSaleBannerContainer py-8 ">
@@ -39,22 +67,28 @@ const FlashSaleBanner = () => {
         </div>
 
         <Swiper
+          effect={"coverflow"}
+          grabCursor={true}
           centeredSlides={true}
+          slidesPerView={"auto"}
+          coverflowEffect={{
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          }}
           autoplay={{
             delay: 2000,
             disableOnInteraction: false,
           }}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[Pagination, Autoplay]}
-          breakpoints={flashProductShowbreakpoints}
-          className="mySwiper  mx-auto w-[80%] xsm:w-full flex justify-center items-center "
+          modules={[EffectCoverflow, Pagination, Autoplay]}
+          className="mySwiper flash-sale-swiper pb-12  "
         >
           {allProducts?.data &&
-            allProducts?.data?.map((product: any) => (
-              <SwiperSlide className=" mb-9 flex justify-center items-center   ">
-                <FlashSaleProductCard product={product} key={product?.id} />
+            allProducts?.data?.map((product: TProduct) => (
+              <SwiperSlide key={product.id} className="!w-80 ">
+                <FlashSaleSwipperCard product={product} />
               </SwiperSlide>
             ))}
         </Swiper>

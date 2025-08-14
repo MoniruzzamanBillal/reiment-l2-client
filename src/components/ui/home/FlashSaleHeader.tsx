@@ -29,7 +29,7 @@ const FlashSaleHeader = () => {
   }, []);
 
   return (
-    <section className="bg-red-600 text-white py-8 px-4">
+    <section className="bg-prime100 text-white py-8 px-4">
       <Wrapper className=" ">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4">

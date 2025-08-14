@@ -31,7 +31,7 @@ type TReview = {
 const RecentReview = () => {
   const { data: recentReviews, isLoading } = useGetRecentReviewQuery(undefined);
 
-  console.log(recentReviews?.data);
+  // console.log(recentReviews?.data);
 
   return (
     <section className="py-12 bg-white">

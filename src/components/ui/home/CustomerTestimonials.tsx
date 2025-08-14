@@ -24,13 +24,13 @@ const testimonials = [
   },
 ];
 
-const TestPage = () => {
+const CustomerTestimonials = () => {
   return (
     <section className="py-12 bg-prime100 text-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold mb-2">What Our Community Says</h2>
-          <p className="text-prime200">Real experiences from real people</p>
+          <p className="text-gray-100">Real experiences from real people</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -49,8 +49,10 @@ const TestPage = () => {
                 </blockquote>
 
                 <div className="border-t border-white/20 pt-4">
-                  <p className="font-semibold">{testimonial.author}</p>
-                  <p className="text-prime200 text-sm">{testimonial.role}</p>
+                  <p className="font-semibold text-white ">
+                    {testimonial.author}
+                  </p>
+                  <p className="text-gray-100/90 text-sm">{testimonial.role}</p>
                 </div>
               </CardContent>
             </Card>
@@ -61,4 +63,4 @@ const TestPage = () => {
   );
 };
 
-export default TestPage;
+export default CustomerTestimonials;
