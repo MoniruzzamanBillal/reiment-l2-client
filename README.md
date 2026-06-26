@@ -1,36 +1,166 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Reiment — Multi-Role E-Commerce Platform
+
+A full-featured e-commerce web application built with Next.js 16 (App Router). Supports three user roles — **Admin**, **Vendor**, and **Customer** — with JWT-based authentication and role-enforced routing via middleware.
+
+---
+
+## Features
+
+### Public / Customer
+
+- Browse products with filters and search
+- Product detail with reviews and related products
+- Flash sale page
+- Product comparison (up to 3 products, same category)
+- Recently viewed products
+- Shop profiles and listings
+- Shopping cart and checkout with coupon support
+- Order history
+- Follow / unfollow shops
+- Contact page
+
+### Vendor
+
+- Create and manage shop
+- Add, edit, and delete products (with rich text descriptions via TipTap)
+- View orders placed for their products
+- Monitor customer reviews
+
+### Admin
+
+- Manage all categories, shops, users, and coupons
+- Monitor all reviews and transactions
+- Dashboard statistics and analytics (charts via Recharts)
+
+---
+
+## Tech Stack
+
+| Layer         | Technology                               |
+| ------------- | ---------------------------------------- |
+| Framework     | Next.js 16 (App Router), React 19        |
+| Language      | TypeScript 5 (strict mode)               |
+| Styling       | Tailwind CSS 4, Radix UI, Shadcn/UI, CVA |
+| Server State  | TanStack React Query 5                   |
+| Client State  | Zustand 5 (persisted to localStorage)    |
+| Forms         | React Hook Form 7 + Zod 4                |
+| HTTP Client   | Axios (interceptors, auto token refresh) |
+| Auth          | JWT — access + refresh tokens in cookies |
+| Tables        | TanStack React Table 8                   |
+| Rich Text     | TipTap 3                                 |
+| Animations    | Framer Motion 12, GSAP 3                 |
+| Charts        | Recharts 3                               |
+| Icons         | Lucide React, React Icons                |
+| Notifications | Sonner                                   |
+| Date Handling | date-fns, react-day-picker               |
+| Theming       | next-themes (dark/light mode)            |
+
+---
+
+## Project Structure
+
+```
+reiment-l2-next-client/
+├── app/
+│   ├── (auth)/          # Login, sign-up, password reset flows
+│   ├── (public)/        # Storefront pages (home, products, cart, etc.)
+│   └── (dashboard)/     # Protected dashboard (admin / vendor / customer)
+├── components/
+│   ├── ui/              # Shadcn/Radix UI primitives
+│   ├── main/            # Feature-specific page sections
+│   ├── shared/          # Reusable shared components (navbar, footer, cards)
+│   ├── common/          # Generic utilities (GenericTable)
+│   └── providers/       # AuthBootstrap provider
+├── hooks/               # Custom hooks (useApi, useDebounce, usePagination, useSearchDebounce)
+├── stores/              # Zustand stores (auth, comparison, coupon, recentProducts)
+├── schemas/             # Zod validation schemas (auth flows)
+├── types/               # TypeScript type definitions
+├── utils/               # Axios instance, API helpers, constants, token utils
+├── lib/                 # Response types, cn utility
+└── middleware.ts        # JWT validation + RBAC route protection
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- Yarn
+- Backend API running (see below)
+
+### Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd reiment-l2-next-client
+yarn install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create a `.env.local` file in the project root:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:5000/api
+```
 
-## Learn More
+For production, point this to the deployed backend:
 
-To learn more about Next.js, take a look at the following resources:
+```env
+NEXT_PUBLIC_API_BASE_URL=https://reiment-l2-server.vercel.app/api
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Run Development Server
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+yarn dev
+```
 
-## Deploy on Vercel
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The backend API must be running at `http://localhost:5000` for the app to function locally.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Routes Overview
+
+| Route Group     | Paths                                                                                                                                                                   | Access                                      |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| **(auth)**      | `/login`, `/sign-up`, `/forgot-password`, `/reset-password/[token]`, `/change-password`, `/email-reset-confirmation/[email]`                                            | Public                                      |
+| **(public)**    | `/`, `/products`, `/product/[id]`, `/shops`, `/shop/[id]`, `/flash-sale`, `/cart`, `/checkout`, `/order-success`, `/comparison-product`, `/recent-products`, `/contact` | Public (`/cart`, `/checkout` require login) |
+| **(dashboard)** | `/dashboard`, `/dashboard/admin/*`, `/dashboard/vendor/*`, `/dashboard/customer/*`, `/dashboard/update-profile/[id]`                                                    | Authenticated + role-matched                |
+
+---
+
+## Role-Based Access Control
+
+Authentication and authorization are enforced in `middleware.ts` using JWT cookies.
+
+| Role     | Allowed Dashboard Prefix | Redirect if wrong role |
+| -------- | ------------------------ | ---------------------- |
+| ADMIN    | `/dashboard/admin`       | Homepage               |
+| VENDOR   | `/dashboard/vendor`      | Homepage               |
+| CUSTOMER | `/dashboard/customer`    | Homepage               |
+
+Unauthenticated access to any protected route redirects to `/login`. Cookies are cleared on session expiry or refresh token failure.
+
+---
+
+## Available Scripts
+
+```bash
+yarn dev      # Start development server (http://localhost:3000)
+yarn build    # Build for production
+yarn start    # Start production server
+yarn lint     # Run ESLint
+```
+
+---
+
+## Deployment
+
+This project is optimized for deployment on [Vercel](https://vercel.com). Set the `NEXT_PUBLIC_API_BASE_URL` environment variable in your Vercel project settings to point to your production backend.
+
+The production backend is hosted at: `https://reiment-l2-server.vercel.app`
