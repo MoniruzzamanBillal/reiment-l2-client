@@ -1,94 +1,36 @@
-# Raiment - E-Commerce Application
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-<p align="center">
-  <img src="https://i.postimg.cc/C1VCd9vW/img-1.png" alt="Home page">
-</p>
+## Getting Started
 
-Raiment is a dynamic full-stack e-commerce platform designed for users, vendors, and administrators to offer a seamless online shopping experience. It allows users to browse and purchase products, vendors to manage their shops and inventories, and administrators to oversee the platform operations.
-
-## Features
-
-### User Features
-
-1. **Home Page**:
-
-   - Displays all available products from various vendors.
-   - Prioritizes products from followed shops for logged-in users.
-   - Advanced filtering
-   - Display list of categories for easy navigation.
-   - Flash sale section with a link to view all flash sale products.
-
-2. **User Registration & Authentication:**:
-
-   - Sign up as a user or vendor.
-   - Secure login using JWT.
-   - Password management (change password and reset via email).
-
-3. **Product Browsing & Cart:**:
-
-   - Browse products across all vendor shops with advanced search and filter options.
-   - Add products to the cart (can only be from one vendor at a time).
-   - Receive warnings when trying to add products from different vendors.
-   - Apply coupon codes during checkout for discounts.
-
-4. **Product Comparison:**:
-
-   - Compare up to three products from the same category based on their attributes (price, ratings, etc.).
-
-5. **Order History:**:
-
-   - View the list of past purchases with product and order details.
-
-6. **Vendor Features:**:
-   - Manage shop details (name, logo, etc.).
-   - Add, edit, or delete products with attributes like price, inventory, images, etc.
-   - View and respond to customer reviews.
-   - View order history specific to their shop.
-
-##
-
-### Admin Features
-
-1. **Admin Dashboar**:
-
-   - Full control over the platform, including managing users (vendors and customers).
-   - Ability to suspend or delete accounts and blacklist vendor shops.
-   - Monitor transactions and review platform activities.
-   - Manage product categories (add, edit, delete).
-
-   ##
-
-### Technologies Used
-
-- **Frontend**: React.js, Redux, TypeScript
-- **Backend**: Node.js, Express, JWT-based Authentication
-- **Database**: PostgreSQL with Prisma
-- **State Management**: React Context
-- **Authentication**: JWT (JSON Web Tokens)
-- **Payment Integration**: Aamarpay for payment processing
-- **Deployment**: Vercel (API)
-
-## Installation
-
-1.  Clone the repository:
+First, run the development server:
 
 ```bash
-git clone https://github.com/MoniruzzamanBillal/reiment-l2-client
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-##
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### Credentials :
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-- **Admin Email**: abc@d.com
-- **password**: 123456
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-- **Vendor Email**: vendor1@gmail.com
-- **password**: 123456
+## Learn More
 
-- **user Email**: user1@gmail.com
-- **password**: 123456
+To learn more about Next.js, take a look at the following resources:
 
-##
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-### live llink : https://reiment-l2-client.vercel.app
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
