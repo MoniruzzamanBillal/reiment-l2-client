@@ -2,7 +2,11 @@
 
 import { create } from "zustand";
 import Cookies from "js-cookie";
-import { authKey, refreshTokenKey, userIdKey } from "@/utils/constants/storageKey";
+import {
+  authKey,
+  refreshTokenKey,
+  userIdKey,
+} from "@/utils/constants/storageKey";
 import { TUser } from "@/types";
 
 type TAuthState = {

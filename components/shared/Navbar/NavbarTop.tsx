@@ -24,9 +24,13 @@ const NavbarTop = ({
   const user = useAuthStore((s) => s.user);
   const comparisonProducts = useComparisonStore((s) => s.products);
 
-  const { data: cartData } = useFetchData<TCart>(["userCart"], "/cart/my-cart", {
-    enabled: user?.userRole === "CUSTOMER",
-  });
+  const { data: cartData } = useFetchData<TCart>(
+    ["userCart"],
+    "/cart/my-cart",
+    {
+      enabled: user?.userRole === "CUSTOMER",
+    },
+  );
 
   return (
     <div className="flex justify-between py-1">
@@ -92,7 +96,10 @@ const NavbarTop = ({
         {/* user */}
         {!user ? (
           <Link href="/login">
-            <Button size="sm" className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm">
+            <Button
+              size="sm"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm"
+            >
               Sign in
             </Button>
           </Link>

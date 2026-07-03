@@ -25,7 +25,7 @@ const ProductCard = ({ product }: { product: TProductResponse }) => {
   const { data: cartData, refetch: refetchCart } = useFetchData<TCart>(
     ["userCart"],
     "/cart/my-cart",
-    { enabled: user?.userRole === "CUSTOMER" }
+    { enabled: user?.userRole === "CUSTOMER" },
   );
 
   const { mutateAsync: addToCartMutate, isPending: addingCart } = usePost([
@@ -34,6 +34,11 @@ const ProductCard = ({ product }: { product: TProductResponse }) => {
   const { mutateAsync: replaceMutate } = usePatch([["userCart"]]);
 
   const handleAddCart = async () => {
+    if (!user) {
+      toast.error("Login to add product in the cart", { duration: 1400 });
+      return;
+    }
+
     const cart = (cartData as any)?.data;
     if (!cart || product.shopId === cart.vendorId) {
       const toastId = toast.loading("Adding to cart…");
@@ -85,8 +90,7 @@ const ProductCard = ({ product }: { product: TProductResponse }) => {
       ? product.price - product.discount
       : null;
 
-  const isLowStock =
-    product.inventoryCount > 0 && product.inventoryCount <= 5;
+  const isLowStock = product.inventoryCount > 0 && product.inventoryCount <= 5;
 
   return (
     <div className="ProductCardContainer group">
@@ -98,7 +102,10 @@ const ProductCard = ({ product }: { product: TProductResponse }) => {
 
       <div className="bg-white border border-gray-100 shadow-sm rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col">
         {/* Image section */}
-        <Link href={`/product/${product.id}`} className="block relative h-[15rem] overflow-hidden">
+        <Link
+          href={`/product/${product.id}`}
+          className="block relative h-[15rem] overflow-hidden"
+        >
           <Image
             src={product.productImg || "/placeholder.svg"}
             alt={product.name}
@@ -178,7 +185,9 @@ const ProductCard = ({ product }: { product: TProductResponse }) => {
             {product.shop?.name && (
               <div className="flex items-center gap-1 bg-gray-100 px-2 py-0.5 rounded-full text-gray-500 shrink-0 max-w-[40%]">
                 <Store className="size-3 shrink-0" />
-                <span className="text-[10px] font-medium truncate">{product.shop.name}</span>
+                <span className="text-[10px] font-medium truncate">
+                  {product.shop.name}
+                </span>
               </div>
             )}
           </div>
@@ -189,7 +198,7 @@ const ProductCard = ({ product }: { product: TProductResponse }) => {
           <Button
             disabled={addingCart}
             onClick={handleAddCart}
-            className="w-full text-sm font-semibold text-white bg-prime100 hover:bg-prime200 rounded-xl"
+            className="w-full text-sm font-semibold text-white bg-prime100 hover:bg-prime200 rounded-xl  "
           >
             <ShoppingCart className="size-4" />
             {addingCart ? "Adding…" : "Add to Cart"}

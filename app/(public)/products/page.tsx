@@ -61,8 +61,15 @@ function AllProductsInner() {
   });
 
   const { data: allProducts, isLoading } = useFetchData<TProductResponse[]>(
-    ["allProducts", String(page), searchTerm, category, sort, String(priceRange)],
-    url
+    [
+      "allProducts",
+      String(page),
+      searchTerm,
+      category,
+      sort,
+      String(priceRange),
+    ],
+    url,
   );
 
   const products: TProductResponse[] = (allProducts as any)?.data?.data ?? [];
@@ -90,7 +97,9 @@ function AllProductsInner() {
                 <LayoutGrid className="size-5 text-prime100" />
               </div>
               <div>
-                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">All Products</h1>
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
+                  All Products
+                </h1>
                 {!isLoading && (
                   <p className="text-xs text-gray-500 mt-0.5">
                     {totalItems} product{totalItems !== 1 ? "s" : ""} found
@@ -105,7 +114,10 @@ function AllProductsInner() {
                 type="text"
                 placeholder="Search products…"
                 value={searchTerm}
-                onChange={(e) => { setSearchTerm(e.target.value); setPage(1); }}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setPage(1);
+                }}
                 className="rounded-xl border-gray-200 bg-gray-50 text-sm"
               />
             </div>
@@ -114,11 +126,16 @@ function AllProductsInner() {
           {/* Active filter chips */}
           {hasActiveFilters && (
             <div className="flex flex-wrap items-center gap-2 mt-3">
-              <span className="text-xs text-gray-500 font-medium">Active filters:</span>
+              <span className="text-xs text-gray-500 font-medium">
+                Active filters:
+              </span>
               {priceRange && (
                 <span className="inline-flex items-center gap-1 bg-prime100/10 text-prime100 text-xs font-semibold px-3 py-1 rounded-full">
                   Max ${priceRange}
-                  <button onClick={() => setPriceRange(null)} className="ml-0.5 hover:text-prime200">
+                  <button
+                    onClick={() => setPriceRange(null)}
+                    className="ml-0.5 hover:text-prime200"
+                  >
                     <X className="size-3" />
                   </button>
                 </span>
@@ -126,7 +143,10 @@ function AllProductsInner() {
               {category && (
                 <span className="inline-flex items-center gap-1 bg-indigo-50 text-indigo-700 text-xs font-semibold px-3 py-1 rounded-full">
                   Category filtered
-                  <button onClick={() => setCategory("")} className="ml-0.5 hover:text-indigo-900">
+                  <button
+                    onClick={() => setCategory("")}
+                    className="ml-0.5 hover:text-indigo-900"
+                  >
                     <X className="size-3" />
                   </button>
                 </span>
@@ -163,7 +183,11 @@ function AllProductsInner() {
               <div className="xl:hidden">
                 <Sheet>
                   <SheetTrigger asChild>
-                    <Button variant="outline" size="sm" className="flex items-center gap-x-1.5 rounded-lg">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center gap-x-1.5 rounded-lg"
+                    >
                       <SlidersHorizontal className="size-4" />
                       Filter
                       {hasActiveFilters && (
@@ -204,7 +228,10 @@ function AllProductsInner() {
                 <p className="text-gray-500 whitespace-nowrap">Sort by:</p>
                 <Select
                   value={sort}
-                  onValueChange={(value) => { setSort(value); setPage(1); }}
+                  onValueChange={(value) => {
+                    setSort(value);
+                    setPage(1);
+                  }}
                 >
                   <SelectTrigger className="w-[10rem] sm:w-[13rem] border-gray-200 rounded-lg text-xs sm:text-sm focus:ring-0 focus:ring-offset-0">
                     <SelectValue placeholder="Price" />
@@ -234,8 +261,12 @@ function AllProductsInner() {
                     <div className="flex items-center justify-center size-16 rounded-2xl bg-gray-100 mb-4">
                       <SearchX className="size-8 text-gray-400" />
                     </div>
-                    <p className="text-gray-700 font-semibold text-lg mb-1">No products match your filters</p>
-                    <p className="text-gray-400 text-sm mb-5">Try adjusting your search or clearing filters.</p>
+                    <p className="text-gray-700 font-semibold text-lg mb-1">
+                      No products match your filters
+                    </p>
+                    <p className="text-gray-400 text-sm mb-5">
+                      Try adjusting your search or clearing filters.
+                    </p>
                     <Button
                       onClick={handleReset}
                       className="bg-prime100 hover:bg-prime200 rounded-xl px-6"

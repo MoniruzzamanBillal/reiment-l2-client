@@ -19,14 +19,20 @@ export function middleware(request: NextRequest) {
   if (token) {
     try {
       const payload = JSON.parse(
-        Buffer.from(token.split(".")[1], "base64").toString("utf-8")
+        Buffer.from(token.split(".")[1], "base64").toString("utf-8"),
       );
       const role: string = payload.userRole;
 
-      if (ADMIN_ROUTES.some((r) => pathname.startsWith(r)) && role !== "ADMIN") {
+      if (
+        ADMIN_ROUTES.some((r) => pathname.startsWith(r)) &&
+        role !== "ADMIN"
+      ) {
         return NextResponse.redirect(new URL("/", request.url));
       }
-      if (VENDOR_ROUTES.some((r) => pathname.startsWith(r)) && role !== "VENDOR") {
+      if (
+        VENDOR_ROUTES.some((r) => pathname.startsWith(r)) &&
+        role !== "VENDOR"
+      ) {
         return NextResponse.redirect(new URL("/", request.url));
       }
       if (

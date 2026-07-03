@@ -28,13 +28,13 @@ const NavbarBottom = () => {
 
   const { data: categoryData } = useFetchData<TCategory[]>(
     ["allCategory"],
-    "/category/all-category"
+    "/category/all-category",
   );
 
   useEffect(() => {
     if (categoryData?.data) {
       const modifiedData = (categoryData.data as unknown as TCategory[]).map(
-        (item) => ({ name: item.name, value: item.id })
+        (item) => ({ name: item.name, value: item.id }),
       );
       setCategoryOptions([{ name: "All", value: "" }, ...modifiedData]);
     }
@@ -80,7 +80,7 @@ const NavbarBottom = () => {
 
       {/* nav links */}
       <ul
-        className={`absolute bg-white/95 shadow-sm
+        className={`absolute bg-white shadow-sm
           xmd:shadow-none z-40 left-0 w-full pr-5 sm:pr-8
           xmd:flex text-end md:items-center pb-2 xmd:pb-0
           xmd:static xmd:bg-transparent xmd:z-auto
@@ -92,7 +92,10 @@ const NavbarBottom = () => {
         style={{ backdropFilter: "blur(1rem)" }}
       >
         {Links.map((link, index) => (
-          <li key={index} className="my-4 ml-3 xl:ml-6 font-medium tracking-wide">
+          <li
+            key={index}
+            className="my-4 ml-3 xl:ml-6 font-medium tracking-wide"
+          >
             <Link
               href={link.link}
               className="hover:text-indigo-600 duration-300"
