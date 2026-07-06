@@ -303,3 +303,18 @@ export type TLoggedInUser = {
   status: "ACTIVE" | "BLOCKED" | "SUSPENDED";
   needsPasswordChange: boolean;
 };
+
+export type TAiGenerateDescriptionResponse = {
+  title: string;
+  description: string;
+};
+
+export type TAiChatMessage = {
+  role: "user" | "assistant";
+  content: string;
+};
+
+export type TAiChatResponse = {
+  reply: string;
+  productIds: string[];
+};

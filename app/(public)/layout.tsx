@@ -1,5 +1,6 @@
 import Navbar from "@/components/shared/Navbar/Navbar";
 import Footer from "@/components/shared/Footer/Footer";
+import ChatWidget from "@/components/shared/ChatWidget/ChatWidget";
 
 export default function PublicLayout({
   children,
@@ -11,6 +12,7 @@ export default function PublicLayout({
       <Navbar />
       <main className="flex-1 mt-[7rem]">{children}</main>
       <Footer />
+      <ChatWidget />
     </div>
   );
 }

@@ -1,20 +1,20 @@
 "use client";
 
-import { useForm, FormProvider } from "react-hook-form";
+import ControlledInput from "@/components/shared/input/ControlledInput";
+import FormSubmitLoading from "@/components/shared/ui/FormSubmitLoading";
+import { Button } from "@/components/ui/button";
+import { usePost } from "@/hooks/useApi";
+import { loginSchema } from "@/schemas/auth.schema";
+import { useAuthStore } from "@/stores/useAuthStore";
+import { authKey } from "@/utils/constants/storageKey";
+import { decodeToken } from "@/utils/tokenUtils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { toast } from "sonner";
+import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
-import { usePost } from "@/hooks/useApi";
-import { useAuthStore } from "@/stores/useAuthStore";
-import { decodeToken } from "@/utils/tokenUtils";
-import { authKey } from "@/utils/constants/storageKey";
-import { loginSchema } from "@/schemas/auth.schema";
-import ControlledInput from "@/components/shared/input/ControlledInput";
-import { Button } from "@/components/ui/button";
-import FormSubmitLoading from "@/components/shared/ui/FormSubmitLoading";
+import { FormProvider, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 type TLoginForm = z.infer<typeof loginSchema>;
 
@@ -37,7 +37,7 @@ const LoginForm = () => {
       });
 
       const responseData = result?.data;
-      const token: string = responseData?.token;
+      const token: string = result?.token;
 
       if (!token) throw new Error("No token received");
 

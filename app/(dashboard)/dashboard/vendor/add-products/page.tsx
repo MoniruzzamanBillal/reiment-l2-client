@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useFetchData, usePost } from "@/hooks/useApi";
-import { TCategory, TVendorShop } from "@/types";
-import { X } from "lucide-react";
+import { useGenerateDescription } from "@/hooks/useAi";
+import { TAiGenerateDescriptionResponse, TCategory, TVendorShop } from "@/types";
+import { Sparkles, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
@@ -28,9 +29,10 @@ export default function AddProductPage() {
   const { data: categoryData, isLoading: categoryLoading } = useFetchData<TCategory[]>(["allCategory"], "/category/all-category");
 
   const { mutateAsync: addProductMutate, isPending } = usePost([["vendorProducts", shop?.id ?? ""]]);
+  const { mutateAsync: generateDescriptionMutate, isPending: isGenerating } = useGenerateDescription();
 
   const methods = useForm();
-  const { register, handleSubmit, control, formState: { errors, isSubmitting } } = methods;
+  const { register, handleSubmit, control, watch, setValue, formState: { errors, isSubmitting } } = methods;
 
   useEffect(() => {
     const cats: TCategory[] = (categoryData as any)?.data ?? [];
@@ -46,6 +48,28 @@ export default function AddProductPage() {
   const handleRemoveImage = () => {
     setImagePreview(null);
     if (imageInputRef.current) imageInputRef.current.value = "";
+  };
+
+  const handleGenerateWithAi = async () => {
+    const name = watch("name");
+    const categoryId = watch("category");
+    if (!name || !categoryId) {
+      toast.error("Enter a product name and pick a category first");
+      return;
+    }
+    const toastId = toast.loading("Drafting with AI...");
+    try {
+      const result: any = await generateDescriptionMutate({
+        url: "/ai/generate-description",
+        payload: { name, categoryId, keywords: name },
+      });
+      const aiData: TAiGenerateDescriptionResponse = result?.data;
+      setValue("name", aiData.title, { shouldDirty: true });
+      setValue("description", aiData.description, { shouldValidate: true, shouldDirty: true });
+      toast.success("Draft generated — feel free to edit before submitting", { id: toastId, duration: 1500 });
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || err?.message || "Couldn't generate a draft", { id: toastId, duration: 1400 });
+    }
   };
 
   const onSubmit = async (data: any) => {
@@ -87,6 +111,20 @@ export default function AddProductPage() {
           <div className="p-1 w-[95%] xsm:w-[85%] m-auto">
             <FormProvider {...methods}>
               <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
+                <div className="flex justify-end">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    disabled={isGenerating}
+                    onClick={handleGenerateWithAi}
+                    className="gap-1.5"
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    {isGenerating ? "Generating..." : "Generate with AI"}
+                  </Button>
+                </div>
+
                 <div className="flex flex-col gap-y-1.5">
                   <Label htmlFor="name">Product Name :</Label>
                   <Input id="name" type="text" placeholder="Enter Product Name" {...register("name", { required: "Product Name is required" })} />
