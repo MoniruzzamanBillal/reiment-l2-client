@@ -6,17 +6,18 @@ toasts, zustand stores per concern, `components/shared/*` for cross-feature UI).
 
 Backend endpoints this plan consumes (see `reiment-l2-server/implementationplan.md`):
 
-| Endpoint | Auth | Request | Response |
-|---|---|---|---|
-| `POST /api/ai/generate-description` | Vendor (bearer) | `{ name, categoryId, keywords?, price? }` | `{ title, description }` |
-| `POST /api/ai/chat` | Public | `{ message, history? }` | `{ reply, productIds }` |
-| `POST /api/ai/smart-search` | Public | `{ query }` | `{ data, meta }` (same shape as `/product/all-products`) |
+| Endpoint                            | Auth            | Request                                   | Response                                                 |
+| ----------------------------------- | --------------- | ----------------------------------------- | -------------------------------------------------------- |
+| `POST /api/ai/generate-description` | Vendor (bearer) | `{ name, categoryId, keywords?, price? }` | `{ title, description }`                                 |
+| `POST /api/ai/chat`                 | Public          | `{ message, history? }`                   | `{ reply, productIds }`                                  |
+| `POST /api/ai/smart-search`         | Public          | `{ query }`                               | `{ data, meta }` (same shape as `/product/all-products`) |
 
 ---
 
 ## 1. API client — no new setup needed
 
 `utils/axiosInstance.ts` already handles everything these 3 endpoints need:
+
 - Attaches `Authorization: Bearer <token>` automatically when the `accessToken`
   cookie exists, and simply omits it when it doesn't — so the public endpoints
   (`chat`, `smart-search`) and the vendor-gated one (`generate-description`) all
@@ -66,7 +67,10 @@ Centralize here rather than a new file, matching how `TUser`, `TProductResponse`
 etc. already live in one flat file:
 
 ```ts
-export type TAiGenerateDescriptionResponse = { title: string; description: string };
+export type TAiGenerateDescriptionResponse = {
+  title: string;
+  description: string;
+};
 export type TAiChatMessage = { role: "user" | "assistant"; content: string };
 export type TAiChatResponse = { reply: string; productIds: string[] };
 // smart-search response reuses the existing TProductResponse[] + meta shape
@@ -77,6 +81,7 @@ export type TAiChatResponse = { reply: string; productIds: string[] };
 ## 4. Feature 1 — "Generate with AI" on the vendor product form
 
 **Files touched:**
+
 - `app/(dashboard)/dashboard/vendor/add-products/page.tsx`
 - `app/(dashboard)/dashboard/vendor/update-products/[id]/page.tsx`
 
@@ -90,6 +95,7 @@ vendor has picked a `category` (the category `Controller`/react-select field
 already in the form) and typed at least a few keywords into the `name` field.
 
 **Flow:**
+
 1. On click, call `useGenerateDescription()` with
    `{ name: watch("name"), categoryId: watch("category")?.value, keywords }`
    (`keywords` can just be the current `name` value if there's no separate
@@ -120,6 +126,7 @@ for this — no new auth wiring needed).
 ## 5. Feature 2 — Customer shopping assistant (chat widget)
 
 **New files:**
+
 ```
 stores/useChatStore.ts                       # open/closed + message history
 components/shared/ChatWidget/ChatWidget.tsx  # floating button + panel shell
@@ -133,15 +140,17 @@ single-page feature composition like `AllProducts/`, `ProductDetail/`).
 
 **Store — `stores/useChatStore.ts`** (same shape as `useAuthStore`/
 `useComparisonStore`):
+
 ```ts
 type TChatState = {
   isOpen: boolean;
-  messages: TAiChatMessage[];       // capped client-side, e.g. last 10 turns
+  messages: TAiChatMessage[]; // capped client-side, e.g. last 10 turns
   toggle: () => void;
   addMessage: (m: TAiChatMessage) => void;
   reset: () => void;
 };
 ```
+
 Kept in a store (not local component state) so the conversation survives route
 navigation, since the widget is mounted globally.
 
@@ -157,6 +166,7 @@ that should stay open while browsing. `framer-motion` (already a dependency) is
 a natural fit for the open/close panel animation.
 
 **Send-message flow (`ChatWindow.tsx`):**
+
 1. On submit: `addMessage({ role: "user", content })` to the store immediately
    (optimistic render).
 2. Call `useAiChat()` mutation:
@@ -195,11 +205,12 @@ get populated changes.
 **Approach:** don't replace the existing filter UI (category dropdown, price
 slider, sort — those still work great for precise filtering). Instead, treat
 the free-text search box as dual-purpose:
+
 1. Keep the current instant `buildUrl` + `useFetchData` path as the default —
    it's free (no model call) and already works.
 2. Add a "Search with AI" affordance next to the search input (icon button or
-   a switch) for natural-language queries like *"cheap waterproof shoes under
-   $50"* that the existing plain `contains` search can't parse into
+   a switch) for natural-language queries like _"cheap waterproof shoes under
+   $50"_ that the existing plain `contains` search can't parse into
    price/category filters.
 3. When triggered, call `useSmartSearch()` with `{ query: searchTerm }`, and on
    success, `setState` the same `products`/`totalItems` local state the regular
@@ -237,18 +248,18 @@ the free-text search box as dual-purpose:
 
 ## 8. New files checklist
 
-| File | Purpose |
-|---|---|
-| `hooks/useAi.ts` | `useGenerateDescription`, `useAiChat`, `useSmartSearch` |
-| `stores/useChatStore.ts` | chat open/closed + message history |
-| `components/shared/ChatWidget/ChatWidget.tsx` | floating trigger + panel shell |
-| `components/shared/ChatWidget/ChatWindow.tsx` | message list + input + send logic |
-| `components/shared/ChatWidget/ChatMessage.tsx` | bubble + optional product cards |
-| `types/index.ts` (edit) | add `TAiGenerateDescriptionResponse`, `TAiChatMessage`, `TAiChatResponse` |
-| `app/(public)/layout.tsx` (edit) | mount `<ChatWidget />` |
-| `app/(dashboard)/dashboard/vendor/add-products/page.tsx` (edit) | "Generate with AI" button |
-| `app/(dashboard)/dashboard/vendor/update-products/[id]/page.tsx` (edit) | same button on edit form |
-| `app/(public)/products/page.tsx` (edit) | "Search with AI" affordance in `AllProductsInner` |
+| File                                                                    | Purpose                                                                   |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `hooks/useAi.ts`                                                        | `useGenerateDescription`, `useAiChat`, `useSmartSearch`                   |
+| `stores/useChatStore.ts`                                                | chat open/closed + message history                                        |
+| `components/shared/ChatWidget/ChatWidget.tsx`                           | floating trigger + panel shell                                            |
+| `components/shared/ChatWidget/ChatWindow.tsx`                           | message list + input + send logic                                         |
+| `components/shared/ChatWidget/ChatMessage.tsx`                          | bubble + optional product cards                                           |
+| `types/index.ts` (edit)                                                 | add `TAiGenerateDescriptionResponse`, `TAiChatMessage`, `TAiChatResponse` |
+| `app/(public)/layout.tsx` (edit)                                        | mount `<ChatWidget />`                                                    |
+| `app/(dashboard)/dashboard/vendor/add-products/page.tsx` (edit)         | "Generate with AI" button                                                 |
+| `app/(dashboard)/dashboard/vendor/update-products/[id]/page.tsx` (edit) | same button on edit form                                                  |
+| `app/(public)/products/page.tsx` (edit)                                 | "Search with AI" affordance in `AllProductsInner`                         |
 
 ---
 

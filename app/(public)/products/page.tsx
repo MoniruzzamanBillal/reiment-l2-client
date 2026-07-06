@@ -22,10 +22,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useSmartSearch } from "@/hooks/useAi";
 import { useFetchData } from "@/hooks/useApi";
+import { useSearchDebounce } from "@/hooks/useSearchDebounce";
 import { TProductResponse } from "@/types";
 import { buildUrl } from "@/utils/buildUrl";
-import { LayoutGrid, SearchX, SlidersHorizontal, X } from "lucide-react";
+import {
+  LayoutGrid,
+  SearchX,
+  SlidersHorizontal,
+  Sparkles,
+  X,
+} from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
@@ -37,7 +45,8 @@ function AllProductsInner() {
   const ParamCategory = searchParams.get("ParamCategory");
 
   const [page, setPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
+
+  const { search, setSearch, debouncedSearch } = useSearchDebounce();
   const [priceRange, setPriceRange] = useState<number | null>(null);
   const [category, setCategory] = useState("");
   const [sort, setSort] = useState("");
@@ -47,13 +56,13 @@ function AllProductsInner() {
   }, [ParamCategory]);
 
   useEffect(() => {
-    if (paramSearchTerm) setSearchTerm(paramSearchTerm);
+    if (paramSearchTerm) setSearch(paramSearchTerm);
   }, [paramSearchTerm]);
 
   const url = buildUrl("/product/all-products", {
     page,
     limit: LIMIT,
-    searchTerm: searchTerm || undefined,
+    searchTerm: debouncedSearch || undefined,
     priceRange: priceRange || undefined,
     categoryId: category || undefined,
     sortBy: sort ? "price" : undefined,
@@ -64,7 +73,7 @@ function AllProductsInner() {
     [
       "allProducts",
       String(page),
-      searchTerm,
+      debouncedSearch,
       category,
       sort,
       String(priceRange),
@@ -72,18 +81,69 @@ function AllProductsInner() {
     url,
   );
 
-  const products: TProductResponse[] = (allProducts as any)?.data?.data ?? [];
-  const totalItems: number = (allProducts as any)?.data?.meta?.totalItems ?? 0;
+  const [smartSearchActive, setSmartSearchActive] = useState(false);
+  const [smartProducts, setSmartProducts] = useState<TProductResponse[]>([]);
+  const [smartTotalItems, setSmartTotalItems] = useState(0);
+  const { mutateAsync: smartSearchMutate, isPending: isSmartSearching } =
+    useSmartSearch();
+
+  const products: TProductResponse[] = smartSearchActive
+    ? smartProducts
+    : ((allProducts as any)?.data?.data ?? []);
+  const totalItems: number = smartSearchActive
+    ? smartTotalItems
+    : ((allProducts as any)?.data?.meta?.totalItems ?? 0);
   const totalPages = Math.ceil(totalItems / LIMIT);
 
   const hasActiveFilters = !!priceRange || !!category;
 
+  const runSmartSearch = async (pageArg: number = page) => {
+    if (!debouncedSearch.trim()) return;
+    const aiUrl = buildUrl("/ai/smart-search", {
+      page: pageArg,
+      limit: LIMIT,
+      sortBy: sort ? "price" : undefined,
+      sortOrder: sort || undefined,
+    });
+    try {
+      const result: any = await smartSearchMutate({
+        url: aiUrl,
+        payload: { query: debouncedSearch },
+      });
+      setSmartProducts(result?.data?.data ?? []);
+      setSmartTotalItems(result?.data?.meta?.totalItems ?? 0);
+      setSmartSearchActive(true);
+    } catch {
+      // Silently fall back to the plain search path — a failed AI search
+      // shouldn't surface an error for what the user perceives as "just a search".
+      setSmartSearchActive(false);
+    }
+  };
+
+  useEffect(() => {
+    if (smartSearchActive) runSmartSearch(page);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
+
+  const handleSetCategory = (value: string) => {
+    setSmartSearchActive(false);
+    setCategory(value);
+  };
+
+  const handleSetPriceRange = (value: number | null) => {
+    setSmartSearchActive(false);
+    setPriceRange(value);
+  };
+
   const handleReset = () => {
     setPage(1);
-    setSearchTerm("");
+    setSearch("");
     setPriceRange(null);
     setCategory("");
     setSort("");
+    setSmartSearchActive(false);
+    setSmartProducts([]);
+    setSmartTotalItems(0);
   };
 
   return (
@@ -113,13 +173,28 @@ function AllProductsInner() {
               <Input
                 type="text"
                 placeholder="Search products…"
-                value={searchTerm}
+                value={search}
                 onChange={(e) => {
-                  setSearchTerm(e.target.value);
+                  setSearch(e.target.value);
                   setPage(1);
+                  setSmartSearchActive(false);
                 }}
                 className="rounded-xl border-gray-200 bg-gray-50 text-sm"
               />
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                title="Search with AI"
+                disabled={isSmartSearching || !search.trim()}
+                onClick={() => {
+                  setPage(1);
+                  runSmartSearch(1);
+                }}
+                className="shrink-0 rounded-xl"
+              >
+                <Sparkles className="size-4" />
+              </Button>
             </div>
           </div>
 
@@ -133,7 +208,7 @@ function AllProductsInner() {
                 <span className="inline-flex items-center gap-1 bg-prime100/10 text-prime100 text-xs font-semibold px-3 py-1 rounded-full">
                   Max ${priceRange}
                   <button
-                    onClick={() => setPriceRange(null)}
+                    onClick={() => handleSetPriceRange(null)}
                     className="ml-0.5 hover:text-prime200"
                   >
                     <X className="size-3" />
@@ -144,7 +219,7 @@ function AllProductsInner() {
                 <span className="inline-flex items-center gap-1 bg-indigo-50 text-indigo-700 text-xs font-semibold px-3 py-1 rounded-full">
                   Category filtered
                   <button
-                    onClick={() => setCategory("")}
+                    onClick={() => handleSetCategory("")}
                     className="ml-0.5 hover:text-indigo-900"
                   >
                     <X className="size-3" />
@@ -169,8 +244,8 @@ function AllProductsInner() {
             <ProductsFilter
               priceRange={priceRange}
               category={category}
-              setPriceRange={setPriceRange}
-              setCategory={setCategory}
+              setPriceRange={handleSetPriceRange}
+              setCategory={handleSetCategory}
               handleAddReset={handleReset}
             />
           </div>
@@ -210,17 +285,32 @@ function AllProductsInner() {
               </div>
 
               {/* Desktop search */}
-              <div className="hidden xl:flex searchSection bg-gray-50 border border-gray-200 w-[60%] m-auto py-0.5 px-4 rounded-full items-center">
+              <div className="hidden xl:flex searchSection bg-gray-50 border border-gray-200 w-[60%] m-auto py-0.5 px-2 rounded-full items-center gap-1">
                 <Input
                   type="text"
                   placeholder="Search products…"
                   className="border-none bg-transparent focus-visible:ring-0 text-sm"
-                  value={searchTerm}
+                  value={search}
                   onChange={(e) => {
-                    setSearchTerm(e.target.value);
+                    setSearch(e.target.value);
                     setPage(1);
+                    setSmartSearchActive(false);
                   }}
                 />
+                <Button
+                  type="button"
+                  variant={smartSearchActive ? "default" : "outline"}
+                  size="icon-sm"
+                  title="Search with AI"
+                  disabled={isSmartSearching || !search.trim()}
+                  onClick={() => {
+                    setPage(1);
+                    runSmartSearch(1);
+                  }}
+                  className="shrink-0 rounded-full"
+                >
+                  <Sparkles className="size-4" />
+                </Button>
               </div>
 
               {/* Sort */}
@@ -231,6 +321,7 @@ function AllProductsInner() {
                   onValueChange={(value) => {
                     setSort(value);
                     setPage(1);
+                    setSmartSearchActive(false);
                   }}
                 >
                   <SelectTrigger className="w-[10rem] sm:w-[13rem] border-gray-200 rounded-lg text-xs sm:text-sm focus:ring-0 focus:ring-offset-0">
