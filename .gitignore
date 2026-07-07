@@ -45,6 +45,18 @@ next-env.d.ts
 
 
 # !Uncomment in production 
-# .vscode
-# .vscode/
-# .vscode/*
+.vscode
+.vscode/
+.vscode/*
+
+
+
+
+.claude/
+.claude/settings.local.json
+CLAUDE.local.md
+
+CLAUDE.md
+
+
+**/CLAUDE.md
