@@ -279,7 +279,8 @@ export type TCoupon = {
   discountValue: number;
   usageLimit: number;
   usedCount: number;
-  expiryDate?: string;
+  startDate: string;
+  endDate: string;
   createdAt: string;
 };
 

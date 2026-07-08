@@ -10,11 +10,18 @@ import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-const addCouponSchema = z.object({
-  code: z.string().min(1, "Coupon code is required"),
-  discountValue: z.string().min(1, "Discount value is required"),
-  usageLimit: z.string().min(1, "Usage limit is required"),
-});
+const addCouponSchema = z
+  .object({
+    code: z.string().min(1, "Coupon code is required"),
+    discountValue: z.string().min(1, "Discount value is required"),
+    usageLimit: z.string().min(1, "Usage limit is required"),
+    startDate: z.string().min(1, "Start date is required"),
+    endDate: z.string().min(1, "End date is required"),
+  })
+  .refine((data) => new Date(data.endDate) > new Date(data.startDate), {
+    message: "End date must be after start date",
+    path: ["endDate"],
+  });
 type TAddCouponForm = z.infer<typeof addCouponSchema>;
 
 export default function AddCouponPage() {
@@ -27,10 +34,16 @@ export default function AddCouponPage() {
     try {
       const result = await addMutate({
         url: "/coupon/add-coupon",
-        payload: { code: data.code, discountValue: data.discountValue, usageLimit: data.usageLimit },
+        payload: {
+          code: data.code,
+          discountValue: Number(data.discountValue),
+          usageLimit: Number(data.usageLimit),
+          startDate: data.startDate,
+          endDate: data.endDate,
+        },
       });
-      if (result?.data?.success) {
-        toast.success(result.data.message, { duration: 1200 });
+      if (result?.success) {
+        toast.success(result.message, { duration: 1200 });
         setTimeout(() => router.push("/dashboard/admin/manage-coupon"), 600);
       }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,8 +62,10 @@ export default function AddCouponPage() {
             <FormProvider {...methods}>
               <form onSubmit={methods.handleSubmit(handleAddCoupon)} className="space-y-5">
                 <ControlledInput name="code" label="Coupon Code :" placeholder="Enter Coupon Code" />
-                <ControlledInput name="discountValue" type="number" label="Discount Value (%) :" placeholder="e.g. 10 for 10%" />
+                <ControlledInput name="discountValue" type="number" label="Discount Amount ($) :" placeholder="e.g. 10 for $10 off" />
                 <ControlledInput name="usageLimit" type="number" label="Usage Limit :" placeholder="Enter Usage Limit" />
+                <ControlledInput name="startDate" type="date" label="Start Date :" />
+                <ControlledInput name="endDate" type="date" label="End Date :" />
                 <Button type="submit" disabled={isPending} className="font-semibold text-sm active:scale-95 duration-500 bg-prime50 hover:bg-prime100">
                   Add Coupon
                 </Button>
