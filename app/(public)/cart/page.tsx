@@ -3,21 +3,13 @@
 import CartItemCard from "@/components/shared/cards/CartItemCard";
 import FormSubmitLoading from "@/components/shared/FormSubmitLoading";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useFetchData, useDeleteData, usePatch, usePost } from "@/hooks/useApi";
-import { useCouponStore } from "@/stores/useCouponStore";
+import { useFetchData, useDeleteData, usePatch } from "@/hooks/useApi";
 import { TCart, TCartItem } from "@/types";
 import { calculateCartPrice } from "@/utils/calculateCartPrice";
 import Link from "next/link";
-import { useState } from "react";
 import { toast } from "sonner";
 
 const CartPage = () => {
-  const [coupon, setCoupon] = useState("");
-  const [discount, setDiscount] = useState(0);
-
-  const { couponId, setCouponId, resetCoupon } = useCouponStore();
-
   const {
     data: cartData,
     isLoading: cartLoading,
@@ -33,10 +25,6 @@ const CartPage = () => {
     ["userCart"],
   ]);
   const { mutateAsync: deleteMutate, isPending: deletePending } = useDeleteData([
-    ["userCart"],
-  ]);
-  const { mutateAsync: couponMutate } = usePost([]);
-  const { mutateAsync: orderMutate, isPending: orderPending } = usePost([
     ["userCart"],
   ]);
 
@@ -99,48 +87,6 @@ const CartPage = () => {
     }
   };
 
-  const handleApplyCoupon = async () => {
-    if (!coupon) { toast.error("Please enter a coupon code!"); return; }
-    try {
-      const result: any = await couponMutate({
-        url: "/coupon/get-coupon",
-        payload: { coupon },
-      });
-      if (result?.data?.success) {
-        toast.success("Coupon applied successfully!!", { duration: 1600 });
-        setCouponId(result.data.data.id);
-        setDiscount(result.data.data.discountValue);
-      }
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Invalid coupon", {
-        duration: 1800,
-      });
-      setCoupon("");
-      resetCoupon();
-    }
-  };
-
-  const handleOrderItem = async () => {
-    const toastId = toast.loading("Placing order…");
-    try {
-      const result: any = await orderMutate({
-        url: "/order/order-item",
-        payload: { cartId: cart?.id, couponId },
-      });
-      if (result?.data) {
-        toast.success(result.data.message, { id: toastId, duration: 2000 });
-        resetCoupon();
-        const paymentUrl = result.data.data;
-        if (paymentUrl) window.location.href = paymentUrl;
-      }
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Failed", {
-        id: toastId,
-        duration: 1400,
-      });
-    }
-  };
-
   const isLoading =
     cartLoading || increasePending || decreasePending || deletePending;
 
@@ -190,7 +136,7 @@ const CartPage = () => {
                   <div className="py-2">
                     <div className="flex py-1 justify-between gap-4 text-gray-900">
                       <span className="font-medium">Subtotal</span>
-                      <span>$ {(totalCartPrice - discount).toFixed(2)}</span>
+                      <span>$ {totalCartPrice.toFixed(2)}</span>
                     </div>
                     <div className="flex py-1 justify-between gap-4 text-gray-700">
                       <span className="font-medium">Shipping</span>
@@ -198,27 +144,12 @@ const CartPage = () => {
                     </div>
                   </div>
 
-                  <div className="mt-4 text-sm flex items-center">
-                    <Input
-                      placeholder="Enter Promo Code"
-                      className="rounded-none text-sm"
-                      value={coupon}
-                      onChange={(e) => setCoupon(e.target.value)}
-                    />
-                    <Button
-                      onClick={handleApplyCoupon}
-                      className="rounded-none text-sm"
-                    >
-                      Apply
-                    </Button>
-                  </div>
-
                   <div className="mt-4 border-t pt-4">
                     <div className="flex items-start justify-between gap-4 text-gray-800">
                       <span className="text-lg font-bold">Total</span>
                       <span className="flex flex-col items-end">
                         <span className="text-lg font-bold">
-                          {(totalCartPrice + 4.99 - discount).toFixed(2)} USD
+                          {(totalCartPrice + 4.99).toFixed(2)} USD
                         </span>
                         <span className="text-sm text-gray-500">
                           including VAT
@@ -228,13 +159,11 @@ const CartPage = () => {
                   </div>
                 </div>
 
-                <Button
-                  disabled={orderPending}
-                  className="text-sm font-medium text-white transition duration-100 bg-prime50 hover:bg-prime100"
-                  onClick={handleOrderItem}
-                >
-                  {orderPending ? "Ordering…" : "Order Item"}
-                </Button>
+                <Link href="/checkout">
+                  <Button className="text-sm font-medium text-white transition duration-100 bg-prime50 hover:bg-prime100">
+                    Proceed to Checkout
+                  </Button>
+                </Link>
               </div>
             )}
           </div>

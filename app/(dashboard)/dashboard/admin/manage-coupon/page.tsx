@@ -24,38 +24,46 @@ export default function ManageCouponPage() {
     const toastId = toast.loading("Deleting Coupon...");
     try {
       const result: any = await deleteMutate({ url: `/coupon/delete-coupon/${id}` });
-      if (result?.data) { refetch(); toast.success(result.data.message, { id: toastId, duration: 1000 }); }
+      if (result?.success) { refetch(); toast.success(result.message, { id: toastId, duration: 1000 }); }
     } catch (err: any) {
       toast.error(err?.response?.data?.message || "Failed", { id: toastId, duration: 1400 });
     }
   };
 
   let content = null;
-  if (isLoading) content = <tr><td colSpan={4} className="p-8 text-center text-gray-500">Loading...</td></tr>;
-  else if (isError) content = <tr><td colSpan={4} className="p-8 text-center text-red-500">Something went wrong</td></tr>;
-  else if (coupons.length === 0) content = <tr><td colSpan={4} className="p-8 text-center text-gray-500">Nothing Found</td></tr>;
+  if (isLoading) content = <tr><td colSpan={7} className="p-8 text-center text-gray-500">Loading...</td></tr>;
+  else if (isError) content = <tr><td colSpan={7} className="p-8 text-center text-red-500">Something went wrong</td></tr>;
+  else if (coupons.length === 0) content = <tr><td colSpan={7} className="p-8 text-center text-gray-500">Nothing Found</td></tr>;
   else {
     content = coupons.map((coupon) => (
       <tr key={coupon.id} className="border-b hover:bg-gray-50 transition-colors">
         <td className="p-4 text-center">{coupon.code}</td>
-        <td className="p-4 text-center">{coupon.discountValue}%</td>
+        <td className="p-4 text-center">${coupon.discountValue}</td>
         <td className="p-4 text-center">{coupon.usageLimit}</td>
+        <td className="p-4 text-center">{coupon.usedCount} / {coupon.usageLimit}</td>
+        <td className="p-4 text-center">{new Date(coupon.startDate).toLocaleDateString()}</td>
+        <td className="p-4 text-center">{new Date(coupon.endDate).toLocaleDateString()}</td>
         <td className="p-4 text-center">
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="destructive" className="text-sm">Delete</Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Delete Coupon?</AlertDialogTitle>
-                <AlertDialogDescription>This action cannot be undone. This will permanently delete the coupon.</AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={() => handleDeleteCoupon(coupon.id)}>Delete</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+          <div className="flex items-center justify-center gap-2">
+            <Link href={`/dashboard/admin/manage-coupon/update-coupon/${coupon.id}`}>
+              <Button variant="outline" className="text-sm">Update</Button>
+            </Link>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="destructive" className="text-sm">Delete</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete Coupon?</AlertDialogTitle>
+                  <AlertDialogDescription>This action cannot be undone. This will permanently delete the coupon.</AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => handleDeleteCoupon(coupon.id)}>Delete</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         </td>
       </tr>
     ));
@@ -79,7 +87,10 @@ export default function ManageCouponPage() {
                   <th className="px-4 py-3 font-medium">Coupon Code</th>
                   <th className="px-4 py-3 font-medium">Discount Amount</th>
                   <th className="px-4 py-3 font-medium">Usage Limit</th>
-                  <th className="px-4 py-3 font-medium">Delete Coupon</th>
+                  <th className="px-4 py-3 font-medium">Used / Limit</th>
+                  <th className="px-4 py-3 font-medium">Start Date</th>
+                  <th className="px-4 py-3 font-medium">End Date</th>
+                  <th className="px-4 py-3 font-medium">Actions</th>
                 </tr>
               </thead>
               <tbody>{content}</tbody>
