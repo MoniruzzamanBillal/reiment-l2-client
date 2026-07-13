@@ -6,7 +6,7 @@ import Wrapper from "@/components/shared/Wrapper";
 import { Button } from "@/components/ui/button";
 import { useFetchData, useDeleteData, usePost } from "@/hooks/useApi";
 import { useAuthStore } from "@/stores/useAuthStore";
-import { TProductResponse, TShopDetail } from "@/types";
+import { TFollowData, TProductResponse, TShopDetail } from "@/types";
 import { Package, Users } from "lucide-react";
 import Image from "next/image";
 import { use } from "react";
@@ -18,8 +18,6 @@ type TShopDetailWithProducts = TShopDetail & {
   Products: TProductResponse[];
   follower: TFollower[];
 };
-
-type TFollowData = { follower: TFollower[] };
 
 type TProps = { params: Promise<{ id: string }> };
 
@@ -37,7 +35,7 @@ export default function ShopDetailPage({ params }: TProps) {
     { enabled: !!id }
   );
 
-  const { data: userData, refetch: userRefetch } = useFetchData<TFollowData>(
+  const { data: userData, refetch: userRefetch } = useFetchData<TFollowData[]>(
     ["loggedUserFollow"],
     "/follow/logged-user-data",
     { enabled: !!user }
@@ -51,8 +49,8 @@ export default function ShopDetailPage({ params }: TProps) {
     useDeleteData([["shop", id], ["loggedUserFollow"]]);
 
   const shop: TShopDetailWithProducts | null = (shopData as any)?.data ?? null;
-  const followers: TFollower[] = (userData as any)?.data?.follower ?? [];
-  const isFollowing = followers.some((f) => f.shopId === shop?.id);
+  const followedShops: TFollowData[] = (userData as any)?.data ?? [];
+  const isFollowing = followedShops.some((f) => f.shopId === shop?.id);
 
   const handleFollow = async () => {
     const toastId = toast.loading("Following Shop…");
