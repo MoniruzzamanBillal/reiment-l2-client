@@ -23,7 +23,8 @@ export default function FollowedShopsPage() {
     const toastId = toast.loading("Unfollowing Shop...");
     try {
       const result: any = await unfollowMutate({
-        url: `/follow/unfollow-shop?shopId=${shopId}`,
+        url: "/follow/unfollow-shop",
+        payload: { shopId },
       });
       if (result?.data) {
         refetch();

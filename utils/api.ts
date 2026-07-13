@@ -21,7 +21,7 @@ export const apiPatch = async (endPoint: string, payLoad: any) => {
   return data;
 };
 
-export const apiDelete = async (endPoint: string) => {
-  const { data } = await axiosInstance.delete(endPoint);
+export const apiDelete = async (endPoint: string, payLoad?: any) => {
+  const { data } = await axiosInstance.delete(endPoint, { data: payLoad });
   return data;
 };
