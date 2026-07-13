@@ -57,7 +57,7 @@ function AllProductsInner() {
   const { data: followData } = useFetchData<TFollowData[]>(
     ["loggedUserFollow"],
     "/follow/logged-user-data",
-    { enabled: !!user && user.role === "CUSTOMER" },
+    { enabled: !!user && user.userRole === "CUSTOMER" },
   );
   const followedShopIds: string[] = ((followData as any)?.data ?? []).map(
     (f: TFollowData) => f.shopId,
@@ -278,7 +278,7 @@ function AllProductsInner() {
               handleAddReset={handleReset}
               followedOnly={followedOnly}
               setFollowedOnly={setFollowedOnly}
-              canFilterFollowed={!!user && user.role === "CUSTOMER"}
+              canFilterFollowed={!!user && user.userRole === "CUSTOMER"}
               hasFollowedShops={followedShopIds.length > 0}
             />
           </div>
@@ -316,7 +316,7 @@ function AllProductsInner() {
                       handleAddReset={handleReset}
                       followedOnly={followedOnly}
                       setFollowedOnly={setFollowedOnly}
-                      canFilterFollowed={!!user && user.role === "CUSTOMER"}
+                      canFilterFollowed={!!user && user.userRole === "CUSTOMER"}
                       hasFollowedShops={followedShopIds.length > 0}
                     />
                   </SheetContent>

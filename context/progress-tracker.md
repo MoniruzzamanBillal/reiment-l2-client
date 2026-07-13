@@ -16,6 +16,7 @@ Tracks work items defined in `context/specs/`. Update the moment implementation 
 | [`02-coupon-feature.md`](specs/02-coupon-feature.md)               | ✅ Complete                   | Re-verified against `coupon-implementation-plan.md` (root): `useCouponStore` uses `couponId` (not `cuponId`), checkout calls `/coupon/apply-coupon` and surfaces backend messages verbatim, admin add/update forms have `startDate`/`endDate` via `ControlledInput type="date"` (the doc had gone stale, this row corrects it). |
 | [`03-followed-shops-filter.md`](specs/03-followed-shops-filter.md) | ✅ Complete                   | "Only shops I follow" toggle landed on `/products` and `ProductsFilter.tsx`, simultaneously with the backend `shopIds` filter. `yarn build`/`yarn lint` pass; guest view manually verified via Playwright (checkbox correctly absent, no console errors).                                                     |
 | [`04-shop-follow-button-state-bug.md`](specs/04-shop-follow-button-state-bug.md) | ✅ Complete                   | Fixed the `TFollowData` type-shape mismatch in `app/(public)/shop/[id]/page.tsx` — the Follow button now correctly derives `isFollowing` from the array `/follow/logged-user-data` actually returns, so it flips to "Unfollow" instead of causing a spurious "already following" error. Frontend-only, single file, `yarn build` passes.           |
+| [`05-followed-shops-filter-not-visible-bug.md`](specs/05-followed-shops-filter-not-visible-bug.md) | ✅ Complete                   | Fixed the `user.role` → `user.userRole` field-name bug in `app/(public)/products/page.tsx` (3 call sites) — the "Only shops I follow" checkbox now correctly appears for logged-in customers instead of being permanently invisible. Frontend-only, `yarn build` passes.                        |
 
 ## Completed (already implemented)
 
@@ -30,6 +31,7 @@ Tracks work items defined in `context/specs/`. Update the moment implementation 
 
 ## Recent Activity
 
+- Fixed `user.role` → `user.userRole` field-name bug in `app/(public)/products/page.tsx` (spec `05`) — the "Only shops I follow" checkbox was permanently invisible because `TUser.role` is dead/unused; every other call site in the codebase already used `userRole`.
 - Fixed `isFollowing` type-shape bug in `app/(public)/shop/[id]/page.tsx` (spec `04`) — Follow button now correctly reflects follow state.
 - "Only shops I follow" toggle added to `app/(public)/products/page.tsx` and `components/main/AllProducts/ProductsFilter.tsx` for the followed-shops-filter spec.
 - `d8cbe8c` / `6da5ede feat(coupon): added cupon functionality and coupon in checkout` — coupon UI added to checkout; confirmed complete (including the `couponId` fix and admin date-range fields) on re-verification, despite the doc previously saying otherwise.
