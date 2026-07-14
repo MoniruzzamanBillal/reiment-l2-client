@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { useFetchData } from "@/hooks/useApi";
 import { RotateCcw, SlidersHorizontal } from "lucide-react";
@@ -14,6 +15,10 @@ type TProps = {
   setPriceRange: (range: number) => void;
   setCategory: (category: string) => void;
   handleAddReset: () => void;
+  followedOnly: boolean;
+  setFollowedOnly: (v: boolean) => void;
+  canFilterFollowed: boolean;
+  hasFollowedShops: boolean;
 };
 
 const ProductsFilter = ({
@@ -22,6 +27,10 @@ const ProductsFilter = ({
   setPriceRange,
   setCategory,
   handleAddReset,
+  followedOnly,
+  setFollowedOnly,
+  canFilterFollowed,
+  hasFollowedShops,
 }: TProps) => {
   const { data: categoryData } = useFetchData<TCategory[]>(
     ["allCategory"],
@@ -34,7 +43,7 @@ const ProductsFilter = ({
     ...rawCategories.map((item) => ({ name: item.name, value: item.id })),
   ];
 
-  const hasActiveFilters = !!priceRange || !!category;
+  const hasActiveFilters = !!priceRange || !!category || followedOnly;
 
   return (
     <div className="ProductsFilterContainer flex flex-col gap-y-4 sticky top-4">
@@ -71,6 +80,36 @@ const ProductsFilter = ({
           <span>$2,000</span>
         </div>
       </div>
+
+      {/* Followed shops */}
+      {canFilterFollowed && (
+        <div className="bg-white shadow-sm rounded-xl border border-gray-100 py-4 px-4">
+          <label
+            htmlFor="followed-only"
+            className={`flex items-start gap-2.5 ${
+              hasFollowedShops ? "cursor-pointer" : "cursor-not-allowed"
+            }`}
+          >
+            <Checkbox
+              id="followed-only"
+              checked={followedOnly}
+              disabled={!hasFollowedShops}
+              onCheckedChange={(checked) => setFollowedOnly(checked === true)}
+              className="mt-0.5"
+            />
+            <span>
+              <span className="font-semibold text-sm text-gray-700">
+                Only shops I follow
+              </span>
+              {!hasFollowedShops && (
+                <span className="block text-xs text-gray-400 mt-0.5">
+                  Follow a shop to use this filter
+                </span>
+              )}
+            </span>
+          </label>
+        </div>
+      )}
 
       {/* Category */}
       <div className="bg-white shadow-sm rounded-xl border border-gray-100 py-4 px-4">

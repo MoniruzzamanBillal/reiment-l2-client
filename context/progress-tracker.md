@@ -4,7 +4,7 @@ Update this file after every meaningful implementation change.
 
 ## Current Phase
 
-Active feature development (not initial build-out) — core storefront, auth, cart/checkout, vendor/admin dashboards, and the AI integration (chat/smart-search/description generation) are already built; coupon correctness and the shop-follow → product-discovery connection are in-flight.
+Active feature development (not initial build-out) — core storefront, auth, cart/checkout, vendor/admin dashboards, the AI integration (chat/smart-search/description generation), coupon correctness, and the shop-follow → product-discovery connection are all now built.
 
 ## Spec Implementation Status
 
@@ -13,23 +13,36 @@ Tracks work items defined in `context/specs/`. Update the moment implementation 
 | Spec                                                               | Status                        | Notes                                                                                                                                                                                                                                         |
 | ------------------------------------------------------------------ | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`01-ai-integration.md`](specs/01-ai-integration.md)               | ✅ Complete                   | `hooks/useAi.ts`, `stores/useChatStore.ts`, `components/shared/ChatWidget/*`, AI description button on vendor product forms, smart search on `/products` — all delivered per the root `implementationplan.md`.                                |
-| [`02-coupon-feature.md`](specs/02-coupon-feature.md)               | ⛔ Not started                | Depends on the backend plan (`reiment-l2-server/coupon-implementation-plan.md`) landing first. Today the discount is never actually applied in production due to a `cuponId`/`couponId` spelling mismatch — don't build on top of this state. |
-| [`03-followed-shops-filter.md`](specs/03-followed-shops-filter.md) | 📝 Planned, awaiting approval | Plan docs written in both repos (`followed-shops-filter-implementation-plan.md`); user is reviewing before implementation starts. Depends on the backend plan landing first (adds the `shopIds` product filter).                              |
+| [`02-coupon-feature.md`](specs/02-coupon-feature.md)               | ✅ Complete                   | Re-verified against `coupon-implementation-plan.md` (root): `useCouponStore` uses `couponId` (not `cuponId`), checkout calls `/coupon/apply-coupon` and surfaces backend messages verbatim, admin add/update forms have `startDate`/`endDate` via `ControlledInput type="date"` (the doc had gone stale, this row corrects it). |
+| [`03-followed-shops-filter.md`](specs/03-followed-shops-filter.md) | ✅ Complete                   | "Only shops I follow" toggle landed on `/products` and `ProductsFilter.tsx`, simultaneously with the backend `shopIds` filter. `yarn build`/`yarn lint` pass; guest view manually verified via Playwright (checkbox correctly absent, no console errors).                                                     |
+| [`04-shop-follow-button-state-bug.md`](specs/04-shop-follow-button-state-bug.md) | ✅ Complete                   | Fixed the `TFollowData` type-shape mismatch in `app/(public)/shop/[id]/page.tsx` — the Follow button now correctly derives `isFollowing` from the array `/follow/logged-user-data` actually returns, so it flips to "Unfollow" instead of causing a spurious "already following" error. Frontend-only, single file, `yarn build` passes.           |
+| [`05-followed-shops-filter-not-visible-bug.md`](specs/05-followed-shops-filter-not-visible-bug.md) | ✅ Complete                   | Fixed the `user.role` → `user.userRole` field-name bug in `app/(public)/products/page.tsx` (3 call sites) — the "Only shops I follow" checkbox now correctly appears for logged-in customers instead of being permanently invisible. Frontend-only, `yarn build` passes.                        |
+| [`06-unfollow-shop-404-bug.md`](specs/06-unfollow-shop-404-bug.md) | ✅ Complete                   | Extended `useDeleteData`/`apiDelete` to optionally send a request body (mirroring `usePost`/`usePatch`), and fixed both unfollow call sites (`shop/[id]/page.tsx`, dashboard `followed-shops/page.tsx`) to send `{ shopId }` in the DELETE body, matching the server's `/api/follow/unfollow-shop` contract. Frontend-only, `yarn build` passes. |
+| [`07-deployment-readme-polish.md`](specs/07-deployment-readme-polish.md) | ⛔ Not started | Verify the existing live Vercel deployment end-to-end; add demo link/screenshots/architecture summary to `README.md`. Part of the resume-upgrade roadmap. |
+| [`08-frontend-testing.md`](specs/08-frontend-testing.md) | ⛔ Not started | Vitest + RTL unit/component tests, Playwright E2E for golden paths. No test suite exists today. |
+| [`09-ci-pipeline-frontend.md`](specs/09-ci-pipeline-frontend.md) | ⛔ Not started | GitHub Actions lint/build/test workflow. Depends on `08`. |
+| [`10-realtime-notifications-frontend.md`](specs/10-realtime-notifications-frontend.md) | ⛔ Not started | Socket.io client for live vendor/customer order updates. Candidate depth feature (alt: server `07`). Depends on server spec `06`. |
+| [`11-code-quality-cleanup-frontend.md`](specs/11-code-quality-cleanup-frontend.md) | ⛔ Not started | Remove scattered `any` in mutation call sites; unify `globals.css` breakpoint conventions. |
+| [`12-dockerization.md`](specs/12-dockerization.md) | ⛔ Not started | Client `Dockerfile`; coordinates with server spec `09`'s `docker-compose.yml`. |
 
 ## Completed (already implemented)
 
 - Public storefront: home, product catalog (`/products`, search/filter/sort/pagination), product detail (reviews, related products), flash sale, shop listing/detail, product comparison, recently-viewed products, contact page.
 - Auth: login, registration, JWT-cookie session (access + refresh), role-gated routing via `middleware.ts`, password reset flow.
-- Cart & checkout: cart management, order placement, order-success page (coupon _application_ is currently non-functional in production — see the coupon spec).
-- Follow system: follow/unfollow a shop, customer "Followed Shops" dashboard list.
+- Cart & checkout: cart management, order placement, order-success page, working coupon application at checkout (date-range/usage-limit/per-user rules enforced server-side).
+- Follow system: follow/unfollow a shop, customer "Followed Shops" dashboard list, and an opt-in "Only shops I follow" filter on the All Products page.
 - Vendor dashboard: shop + product CRUD, AI-assisted description generation.
 - Admin dashboard: category/shop/user/coupon CRUD, review/transaction monitoring, analytics.
 - AI integration: shopping chat widget (public), smart search, vendor description generation — all via the backend's shared `askOpenRouter` client.
 - Data layer: `hooks/useApi.ts` (TanStack Query) generics in active use across every feature; Zustand stores per concern (`useAuthStore`, `useComparisonStore`, `useCouponStore`, `useChatStore`, `useRecentProductsStore`).
 
-## Recent Activity (from `git log`)
+## Recent Activity
 
-- `d8cbe8c` / `6da5ede feat(coupon): added cupon functionality and coupon in checkout` — coupon UI added to checkout, but the backend spelling mismatch means the discount doesn't actually apply yet (see `context/specs/02-coupon-feature.md`).
+- Fixed the "Unfollow" 404 bug (spec `06`): `useDeleteData`/`apiDelete` never sent a request body, so `shop/[id]/page.tsx` worked around it by putting the shop id in the URL path (matching no route → 404) and the dashboard "Followed Shops" page worked around it via a query string (matched the route but the controller reads `req.body.shopId`, so it silently failed with "You are not following this shop"). Fixed by making `useDeleteData`/`apiDelete` optionally accept a payload and sending `{ shopId }` in the body from both call sites, matching the server's existing contract.
+- Fixed `user.role` → `user.userRole` field-name bug in `app/(public)/products/page.tsx` (spec `05`) — the "Only shops I follow" checkbox was permanently invisible because `TUser.role` is dead/unused; every other call site in the codebase already used `userRole`.
+- Fixed `isFollowing` type-shape bug in `app/(public)/shop/[id]/page.tsx` (spec `04`) — Follow button now correctly reflects follow state.
+- "Only shops I follow" toggle added to `app/(public)/products/page.tsx` and `components/main/AllProducts/ProductsFilter.tsx` for the followed-shops-filter spec.
+- `d8cbe8c` / `6da5ede feat(coupon): added cupon functionality and coupon in checkout` — coupon UI added to checkout; confirmed complete (including the `couponId` fix and admin date-range fields) on re-verification, despite the doc previously saying otherwise.
 - `0cf9cb3 feat: nav search popover`
 - `43239d3 fix: login api token response, product search debounce`
 - `9009ee8 feat: implementation plan` — the AI integration plan (`implementationplan.md`) landed and was subsequently implemented.
@@ -38,13 +51,11 @@ Tracks work items defined in `context/specs/`. Update the moment implementation 
 
 ## Known Gaps / Open Questions
 
-- No automated test suite configured — verification is `yarn lint` + `yarn build` + manual browser check.
-- Coupon discount is not actually applied in production today (`cuponId`/`couponId` mismatch) — see `coupon-implementation-plan.md` (root) and `context/specs/02-coupon-feature.md`.
-- The follow-a-shop feature isn't yet connected to product discovery on `/products` — see `followed-shops-filter-implementation-plan.md` (root) and `context/specs/03-followed-shops-filter.md`.
+- No automated test suite configured — verification is `yarn lint` + `yarn build` + manual browser check. The followed-shops-filter toggle's logged-in-customer behavior (narrowing results, disabled-when-zero-follows state) could not be exercised end-to-end in this environment — the local sandbox has no network access to the dev database, so no real session/follow data was available. Guest view was verified via Playwright (checkbox correctly hidden, no console errors, no regressions to existing filters); the logged-in-path code was verified by review against the exact pattern `app/(public)/shop/[id]/page.tsx` and the dashboard "Followed Shops" page already use for the same `["loggedUserFollow"]` query key.
 - Two breakpoint-naming conventions coexist in `app/globals.css` (`sc-*` and `xsm`/`xmd`/`xlm`/`xlg`) — not unified; match whichever the file you're editing already uses.
 
 ## Next Up
 
-Open — driven by whatever feature/fix is requested next. The followed-shops filter is the most likely next implementation once the user approves the reviewed plan.
+Open — driven by whatever feature/fix is requested next. Both the coupon rewrite and the followed-shops filter are now complete; a logged-in-customer smoke test of the new toggle (against a real dev DB) is worth doing before considering it fully done end-to-end.
 
 (End of file)

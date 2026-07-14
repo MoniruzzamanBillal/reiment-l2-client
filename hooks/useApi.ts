@@ -157,8 +157,8 @@ export const useDeleteData = (invalidateQueriesKeys?: Array<string[]>) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (params: { url: string }) => {
-      return apiDelete(params?.url);
+    mutationFn: (params: { url: string; payload?: Record<string, unknown> }) => {
+      return apiDelete(params?.url, params?.payload);
     },
     onSuccess: () => {
       if (invalidateQueriesKeys) {

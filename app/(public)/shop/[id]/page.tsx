@@ -4,9 +4,9 @@ import ProductCard from "@/components/shared/cards/ProductCard";
 import ProductCardSkeleton from "@/components/shared/cards/ProductCardSkeleton";
 import Wrapper from "@/components/shared/Wrapper";
 import { Button } from "@/components/ui/button";
-import { useFetchData, useDeleteData, usePost } from "@/hooks/useApi";
+import { useDeleteData, useFetchData, usePost } from "@/hooks/useApi";
 import { useAuthStore } from "@/stores/useAuthStore";
-import { TProductResponse, TShopDetail } from "@/types";
+import { TFollowData, TProductResponse, TShopDetail } from "@/types";
 import { Package, Users } from "lucide-react";
 import Image from "next/image";
 import { use } from "react";
@@ -18,8 +18,6 @@ type TShopDetailWithProducts = TShopDetail & {
   Products: TProductResponse[];
   follower: TFollower[];
 };
-
-type TFollowData = { follower: TFollower[] };
 
 type TProps = { params: Promise<{ id: string }> };
 
@@ -34,13 +32,13 @@ export default function ShopDetailPage({ params }: TProps) {
   } = useFetchData<TShopDetailWithProducts>(
     ["shop", id],
     `/shop/shop-detail/${id}`,
-    { enabled: !!id }
+    { enabled: !!id },
   );
 
-  const { data: userData, refetch: userRefetch } = useFetchData<TFollowData>(
+  const { data: userData, refetch: userRefetch } = useFetchData<TFollowData[]>(
     ["loggedUserFollow"],
     "/follow/logged-user-data",
-    { enabled: !!user }
+    { enabled: !!user },
   );
 
   const { mutateAsync: followMutate, isPending: followLoading } = usePost([
@@ -51,8 +49,8 @@ export default function ShopDetailPage({ params }: TProps) {
     useDeleteData([["shop", id], ["loggedUserFollow"]]);
 
   const shop: TShopDetailWithProducts | null = (shopData as any)?.data ?? null;
-  const followers: TFollower[] = (userData as any)?.data?.follower ?? [];
-  const isFollowing = followers.some((f) => f.shopId === shop?.id);
+  const followedShops: TFollowData[] = (userData as any)?.data ?? [];
+  const isFollowing = followedShops.some((f) => f.shopId === shop?.id);
 
   const handleFollow = async () => {
     const toastId = toast.loading("Following Shop…");
@@ -78,7 +76,8 @@ export default function ShopDetailPage({ params }: TProps) {
     const toastId = toast.loading("Unfollowing Shop…");
     try {
       const result: any = await unfollowMutate({
-        url: `/follow/unfollow-shop/${shop?.id}`,
+        url: "/follow/unfollow-shop",
+        payload: { shopId: shop?.id },
       });
       if (result?.data) {
         userRefetch();
@@ -142,12 +141,16 @@ export default function ShopDetailPage({ params }: TProps) {
               <div className="flex items-center justify-center sm:justify-start gap-5 mt-3">
                 <div className="flex items-center gap-1.5 text-sm text-gray-600">
                   <Users className="size-4 text-prime100" />
-                  <span className="font-semibold">{shop?.follower?.length ?? 0}</span>
+                  <span className="font-semibold">
+                    {shop?.follower?.length ?? 0}
+                  </span>
                   <span className="text-gray-400">followers</span>
                 </div>
                 <div className="flex items-center gap-1.5 text-sm text-gray-600">
                   <Package className="size-4 text-prime100" />
-                  <span className="font-semibold">{shop?.Products?.length ?? 0}</span>
+                  <span className="font-semibold">
+                    {shop?.Products?.length ?? 0}
+                  </span>
                   <span className="text-gray-400">products</span>
                 </div>
               </div>
@@ -191,7 +194,9 @@ export default function ShopDetailPage({ params }: TProps) {
           {!shopLoading && shop?.Products?.length === 0 && (
             <div className="text-center py-20 border-2 border-dashed border-gray-200 rounded-2xl">
               <Package className="mx-auto size-12 text-gray-300 mb-3" />
-              <p className="text-gray-500 font-medium">This shop has no products yet.</p>
+              <p className="text-gray-500 font-medium">
+                This shop has no products yet.
+              </p>
             </div>
           )}
 

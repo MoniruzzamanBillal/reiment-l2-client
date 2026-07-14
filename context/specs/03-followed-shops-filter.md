@@ -1,6 +1,6 @@
 # 03: Followed Shops Product Filter
 
-Status: 📝 Planned, awaiting user review/approval. Full checklist lives in root `followed-shops-filter-implementation-plan.md` (this repo) and the matching backend doc in `reiment-l2-server` — this is a condensed summary, not a replacement for either.
+Status: ✅ Complete. Full checklist lives in root `followed-shops-filter-implementation-plan.md` (this repo) and the matching backend doc in `reiment-l2-server` — this is a condensed summary, not a replacement for either.
 
 ## Goal
 
@@ -15,11 +15,13 @@ Connect the existing follow-a-shop feature to product discovery on the All Produ
 ## Implementation
 
 **`app/(public)/products/page.tsx`:**
+
 - Read `user` from `useAuthStore`; fetch `followedShopIds` via `useFetchData<TFollowData[]>(["loggedUserFollow"], "/follow/logged-user-data", { enabled: !!user && user.role === "CUSTOMER" })`.
 - Add `followedOnly` state; add `shopIds` to the `buildUrl(...)` call and the `useFetchData` query key; fold `followedOnly` into `hasActiveFilters` and `handleReset`; add a "Following only" chip to the active-filters row.
 - Pass `followedOnly`, `setFollowedOnly`, `canFilterFollowed`, `hasFollowedShops` to both `<ProductsFilter>` usages (desktop sidebar + mobile sheet).
 
 **`components/main/AllProducts/ProductsFilter.tsx`:**
+
 - Extend `TProps`; add a `Checkbox` card ("Only shops I follow"), rendered only when `canFilterFollowed`, disabled when `!hasFollowedShops`; fold into `hasActiveFilters`.
 
 ## Dependencies

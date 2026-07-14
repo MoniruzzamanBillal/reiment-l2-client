@@ -25,7 +25,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useSmartSearch } from "@/hooks/useAi";
 import { useFetchData } from "@/hooks/useApi";
 import { useSearchDebounce } from "@/hooks/useSearchDebounce";
-import { TProductResponse } from "@/types";
+import { useAuthStore } from "@/stores/useAuthStore";
+import { TFollowData, TProductResponse } from "@/types";
 import { buildUrl } from "@/utils/buildUrl";
 import {
   LayoutGrid,
@@ -50,6 +51,17 @@ function AllProductsInner() {
   const [priceRange, setPriceRange] = useState<number | null>(null);
   const [category, setCategory] = useState("");
   const [sort, setSort] = useState("");
+  const [followedOnly, setFollowedOnly] = useState(false);
+
+  const user = useAuthStore((s) => s.user);
+  const { data: followData } = useFetchData<TFollowData[]>(
+    ["loggedUserFollow"],
+    "/follow/logged-user-data",
+    { enabled: !!user && user.userRole === "CUSTOMER" },
+  );
+  const followedShopIds: string[] = ((followData as any)?.data ?? []).map(
+    (f: TFollowData) => f.shopId,
+  );
 
   useEffect(() => {
     if (ParamCategory) setCategory(ParamCategory);
@@ -67,6 +79,10 @@ function AllProductsInner() {
     categoryId: category || undefined,
     sortBy: sort ? "price" : undefined,
     sortOrder: sort || undefined,
+    shopIds:
+      followedOnly && followedShopIds.length
+        ? followedShopIds.join(",")
+        : undefined,
   });
 
   const { data: allProducts, isLoading } = useFetchData<TProductResponse[]>(
@@ -77,6 +93,7 @@ function AllProductsInner() {
       category,
       sort,
       String(priceRange),
+      String(followedOnly),
     ],
     url,
   );
@@ -95,7 +112,7 @@ function AllProductsInner() {
     : ((allProducts as any)?.data?.meta?.totalItems ?? 0);
   const totalPages = Math.ceil(totalItems / LIMIT);
 
-  const hasActiveFilters = !!priceRange || !!category;
+  const hasActiveFilters = !!priceRange || !!category || followedOnly;
 
   const runSmartSearch = async (pageArg: number = page) => {
     if (!debouncedSearch.trim()) return;
@@ -141,6 +158,7 @@ function AllProductsInner() {
     setPriceRange(null);
     setCategory("");
     setSort("");
+    setFollowedOnly(false);
     setSmartSearchActive(false);
     setSmartProducts([]);
     setSmartTotalItems(0);
@@ -226,6 +244,17 @@ function AllProductsInner() {
                   </button>
                 </span>
               )}
+              {followedOnly && (
+                <span className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full">
+                  Following only
+                  <button
+                    onClick={() => setFollowedOnly(false)}
+                    className="ml-0.5 hover:text-emerald-900"
+                  >
+                    <X className="size-3" />
+                  </button>
+                </span>
+              )}
               <button
                 onClick={handleReset}
                 className="text-xs text-red-500 hover:underline font-medium ml-1"
@@ -247,6 +276,10 @@ function AllProductsInner() {
               setPriceRange={handleSetPriceRange}
               setCategory={handleSetCategory}
               handleAddReset={handleReset}
+              followedOnly={followedOnly}
+              setFollowedOnly={setFollowedOnly}
+              canFilterFollowed={!!user && user.userRole === "CUSTOMER"}
+              hasFollowedShops={followedShopIds.length > 0}
             />
           </div>
 
@@ -267,7 +300,9 @@ function AllProductsInner() {
                       Filter
                       {hasActiveFilters && (
                         <span className="ml-1 bg-prime100 text-white text-[10px] font-bold size-4 rounded-full flex items-center justify-center">
-                          {(priceRange ? 1 : 0) + (category ? 1 : 0)}
+                          {(priceRange ? 1 : 0) +
+                            (category ? 1 : 0) +
+                            (followedOnly ? 1 : 0)}
                         </span>
                       )}
                     </Button>
@@ -279,6 +314,10 @@ function AllProductsInner() {
                       setPriceRange={setPriceRange}
                       setCategory={setCategory}
                       handleAddReset={handleReset}
+                      followedOnly={followedOnly}
+                      setFollowedOnly={setFollowedOnly}
+                      canFilterFollowed={!!user && user.userRole === "CUSTOMER"}
+                      hasFollowedShops={followedShopIds.length > 0}
                     />
                   </SheetContent>
                 </Sheet>
