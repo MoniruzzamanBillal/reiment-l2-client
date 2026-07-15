@@ -54,6 +54,22 @@ export const useOrderPusher = () => {
         toast.success("You have a new order!");
         queryClient.invalidateQueries({ queryKey: ["vendorOrderHistory"] });
       });
+
+      channel.bind(
+        "low-stock",
+        (data: {
+          productId: string;
+          productName: string;
+          inventoryCount: number;
+        }) => {
+          toast.error(
+            `Low stock: ${data.productName} has only ${data.inventoryCount} left!`,
+          );
+          queryClient.invalidateQueries({
+            queryKey: ["vendorProducts", shopId ?? ""],
+          });
+        },
+      );
     } else {
       channel.bind("order-status-changed", () => {
         toast.info("Your order status has been updated.");

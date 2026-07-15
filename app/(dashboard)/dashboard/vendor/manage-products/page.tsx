@@ -3,6 +3,7 @@
 import FormSubmitLoading from "@/components/shared/FormSubmitLoading";
 import { Button } from "@/components/ui/button";
 import { useFetchData, usePost, usePatch } from "@/hooks/useApi";
+import { useOrderPusher } from "@/hooks/useOrderPusher";
 import { TVendorProduct, TVendorShop } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,6 +23,8 @@ import {
 } from "@/components/ui/alert-dialog";
 
 export default function ManageVendorProductPage() {
+  useOrderPusher();
+
   const router = useRouter();
 
   const { data: shopData } = useFetchData<TVendorShop>(["vendorShop"], "/shop/vendor-shop");
