@@ -1,6 +1,7 @@
 "use client";
 
 import { useFetchData } from "@/hooks/useApi";
+import { useOrderPusher } from "@/hooks/useOrderPusher";
 import { format } from "date-fns";
 
 type TVendorOrder = {
@@ -12,6 +13,8 @@ type TVendorOrder = {
 };
 
 export default function VendorOrderHistoryPage() {
+  useOrderPusher();
+
   const { data: orderData, isLoading, isError } = useFetchData<TVendorOrder[]>(
     ["vendorOrderHistory"],
     "/order/vendorShop-order-history"

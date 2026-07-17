@@ -1,10 +1,13 @@
 "use client";
 
 import { useFetchData } from "@/hooks/useApi";
+import { useOrderPusher } from "@/hooks/useOrderPusher";
 import { TOrderHistory } from "@/types";
 import { format } from "date-fns";
 
 export default function CustomerOrderHistoryPage() {
+  useOrderPusher();
+
   const {
     data: orderData,
     isLoading,
