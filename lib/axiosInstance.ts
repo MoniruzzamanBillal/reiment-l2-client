@@ -1,9 +1,9 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
-import { getCookies } from "./GetCookies";
-import { getBaseUrl } from "./config/envConfig";
-import { authKey, refreshTokenKey, userIdKey } from "./constants/storageKey";
+import { getCookies } from "@/utils/GetCookies";
+import { getBaseUrl } from "@/config/envConfig";
+import { authKey, refreshTokenKey, userIdKey } from "@/constants/storageKey";
 
 const instance = axios.create({
   baseURL: getBaseUrl(),

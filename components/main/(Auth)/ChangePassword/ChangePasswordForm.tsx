@@ -6,7 +6,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { usePatch } from "@/hooks/useApi";
-import { changePasswordSchema } from "@/schemas/auth.schema";
+import { changePasswordSchema } from "./schema/changePassword.schema";
 import ControlledInput from "@/components/shared/input/ControlledInput";
 import { Button } from "@/components/ui/button";
 import FormSubmitLoading from "@/components/shared/ui/FormSubmitLoading";

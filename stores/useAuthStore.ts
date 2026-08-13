@@ -6,7 +6,7 @@ import {
   authKey,
   refreshTokenKey,
   userIdKey,
-} from "@/utils/constants/storageKey";
+} from "@/constants/storageKey";
 import { TUser } from "@/types";
 
 type TAuthState = {

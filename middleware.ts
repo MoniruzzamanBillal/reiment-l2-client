@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { authKey } from "./utils/constants/storageKey";
+import { authKey } from "./constants/storageKey";
 
 const ADMIN_ROUTES = ["/dashboard/admin"];
 const VENDOR_ROUTES = ["/dashboard/vendor"];

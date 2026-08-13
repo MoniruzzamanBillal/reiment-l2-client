@@ -6,32 +6,27 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
-import Cookies from "js-cookie";
 import { usePost } from "@/hooks/useApi";
-import { useAuthStore } from "@/stores/useAuthStore";
-import { decodeToken } from "@/utils/tokenUtils";
-import { authKey } from "@/utils/constants/storageKey";
-import { registerVendorSchema } from "@/schemas/auth.schema";
+import { registerUserSchema } from "./schema/register.schema";
 import ControlledInput from "@/components/shared/input/ControlledInput";
 import { Button } from "@/components/ui/button";
 import FormSubmitLoading from "@/components/shared/ui/FormSubmitLoading";
 
-type TRegisterVendor = z.infer<typeof registerVendorSchema>;
+type TRegisterUser = z.infer<typeof registerUserSchema>;
 
-const VendorRegisterForm = () => {
+const UserRegisterForm = () => {
   const router = useRouter();
-  const setAuth = useAuthStore((s) => s.setAuth);
   const { mutateAsync: signUp, isPending } = usePost([]);
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const methods = useForm<TRegisterVendor>({
-    resolver: zodResolver(registerVendorSchema),
+  const methods = useForm<TRegisterUser>({
+    resolver: zodResolver(registerUserSchema),
   });
 
-  const handleRegister = async (data: TRegisterVendor) => {
-    const toastId = toast.loading("Registering vendor...");
+  const handleRegister = async (data: TRegisterUser) => {
+    const toastId = toast.loading("Registering new user...");
 
-    const payload = { role: "VENDOR", ...data };
+    const payload = { role: "CUSTOMER", ...data };
     const formData = new FormData();
     formData.append("data", JSON.stringify(payload));
 
@@ -45,23 +40,12 @@ const VendorRegisterForm = () => {
         payload: formData,
       });
 
-      const token: string = result?.data?.token;
-
       toast.success(result?.data?.message || "Registration successful", {
         id: toastId,
         duration: 1000,
       });
 
-      if (token) {
-        const user = decodeToken(token);
-        if (user) {
-          Cookies.set(authKey, token, { expires: 7 });
-          setAuth(user, token);
-        }
-        setTimeout(() => router.push("/dashboard/vendor/manage-shop"), 700);
-      } else {
-        setTimeout(() => router.push("/login"), 700);
-      }
+      setTimeout(() => router.push("/login"), 700);
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const msg = (error as any)?.message || "Registration failed";
@@ -115,7 +99,7 @@ const VendorRegisterForm = () => {
             disabled={isPending}
             className="w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold"
           >
-            Register as Vendor
+            Register
           </Button>
         </form>
       </FormProvider>
@@ -123,4 +107,4 @@ const VendorRegisterForm = () => {
   );
 };
 
-export default VendorRegisterForm;
+export default UserRegisterForm;

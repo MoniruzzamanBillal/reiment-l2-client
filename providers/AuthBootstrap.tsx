@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 import Cookies from "js-cookie";
-import { authKey } from "@/utils/constants/storageKey";
+import { authKey } from "@/constants/storageKey";
 import { useAuthStore } from "@/stores/useAuthStore";
-import { decodeToken } from "@/utils/tokenUtils";
+import { decodeToken } from "@/lib/tokenUtils";
 
 export function AuthBootstrap() {
   const setAuth = useAuthStore((s) => s.setAuth);

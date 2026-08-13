@@ -6,37 +6,43 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { usePatch } from "@/hooks/useApi";
-import { forgotPasswordSchema } from "@/schemas/auth.schema";
+import { resetPasswordSchema } from "./schema/resetPassword.schema";
+import { decodeToken } from "@/lib/tokenUtils";
 import ControlledInput from "@/components/shared/input/ControlledInput";
 import { Button } from "@/components/ui/button";
 import FormSubmitLoading from "@/components/shared/ui/FormSubmitLoading";
 
-type TForgotPassword = z.infer<typeof forgotPasswordSchema>;
+type TResetPassword = z.infer<typeof resetPasswordSchema>;
 
-const ForgotPasswordForm = () => {
+const ResetPasswordForm = ({ token }: { token: string }) => {
   const router = useRouter();
-  const { mutateAsync: sendResetLink, isPending } = usePatch([]);
+  const { mutateAsync: resetPassword, isPending } = usePatch([]);
 
-  const methods = useForm<TForgotPassword>({
-    resolver: zodResolver(forgotPasswordSchema),
+  const methods = useForm<TResetPassword>({
+    resolver: zodResolver(resetPasswordSchema),
   });
 
-  const handleSendEmail = async (data: TForgotPassword) => {
-    const toastId = toast.loading("Sending password reset link...");
+  const handleResetPassword = async (data: TResetPassword) => {
+    const toastId = toast.loading("Resetting password...");
     try {
-      await sendResetLink({
-        url: `/auth/reset-link/${data.email}`,
-        payload: {},
+      const decoded = decodeToken(token);
+      const userId = decoded?.userId;
+
+      if (!userId) throw new Error("Invalid reset token");
+
+      await resetPassword({
+        url: "/auth/reset-password",
+        payload: { userId, password: data.password },
       });
 
-      toast.success("Reset link sent successfully", {
+      toast.success("Password reset successfully", {
         id: toastId,
         duration: 1000,
       });
-      router.push(`/email-reset-confirmation/${data.email}`);
+      router.push("/login");
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const msg = (error as any)?.message || "Something went wrong";
+      const msg = (error as any)?.message || "Password reset failed";
       toast.error(msg, { id: toastId, duration: 1800 });
     }
   };
@@ -53,14 +59,21 @@ const ForgotPasswordForm = () => {
 
           <FormProvider {...methods}>
             <form
-              onSubmit={methods.handleSubmit(handleSendEmail)}
+              onSubmit={methods.handleSubmit(handleResetPassword)}
               className="space-y-4"
             >
               <ControlledInput
-                name="email"
-                type="email"
-                label="Email"
-                placeholder="Enter your email"
+                name="password"
+                type="password"
+                label="New Password"
+                placeholder="Enter your new password"
+                isRequired
+              />
+              <ControlledInput
+                name="confirmPassword"
+                type="password"
+                label="Confirm Password"
+                placeholder="Confirm your password"
                 isRequired
               />
 
@@ -69,7 +82,7 @@ const ForgotPasswordForm = () => {
                 disabled={isPending}
                 className="w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold"
               >
-                Send Reset Link
+                Reset Password
               </Button>
             </form>
           </FormProvider>
@@ -79,4 +92,4 @@ const ForgotPasswordForm = () => {
   );
 };
 
-export default ForgotPasswordForm;
+export default ResetPasswordForm;

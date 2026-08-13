@@ -5,21 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { useFetchData } from "@/hooks/useApi";
 import { RotateCcw, SlidersHorizontal } from "lucide-react";
-
-type TCategory = { id: string; name: string };
-type TCategoryOption = { name: string; value: string };
-
-type TProps = {
-  priceRange: number | null;
-  category: string;
-  setPriceRange: (range: number) => void;
-  setCategory: (category: string) => void;
-  handleAddReset: () => void;
-  followedOnly: boolean;
-  setFollowedOnly: (v: boolean) => void;
-  canFilterFollowed: boolean;
-  hasFollowedShops: boolean;
-};
+import { TCategory, TCategoryOption, TProps } from "./type/allProducts.type";
 
 const ProductsFilter = ({
   priceRange,
