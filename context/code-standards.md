@@ -3,18 +3,18 @@
 ## TypeScript & Next.js Patterns
 
 - `page.tsx`/`layout.tsx` files are generally left as server components where the page itself doesn't need interactivity; interactivity (state, hooks, event handlers) is pushed into imported client components marked `"use client"`. The codebase is not strictly server-first everywhere — many feature components (forms, filter panels, dashboard views) are client components by necessity (they use TanStack Query, Zustand, or RHF) — but keep new top-level `page.tsx` files as server shells when possible, matching the existing pattern.
-- Use React Hook Form for all form handling. Add `zodResolver` + a schema under `schemas/` **only** for auth flows, matching the existing split — don't add Zod validation to a non-auth form that doesn't already have it.
+- Use React Hook Form for all form handling. Add `zodResolver` + a schema under that feature's own `components/main/<Feature>/schema/` subfolder **only** for auth flows and `Checkout/`, matching the existing split — don't add Zod validation to a non-auth form that doesn't already have it. There is no top-level `schemas/` folder.
 
 ## File Organization & Naming
 
 - **Pages:** `app/[route]/page.tsx`; **Layouts:** `app/[route]/layout.tsx`.
-- **Single-page feature composition:** PascalCase, under `components/main/<Feature>/` (e.g. `components/main/AllProducts/ProductsFilter.tsx`, `components/main/ProductDetail/...`).
+- **Single-page feature composition:** PascalCase, under `components/main/<Feature>/` (e.g. `components/main/AllProducts/ProductsFilter.tsx`, `components/main/ProductDetail/...`); related multi-page clusters use a parens group, e.g. `components/main/(Auth)/Login/`. A feature folder's own `schema/`, `type/`, `form/`, `column/`, `modal/` subfolders hold Zod schemas, feature-local types, form components, table column defs, and dialogs respectively — only add the subfolders a feature actually needs.
 - **Reusable cross-feature UI:** `components/shared/<Feature>/` (e.g. `ChatWidget/`, `Navbar/`, `Footer/`, `Modal/`).
 - **Generic utilities:** `components/common/` (e.g. `GenericTable`).
 - **Generic UI primitives:** `components/ui/` (shadcn-generated — don't hand-edit beyond what the shadcn CLI produces).
 - **Hooks:** camelCase, prefixed `use` (`hooks/useApi.ts`, `hooks/useAi.ts`, `hooks/useSearchDebounce.ts`).
 - **Zustand stores:** `stores/use<Concern>Store.ts`, one per concern.
-- **Types:** centralized in `types/index.ts` — add new API request/response types there rather than creating new type files.
+- **Types:** shared/cross-feature API request/response types go in `types/index.ts`; a type used by only one feature goes in that feature's own `components/main/<Feature>/type/` folder instead of the flat file.
 
 ## Data Fetching & Mutations
 
@@ -32,7 +32,7 @@
 
 ## Error Handling
 
-- `utils/axiosInstance.ts` already normalizes API errors and handles `401` (silent refresh + retry, then redirect) globally — don't duplicate that logic per-component.
+- `lib/axiosInstance.ts` already normalizes API errors and handles `401` (silent refresh + retry, then redirect) globally — don't duplicate that logic per-component.
 - Surface errors/success via `sonner` toast (`toast.loading(...)` → `toast.success/error(...)`) for async operations, not inline banners.
 
 ## Linting

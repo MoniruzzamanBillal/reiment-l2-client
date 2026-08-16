@@ -205,31 +205,6 @@ export type TCart = {
   cartItem: TCartItem[];
 };
 
-export type TOrderItem = {
-  id: string;
-  orderId: string;
-  productId: string;
-  quantity: number;
-  price: number;
-  isReviewed: boolean;
-  product: {
-    id: string;
-    name: string;
-    productImg: string | null;
-  };
-};
-
-export type TOrderHistory = {
-  id: string;
-  customerId: string;
-  totalPrice: number;
-  status: "PENDING" | "COMPLETED" | "CANCELLED";
-  trxnNumber: string;
-  createdAt: string;
-  updatedAt: string;
-  orderItem: TOrderItem[];
-};
-
 export type TAdminUser = {
   id: string;
   username: string;
@@ -252,25 +227,6 @@ export type TAdminShop = {
     username: string;
     email: string;
   };
-};
-
-export type TAdminStats = {
-  statsData: {
-    totalRevenue: number;
-    totalOrders: number;
-    totalProducts: number;
-    totalUsers: number;
-    totalShops: number;
-  };
-  revenueDatas: {
-    month: string;
-    revenue: number;
-    orders: number;
-  }[];
-  categoryDataPercentage: {
-    name: string;
-    value: number;
-  }[];
 };
 
 export type TCoupon = {

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useAiChat } from "@/hooks/useAi";
 import { useChatStore } from "@/stores/useChatStore";
 import { TProductResponse } from "@/types";
-import { apiGet } from "@/utils/api";
+import { apiGet } from "@/lib/api";
 import { Loader2, SendHorizontal } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";

@@ -8,17 +8,9 @@ import Image from "next/image";
 import { useState } from "react";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { toast } from "sonner";
+import { TUserCommentReview } from "./type/productDetail.type";
 
-type TReview = {
-  id: string;
-  productId: string;
-  rating: number;
-  comment: string;
-  createdAt: string;
-  user: { id: string; username: string; profileImg: string };
-};
-
-const UserCommentCard = ({ review }: { review: TReview }) => {
+const UserCommentCard = ({ review }: { review: TUserCommentReview }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(review.comment);
   const user = useAuthStore((s) => s.user);

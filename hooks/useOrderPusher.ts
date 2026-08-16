@@ -6,7 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useFetchData } from "./useApi";
-import { getBaseUrl } from "@/utils/config/envConfig";
+import { getBaseUrl } from "@/config/envConfig";
 import { TVendorShop } from "@/types";
 
 export const useOrderPusher = () => {

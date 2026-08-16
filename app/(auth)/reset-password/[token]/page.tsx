@@ -1,4 +1,4 @@
-import ResetPasswordForm from "@/components/main/Auth/ResetPasswordForm";
+import ResetPasswordForm from "@/components/main/(Auth)/ResetPassword/ResetPasswordForm";
 
 type TProps = {
   params: Promise<{ token: string }>;
