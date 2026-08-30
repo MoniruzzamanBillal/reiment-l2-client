@@ -1,6 +1,7 @@
 "use client";
 
 import ChatProductCard from "@/components/shared/ChatWidget/ChatProductCard";
+import NotificationBell from "./NotificationBell";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -161,6 +162,9 @@ const NavbarTop = ({
             </div>
           )}
         </Link>
+
+        {/* notifications */}
+        {user && <NotificationBell />}
 
         {/* cart */}
         {user?.userRole === "CUSTOMER" && (

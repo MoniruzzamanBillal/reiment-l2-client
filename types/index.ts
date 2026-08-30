@@ -261,6 +261,16 @@ export type TLoggedInUser = {
   needsPasswordChange: boolean;
 };
 
+export type TNotification = {
+  id: string;
+  userId: string;
+  type: "NEW_ORDER" | "ORDER_STATUS_CHANGED" | "LOW_STOCK";
+  message: string;
+  refId: string | null;
+  isRead: boolean;
+  createdAt: string;
+};
+
 export type TAiGenerateDescriptionResponse = {
   title: string;
   description: string;

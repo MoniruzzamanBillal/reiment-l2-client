@@ -53,6 +53,7 @@ export const useOrderPusher = () => {
       channel.bind("new-order", () => {
         toast.success("You have a new order!");
         queryClient.invalidateQueries({ queryKey: ["vendorOrderHistory"] });
+        queryClient.invalidateQueries({ queryKey: ["notifications"] });
       });
 
       channel.bind(
@@ -68,12 +69,14 @@ export const useOrderPusher = () => {
           queryClient.invalidateQueries({
             queryKey: ["vendorProducts", shopId ?? ""],
           });
+          queryClient.invalidateQueries({ queryKey: ["notifications"] });
         },
       );
     } else {
       channel.bind("order-status-changed", () => {
         toast.info("Your order status has been updated.");
         queryClient.invalidateQueries({ queryKey: ["customerOrderHistory"] });
+        queryClient.invalidateQueries({ queryKey: ["notifications"] });
       });
     }
 

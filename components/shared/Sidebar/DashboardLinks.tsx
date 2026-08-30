@@ -93,6 +93,11 @@ const adminLinks: TDashboardLinks[] = [
 
 const vendorLinks: TDashboardLinks[] = [
   {
+    name: "Statistics",
+    path: "/dashboard/vendor/statistics",
+    icon: <BarChart2 className="text-xl font-bold" />,
+  },
+  {
     name: "Manage Shop",
     path: "/dashboard/vendor/manage-shop",
     icon: <Store className="text-xl font-bold" />,
