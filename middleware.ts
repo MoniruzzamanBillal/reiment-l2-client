@@ -21,6 +21,13 @@ export function middleware(request: NextRequest) {
       const payload = JSON.parse(
         Buffer.from(token.split(".")[1], "base64").toString("utf-8"),
       );
+
+      if (payload.exp && Date.now() >= payload.exp * 1000) {
+        const response = NextResponse.redirect(new URL("/login", request.url));
+        response.cookies.delete(authKey);
+        return response;
+      }
+
       const role: string = payload.userRole;
 
       if (

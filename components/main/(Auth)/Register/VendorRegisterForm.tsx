@@ -6,11 +6,9 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
-import Cookies from "js-cookie";
 import { usePost } from "@/hooks/useApi";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { decodeToken } from "@/lib/tokenUtils";
-import { authKey } from "@/constants/storageKey";
 import { registerVendorSchema } from "./schema/register.schema";
 import ControlledInput from "@/components/shared/input/ControlledInput";
 import { Button } from "@/components/ui/button";
@@ -55,7 +53,6 @@ const VendorRegisterForm = () => {
       if (token) {
         const user = decodeToken(token);
         if (user) {
-          Cookies.set(authKey, token, { expires: 7 });
           setAuth(user, token);
         }
         setTimeout(() => router.push("/dashboard/vendor/manage-shop"), 700);

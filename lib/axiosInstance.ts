@@ -1,9 +1,10 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 import { toast } from "sonner";
 import { getCookies } from "@/utils/GetCookies";
 import { getBaseUrl } from "@/config/envConfig";
-import { authKey, refreshTokenKey, userIdKey } from "@/constants/storageKey";
+import { authKey } from "@/constants/storageKey";
+import { decodeToken } from "./tokenUtils";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 const instance = axios.create({
   baseURL: getBaseUrl(),
@@ -28,7 +29,7 @@ instance.interceptors.request.use(
     }
 
     // Skip adding Authorization header for login endpoint
-    if (!config.url?.includes("/auth/signing")) {
+    if (!config.url?.includes("/auth/log-in")) {
       const accessToken = getCookies(authKey);
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
@@ -40,6 +41,30 @@ instance.interceptors.request.use(
     return Promise.reject(error);
   },
 );
+
+// Shared by concurrent 401s so a burst of requests triggers exactly one refresh call
+let refreshPromise: Promise<string> | null = null;
+
+const refreshAccessToken = async (): Promise<string> => {
+  const response = await axios.post(
+    `${getBaseUrl()}/auth/refresh-token`,
+    undefined,
+    { withCredentials: true },
+  );
+
+  const newAccessToken: string = response?.data?.data?.accessToken;
+
+  if (!newAccessToken) {
+    throw new Error("No access token returned from refresh");
+  }
+
+  const user = decodeToken(newAccessToken);
+  if (user) {
+    useAuthStore.getState().setAuth(user, newAccessToken);
+  }
+
+  return newAccessToken;
+};
 
 instance.interceptors.response.use(
   // ✅ Handle success
@@ -67,32 +92,19 @@ instance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = getCookies(refreshTokenKey);
+        if (!refreshPromise) {
+          refreshPromise = refreshAccessToken().finally(() => {
+            refreshPromise = null;
+          });
+        }
 
-        const response = await axios.post(
-          "http://localhost:5000/api/auth/refresh-token",
-          { refreshToken },
-          { withCredentials: true },
-        );
+        const newAccessToken = await refreshPromise;
 
-        console.log(
-          "response from axiosinstance line 88 = ",
-          response?.data?.data?.accessToken,
-        );
-
-        Cookies.set(authKey, response?.data?.data?.accessToken, {
-          expires: 1,
-        });
-
-        originalRequest.headers.Authorization = `Bearer ${response?.data?.data?.accessToken}`;
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axios(originalRequest);
       } catch (refreshError) {
         // Handle refresh token failure
-        console.log("refreshError from axiosinstance line 94 = ", refreshError);
-
-        Cookies.remove(authKey);
-        Cookies.remove(refreshTokenKey);
-        Cookies.remove(userIdKey);
+        useAuthStore.getState().logout();
         toast.error("Session Expired , Login to continue.");
 
         window.location.href = "/login";

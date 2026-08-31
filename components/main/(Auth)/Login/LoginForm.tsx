@@ -6,10 +6,8 @@ import { Button } from "@/components/ui/button";
 import { usePost } from "@/hooks/useApi";
 import { loginSchema } from "./schema/login.schema";
 import { useAuthStore } from "@/stores/useAuthStore";
-import { authKey } from "@/constants/storageKey";
 import { decodeToken } from "@/lib/tokenUtils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
@@ -44,7 +42,6 @@ const LoginForm = () => {
       const user = decodeToken(token);
       if (!user) throw new Error("Invalid token");
 
-      Cookies.set(authKey, token, { expires: 7 });
       setAuth(user, token);
 
       toast.success(responseData?.message || "Login successful", {
