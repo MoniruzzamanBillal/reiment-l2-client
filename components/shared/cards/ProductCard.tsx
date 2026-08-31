@@ -4,13 +4,14 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { useComparisonStore } from "@/stores/useComparisonStore";
 import { TProductResponse } from "@/types";
 import { useFetchData, usePatch, usePost } from "@/hooks/useApi";
+import { useWishlistToggle } from "@/hooks/useWishlistToggle";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import CartItemReplaceModal from "@/components/shared/modals/CartItemReplaceModal";
-import { GitCompare, ShoppingCart, Store } from "lucide-react";
+import { GitCompare, Heart, ShoppingCart, Store } from "lucide-react";
 
 type TCart = {
   id: string;
@@ -32,6 +33,8 @@ const ProductCard = ({ product }: { product: TProductResponse }) => {
     ["userCart"],
   ]);
   const { mutateAsync: replaceMutate } = usePatch([["userCart"]]);
+  const { isCustomer, isWishlisted, isPending: wishlistPending, toggleWishlist } =
+    useWishlistToggle(product.id);
 
   const handleAddCart = async () => {
     if (!user) {
@@ -136,12 +139,34 @@ const ProductCard = ({ product }: { product: TProductResponse }) => {
             </span>
           )}
 
-          {/* Discount badge — top right */}
-          {discountedPrice && (
-            <span className="absolute top-2.5 right-2.5 bg-red-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm">
-              -{product.discount} off
-            </span>
-          )}
+          {/* Discount badge + wishlist toggle — top right */}
+          <div className="absolute top-2.5 right-2.5 flex flex-col items-end gap-1.5">
+            {discountedPrice && (
+              <span className="bg-red-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm">
+                -{product.discount} off
+              </span>
+            )}
+            {isCustomer && (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  toggleWishlist();
+                }}
+                disabled={wishlistPending}
+                aria-label={
+                  isWishlisted ? "Remove from wishlist" : "Add to wishlist"
+                }
+                className="flex items-center justify-center size-7 rounded-full bg-white/90 hover:bg-white shadow-sm transition"
+              >
+                <Heart
+                  className={`size-3.5 ${
+                    isWishlisted ? "fill-red-500 text-red-500" : "text-gray-600"
+                  }`}
+                />
+              </button>
+            )}
+          </div>
         </Link>
 
         {/* Body */}

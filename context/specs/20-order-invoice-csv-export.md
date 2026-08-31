@@ -12,7 +12,7 @@ Add an "Export CSV" button to the vendor order-history page and a "Download Invo
 
 ## Design
 
-New `lib/downloadFile.ts` helper that bypasses `axiosInstance` entirely rather than teaching its interceptor to special-case blobs — avoids coupling this feature's correctness to a change spec `21` is making to the same file. Does its own `axios.get(url, { baseURL: getBaseUrl(), withCredentials: true, responseType: "blob", headers: { Authorization: \`Bearer ${token}\` } })` (reading the `accessToken` cookie directly), then triggers a synthetic `<a>` click via an object URL to save the file. No new dependency — the browser handles blob-to-file-save natively.
+New `lib/downloadFile.ts` helper that bypasses `axiosInstance` entirely rather than teaching its interceptor to special-case blobs — avoids coupling this feature's correctness to a change spec `21` is making to the same file. Does its own `axios.get(url, { baseURL: getBaseUrl(), withCredentials: true, responseType: "blob", headers: { Authorization: \`Bearer ${token}\` } })`(reading the`accessToken`cookie directly), then triggers a synthetic`<a>` click via an object URL to save the file. No new dependency — the browser handles blob-to-file-save natively.
 
 ## Implementation
 

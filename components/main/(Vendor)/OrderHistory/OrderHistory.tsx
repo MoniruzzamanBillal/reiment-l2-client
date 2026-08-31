@@ -1,8 +1,11 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { useFetchData } from "@/hooks/useApi";
 import { useOrderPusher } from "@/hooks/useOrderPusher";
+import { downloadFile } from "@/lib/downloadFile";
 import { format } from "date-fns";
+import { useState } from "react";
 import { TVendorOrder } from "./type/vendorOrder.type";
 
 export default function OrderHistory() {
@@ -13,6 +16,14 @@ export default function OrderHistory() {
     "/order/vendorShop-order-history"
   );
   const orders: TVendorOrder[] = (orderData as any)?.data ?? [];
+
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExportCsv = async () => {
+    setIsExporting(true);
+    await downloadFile("/order/vendorShop-order-history/export", "orders.csv");
+    setIsExporting(false);
+  };
 
   let content = null;
   if (isLoading) {
@@ -35,7 +46,16 @@ export default function OrderHistory() {
   return (
     <div className="VendorOrderHistoryContainer">
       <div className="bg-gray-100 border border-gray-300 shadow rounded-md p-3">
-        <h3 className="text-2xl font-medium mb-6">Monitor Order History</h3>
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-2xl font-medium">Monitor Order History</h3>
+          <Button
+            onClick={handleExportCsv}
+            disabled={isExporting}
+            className="bg-prime100 hover:bg-prime200"
+          >
+            {isExporting ? "Exporting..." : "Export CSV"}
+          </Button>
+        </div>
         <div className="relative w-full overflow-auto mt-4">
           <table className="w-full text-sm">
             <thead className="border-b">

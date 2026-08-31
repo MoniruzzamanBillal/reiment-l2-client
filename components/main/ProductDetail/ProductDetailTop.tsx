@@ -1,8 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useWishlistToggle } from "@/hooks/useWishlistToggle";
 import { TProductDetail } from "@/types";
-import { GitCompare, ShoppingCart, Truck } from "lucide-react";
+import { GitCompare, Heart, ShoppingCart, Truck } from "lucide-react";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,6 +21,9 @@ const ProductDetailTop = ({
   handleAddCart,
   addProductComparison,
 }: TProps) => {
+  const { isCustomer, isWishlisted, isPending: wishlistPending, toggleWishlist } =
+    useWishlistToggle(productData?.id ?? "");
+
   if (!productData) return null;
 
   const discountedPrice = productData.discount
@@ -165,6 +169,24 @@ const ProductDetailTop = ({
                   <GitCompare className="w-4 h-4" />
                   Compare
                 </Button>
+                {isCustomer && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={toggleWishlist}
+                    disabled={wishlistPending}
+                    className={`flex items-center justify-center gap-2 rounded-full font-semibold text-sm py-5 px-6 ${
+                      isWishlisted
+                        ? "border-red-300 text-red-600 hover:bg-red-50"
+                        : "border-indigo-600 text-indigo-600 hover:bg-indigo-50"
+                    }`}
+                  >
+                    <Heart
+                      className={`w-4 h-4 ${isWishlisted ? "fill-red-500" : ""}`}
+                    />
+                    {isWishlisted ? "Wishlisted" : "Wishlist"}
+                  </Button>
+                )}
               </div>
             )}
           </div>

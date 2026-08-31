@@ -261,6 +261,20 @@ export type TLoggedInUser = {
   needsPasswordChange: boolean;
 };
 
+export type TWishlistData = {
+  id: string;
+  customerId: string;
+  productId: string;
+  product: {
+    id: string;
+    name: string;
+    price: number;
+    productImg: string | null;
+    discount: number | null;
+    inventoryCount: number;
+  };
+};
+
 export type TNotification = {
   id: string;
   userId: string;

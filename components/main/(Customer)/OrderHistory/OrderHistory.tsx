@@ -1,8 +1,11 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { useFetchData } from "@/hooks/useApi";
 import { useOrderPusher } from "@/hooks/useOrderPusher";
+import { downloadFile } from "@/lib/downloadFile";
 import { format } from "date-fns";
+import { useState } from "react";
 import { TOrderHistory } from "./type/orderHistory.type";
 
 export default function OrderHistory() {
@@ -19,12 +22,20 @@ export default function OrderHistory() {
 
   const orders: TOrderHistory[] = (orderData as any)?.data ?? [];
 
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
+
+  const handleDownloadInvoice = async (orderId: string) => {
+    setDownloadingId(orderId);
+    await downloadFile(`/order/${orderId}/invoice`, `invoice-${orderId}.pdf`);
+    setDownloadingId(null);
+  };
+
   let content = null;
 
   if (isLoading) {
     content = (
       <tr>
-        <td colSpan={4} className="p-8 text-center text-gray-500">
+        <td colSpan={5} className="p-8 text-center text-gray-500">
           Loading...
         </td>
       </tr>
@@ -32,7 +43,7 @@ export default function OrderHistory() {
   } else if (isError) {
     content = (
       <tr>
-        <td colSpan={4} className="p-8 text-center text-red-500">
+        <td colSpan={5} className="p-8 text-center text-red-500">
           Something went wrong
         </td>
       </tr>
@@ -40,7 +51,7 @@ export default function OrderHistory() {
   } else if (orders.length === 0) {
     content = (
       <tr>
-        <td colSpan={4} className="p-8 text-center text-gray-500">
+        <td colSpan={5} className="p-8 text-center text-gray-500">
           Nothing Found
         </td>
       </tr>
@@ -60,6 +71,16 @@ export default function OrderHistory() {
         <td className="p-4 text-center">
           {format(new Date(order.updatedAt), "dd-MMM-yyyy")}
         </td>
+        <td className="p-4 text-center">
+          <Button
+            size="sm"
+            disabled={downloadingId === order.id}
+            onClick={() => handleDownloadInvoice(order.id)}
+            className="bg-prime100 hover:bg-prime200"
+          >
+            {downloadingId === order.id ? "Downloading..." : "Download Invoice"}
+          </Button>
+        </td>
       </tr>
     ));
   }
@@ -77,6 +98,7 @@ export default function OrderHistory() {
                 <th className="px-4 py-3 font-medium">Total Price</th>
                 <th className="px-4 py-3 font-medium">Products</th>
                 <th className="px-4 py-3 font-medium">Order Date</th>
+                <th className="px-4 py-3 font-medium">Actions</th>
               </tr>
             </thead>
             <tbody>{content}</tbody>

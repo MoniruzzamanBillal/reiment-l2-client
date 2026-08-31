@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   BarChart2,
   CreditCard,
+  Heart,
   History,
   Layers,
   MessageCircle,
@@ -45,6 +46,11 @@ const customerLinks: TDashboardLinks[] = [
     name: "Followed Shops",
     path: "/dashboard/customer/followed-shops",
     icon: <CiBookmark className="text-xl font-bold" />,
+  },
+  {
+    name: "Wishlist",
+    path: "/dashboard/customer/wishlist",
+    icon: <Heart className="text-xl font-bold" />,
   },
   {
     name: "Order History",
