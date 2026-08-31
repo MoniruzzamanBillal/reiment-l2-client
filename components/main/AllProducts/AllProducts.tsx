@@ -106,10 +106,10 @@ function AllProductsInner() {
 
   const products: TProductResponse[] = smartSearchActive
     ? smartProducts
-    : ((allProducts as any)?.data?.data ?? []);
+    : ((allProducts as any)?.data ?? []);
   const totalItems: number = smartSearchActive
     ? smartTotalItems
-    : ((allProducts as any)?.data?.meta?.totalItems ?? 0);
+    : ((allProducts as any)?.meta?.totalItems ?? 0);
   const totalPages = Math.ceil(totalItems / LIMIT);
 
   const hasActiveFilters = !!priceRange || !!category || followedOnly;
@@ -127,8 +127,8 @@ function AllProductsInner() {
         url: aiUrl,
         payload: { query: debouncedSearch },
       });
-      setSmartProducts(result?.data?.data ?? []);
-      setSmartTotalItems(result?.data?.meta?.totalItems ?? 0);
+      setSmartProducts(result?.data ?? []);
+      setSmartTotalItems(result?.meta?.totalItems ?? 0);
       setSmartSearchActive(true);
     } catch {
       // Silently fall back to the plain search path — a failed AI search

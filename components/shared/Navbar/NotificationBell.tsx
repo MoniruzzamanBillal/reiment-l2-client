@@ -26,7 +26,7 @@ const NotificationBell = () => {
   });
 
   const notifications: TNotification[] =
-    (notificationsData as any)?.data?.data ?? [];
+    (notificationsData as any)?.data ?? [];
   const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   const { mutateAsync: markAsReadMutate } = usePatch([["notifications"]]);

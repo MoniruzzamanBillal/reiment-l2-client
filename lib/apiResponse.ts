@@ -20,19 +20,3 @@ export type TgenericResponse<TData> = {
   message: string;
   meta: TmetaResponse;
 };
-
-// export type TgenericResponse<TData> = {
-//   statusCode: number;
-//   success: boolean;
-//   message: string;
-//   meta: TmetaResponse;
-// } & (
-//   | {
-//       data: TData;
-//       dataList?: never;
-//     }
-//   | {
-//       data?: never;
-//       dataList: TData[];
-//     }
-// );
