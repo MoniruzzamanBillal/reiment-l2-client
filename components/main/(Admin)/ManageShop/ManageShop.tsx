@@ -7,16 +7,34 @@ import {
   AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
   AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { useFetchData, usePatch } from "@/hooks/useApi";
 import { TAdminShop } from "@/types";
+import { buildUrl } from "@/utils/buildUrl";
 import Image from "next/image";
+import { useState } from "react";
 import { toast } from "sonner";
 
+const LIMIT = 10;
+
 export default function ManageShop() {
+  const [page, setPage] = useState(1);
+
+  const url = buildUrl("/shop/all-shop-data", { page, limit: LIMIT });
+
   const { data: shopData, isLoading, isError, refetch } = useFetchData<TAdminShop[]>(
-    ["allShopData"], "/shop/all-shop-data"
+    ["allShopData", String(page)], url
   );
   const shops: TAdminShop[] = (shopData as any)?.data ?? [];
+  const totalItems: number = (shopData as any)?.meta?.totalItems ?? 0;
+  const totalPages = Math.ceil(totalItems / LIMIT);
 
   const { mutateAsync: blockMutate, isPending: blockPending } = usePatch([["allShopData"]]);
   const { mutateAsync: unblockMutate, isPending: unblockPending } = usePatch([["allShopData"]]);
@@ -117,6 +135,47 @@ export default function ManageShop() {
               <tbody>{content}</tbody>
             </table>
           </div>
+
+          {totalPages > 1 && (
+            <div className="mt-6">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (page > 1) setPage(page - 1);
+                      }}
+                    />
+                  </PaginationItem>
+                  {Array.from({ length: totalPages }).map((_, ind) => (
+                    <PaginationItem key={ind}>
+                      <PaginationLink
+                        href="#"
+                        isActive={page === ind + 1}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setPage(ind + 1);
+                        }}
+                      >
+                        {ind + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
+                  <PaginationItem>
+                    <PaginationNext
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (page < totalPages) setPage(page + 1);
+                      }}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
         </div>
       </div>
     </>

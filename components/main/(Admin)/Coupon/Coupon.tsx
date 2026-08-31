@@ -7,16 +7,34 @@ import {
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader,
   AlertDialogTitle, AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { useFetchData, useDeleteData } from "@/hooks/useApi";
 import { TCoupon } from "@/types";
+import { buildUrl } from "@/utils/buildUrl";
 import Link from "next/link";
+import { useState } from "react";
 import { toast } from "sonner";
 
+const LIMIT = 10;
+
 export default function Coupon() {
+  const [page, setPage] = useState(1);
+
+  const url = buildUrl("/coupon/all-coupon", { page, limit: LIMIT });
+
   const { data: couponData, isLoading, isError, refetch } = useFetchData<TCoupon[]>(
-    ["allCoupon"], "/coupon/all-coupon"
+    ["allCoupon", String(page)], url
   );
   const coupons: TCoupon[] = (couponData as any)?.data ?? [];
+  const totalItems: number = (couponData as any)?.meta?.totalItems ?? 0;
+  const totalPages = Math.ceil(totalItems / LIMIT);
 
   const { mutateAsync: deleteMutate, isPending: deleteLoading } = useDeleteData([["allCoupon"]]);
 
@@ -96,6 +114,47 @@ export default function Coupon() {
               <tbody>{content}</tbody>
             </table>
           </div>
+
+          {totalPages > 1 && (
+            <div className="mt-6">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (page > 1) setPage(page - 1);
+                      }}
+                    />
+                  </PaginationItem>
+                  {Array.from({ length: totalPages }).map((_, ind) => (
+                    <PaginationItem key={ind}>
+                      <PaginationLink
+                        href="#"
+                        isActive={page === ind + 1}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setPage(ind + 1);
+                        }}
+                      >
+                        {ind + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
+                  <PaginationItem>
+                    <PaginationNext
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (page < totalPages) setPage(page + 1);
+                      }}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
         </div>
       </div>
     </>

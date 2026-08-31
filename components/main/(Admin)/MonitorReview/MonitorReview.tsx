@@ -1,15 +1,33 @@
 "use client";
 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { useFetchData } from "@/hooks/useApi";
+import { buildUrl } from "@/utils/buildUrl";
 import Image from "next/image";
 import { format } from "date-fns";
+import { useState } from "react";
 import { TAdminReview } from "./type/adminReview.type";
 
+const LIMIT = 10;
+
 export default function MonitorReview() {
+  const [page, setPage] = useState(1);
+
+  const url = buildUrl("/review/all-review", { page, limit: LIMIT });
+
   const { data: reviewData, isLoading, isError } = useFetchData<TAdminReview[]>(
-    ["allReviews"], "/review/all-review"
+    ["allReviews", String(page)], url
   );
   const reviews: TAdminReview[] = (reviewData as any)?.data ?? [];
+  const totalItems: number = (reviewData as any)?.meta?.totalItems ?? 0;
+  const totalPages = Math.ceil(totalItems / LIMIT);
 
   let content = null;
   if (isLoading) content = <tr><td colSpan={6} className="p-8 text-center text-gray-500">Loading...</td></tr>;
@@ -53,6 +71,47 @@ export default function MonitorReview() {
             <tbody>{content}</tbody>
           </table>
         </div>
+
+        {totalPages > 1 && (
+          <div className="mt-6">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (page > 1) setPage(page - 1);
+                    }}
+                  />
+                </PaginationItem>
+                {Array.from({ length: totalPages }).map((_, ind) => (
+                  <PaginationItem key={ind}>
+                    <PaginationLink
+                      href="#"
+                      isActive={page === ind + 1}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setPage(ind + 1);
+                      }}
+                    >
+                      {ind + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+                <PaginationItem>
+                  <PaginationNext
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (page < totalPages) setPage(page + 1);
+                    }}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
       </div>
     </div>
   );

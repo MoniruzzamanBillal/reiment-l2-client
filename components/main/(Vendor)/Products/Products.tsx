@@ -2,12 +2,22 @@
 
 import FormSubmitLoading from "@/components/shared/FormSubmitLoading";
 import { Button } from "@/components/ui/button";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { useFetchData, usePost, usePatch } from "@/hooks/useApi";
 import { useOrderPusher } from "@/hooks/useOrderPusher";
 import { TVendorProduct, TVendorShop } from "@/types";
+import { buildUrl } from "@/utils/buildUrl";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -21,6 +31,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
+const LIMIT = 10;
+
 export default function Products() {
   useOrderPusher();
 
@@ -30,17 +42,23 @@ export default function Products() {
   const shop: TVendorShop | null = (shopData as any)?.data ?? null;
   const shopId = shop?.id;
 
+  const [page, setPage] = useState(1);
+
+  const url = buildUrl(`/product/get-vendor-product/${shopId}`, { page, limit: LIMIT });
+
   const {
     data: productData,
     isLoading,
     isError,
     refetch,
   } = useFetchData<TVendorProduct[]>(
-    ["vendorProducts", shopId ?? ""],
-    `/product/get-vendor-product/${shopId}`,
+    ["vendorProducts", shopId ?? "", String(page)],
+    url,
     { enabled: !!shopId }
   );
   const products: TVendorProduct[] = (productData as any)?.data ?? [];
+  const totalItems: number = (productData as any)?.meta?.totalItems ?? 0;
+  const totalPages = Math.ceil(totalItems / LIMIT);
 
   const { mutateAsync: deleteMutate, isPending: deleteLoading } = usePatch([["vendorProducts", shopId ?? ""]]);
   const { mutateAsync: duplicateMutate, isPending: duplicateLoading } = usePost([["vendorProducts", shopId ?? ""]]);
@@ -208,6 +226,47 @@ export default function Products() {
               <tbody>{content}</tbody>
             </table>
           </div>
+
+          {totalPages > 1 && (
+            <div className="mt-6">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (page > 1) setPage(page - 1);
+                      }}
+                    />
+                  </PaginationItem>
+                  {Array.from({ length: totalPages }).map((_, ind) => (
+                    <PaginationItem key={ind}>
+                      <PaginationLink
+                        href="#"
+                        isActive={page === ind + 1}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setPage(ind + 1);
+                        }}
+                      >
+                        {ind + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
+                  <PaginationItem>
+                    <PaginationNext
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (page < totalPages) setPage(page + 1);
+                      }}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
         </div>
       </div>
     </>

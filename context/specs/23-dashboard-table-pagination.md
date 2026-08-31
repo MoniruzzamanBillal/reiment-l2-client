@@ -53,7 +53,10 @@ const LIMIT = 10; // consistent dashboard default; AllProducts.tsx uses 9 for it
 
 const [page, setPage] = useState(1);
 
-const url = buildUrl("/product/get-vendor-product/" + shopId, { page, limit: LIMIT });
+const url = buildUrl("/product/get-vendor-product/" + shopId, {
+  page,
+  limit: LIMIT,
+});
 
 const { data: productData, isLoading } = useFetchData<TVendorProduct[]>(
   ["vendorProducts", shopId ?? "", String(page)], // include page in the query key
@@ -70,25 +73,46 @@ Then render the same `<Pagination>` block `AllProducts.tsx` uses (`components/ui
 existing `<table>`, gated on `totalPages > 1`:
 
 ```tsx
-{totalPages > 1 && (
-  <Pagination>
-    <PaginationContent>
-      <PaginationItem>
-        <PaginationPrevious href="#" onClick={(e) => { e.preventDefault(); if (page > 1) setPage(page - 1); }} />
-      </PaginationItem>
-      {Array.from({ length: totalPages }).map((_, ind) => (
-        <PaginationItem key={ind}>
-          <PaginationLink href="#" isActive={page === ind + 1} onClick={(e) => { e.preventDefault(); setPage(ind + 1); }}>
-            {ind + 1}
-          </PaginationLink>
+{
+  totalPages > 1 && (
+    <Pagination>
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              if (page > 1) setPage(page - 1);
+            }}
+          />
         </PaginationItem>
-      ))}
-      <PaginationItem>
-        <PaginationNext href="#" onClick={(e) => { e.preventDefault(); if (page < totalPages) setPage(page + 1); }} />
-      </PaginationItem>
-    </PaginationContent>
-  </Pagination>
-)}
+        {Array.from({ length: totalPages }).map((_, ind) => (
+          <PaginationItem key={ind}>
+            <PaginationLink
+              href="#"
+              isActive={page === ind + 1}
+              onClick={(e) => {
+                e.preventDefault();
+                setPage(ind + 1);
+              }}
+            >
+              {ind + 1}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
+        <PaginationItem>
+          <PaginationNext
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              if (page < totalPages) setPage(page + 1);
+            }}
+          />
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
+  );
+}
 ```
 
 The `<table>`/`<tbody>` markup itself, loading/error/empty states, and every action (update/delete/block/
@@ -97,17 +121,17 @@ duplicate/etc.) stay exactly as they are today — only the fetch (URL + query k
 
 ## Tables to convert
 
-| Component | Endpoint | Current unwrap | New unwrap (single unwrap, `meta` is a sibling of `data`) |
-|---|---|---|---|
-| `components/main/(Vendor)/Products/Products.tsx` | `GET /product/get-vendor-product/:id` | `.data` | `.data` + `.meta.totalItems` |
-| `components/main/(Vendor)/OrderHistory/OrderHistory.tsx` | `GET /order/vendorShop-order-history` | `.data` | `.data` + `.meta.totalItems` |
-| `components/main/(Vendor)/MonitorReviews/MonitorReviews.tsx` | `GET /review/getVendorProductReviews` | `.data` | `.data` + `.meta.totalItems` |
-| `components/main/(Admin)/ManageUser/ManageUser.tsx` | `GET /user/all-user` | `.data` | `.data` + `.meta.totalItems` |
-| `components/main/(Admin)/ManageShop/ManageShop.tsx` | `GET /shop/all-shop-data` | `.data` | `.data` + `.meta.totalItems` |
-| `components/main/(Admin)/Coupon/Coupon.tsx` | `GET /coupon/all-coupon` | `.data` | `.data` + `.meta.totalItems` |
-| `components/main/(Admin)/MonitorReview/MonitorReview.tsx` | `GET /review/all-review` | `.data` | `.data` + `.meta.totalItems` |
-| `components/main/(Admin)/MonitorTransaction/MonitorTransaction.tsx` | `GET /order/all-transaction` | `.data` | `.data` + `.meta.totalItems` |
-| `components/main/(Customer)/OrderHistory/OrderHistory.tsx` | `GET /order/user-order-history` | `.data` | `.data` + `.meta.totalItems` |
+| Component                                                           | Endpoint                              | Current unwrap | New unwrap (single unwrap, `meta` is a sibling of `data`) |
+| ------------------------------------------------------------------- | ------------------------------------- | -------------- | --------------------------------------------------------- |
+| `components/main/(Vendor)/Products/Products.tsx`                    | `GET /product/get-vendor-product/:id` | `.data`        | `.data` + `.meta.totalItems`                              |
+| `components/main/(Vendor)/OrderHistory/OrderHistory.tsx`            | `GET /order/vendorShop-order-history` | `.data`        | `.data` + `.meta.totalItems`                              |
+| `components/main/(Vendor)/MonitorReviews/MonitorReviews.tsx`        | `GET /review/getVendorProductReviews` | `.data`        | `.data` + `.meta.totalItems`                              |
+| `components/main/(Admin)/ManageUser/ManageUser.tsx`                 | `GET /user/all-user`                  | `.data`        | `.data` + `.meta.totalItems`                              |
+| `components/main/(Admin)/ManageShop/ManageShop.tsx`                 | `GET /shop/all-shop-data`             | `.data`        | `.data` + `.meta.totalItems`                              |
+| `components/main/(Admin)/Coupon/Coupon.tsx`                         | `GET /coupon/all-coupon`              | `.data`        | `.data` + `.meta.totalItems`                              |
+| `components/main/(Admin)/MonitorReview/MonitorReview.tsx`           | `GET /review/all-review`              | `.data`        | `.data` + `.meta.totalItems`                              |
+| `components/main/(Admin)/MonitorTransaction/MonitorTransaction.tsx` | `GET /order/all-transaction`          | `.data`        | `.data` + `.meta.totalItems`                              |
+| `components/main/(Customer)/OrderHistory/OrderHistory.tsx`          | `GET /order/user-order-history`       | `.data`        | `.data` + `.meta.totalItems`                              |
 
 Each row: add `page` state + `buildUrl` + updated query key + the `<Pagination>` block per the pattern
 above, and switch the unwrap on both the row array and the (new) `meta.totalItems`.
@@ -123,7 +147,7 @@ above, and switch the unwrap on both the row array and the (new) `meta.totalItem
   do not add `page`/`limit` params to these two calls, the server won't honor them differently anyway.
 - `components/shared/Navbar/NotificationBell.tsx` (`GET /notification/my-notifications`) — the backend
   already paginates this one; the dropdown just never sends `page`/`limit` and relies on `max-h-80
-  overflow-y-auto` to visually cap it. Low priority (it's a capped dropdown, not a growing table) — leave
+overflow-y-auto` to visually cap it. Low priority (it's a capped dropdown, not a growing table) — leave
   as-is unless the user asks for it separately, since adding real page controls to a notification dropdown
   is a different UX shape (e.g. "load more") than the `<Pagination>` block used elsewhere here.
 
