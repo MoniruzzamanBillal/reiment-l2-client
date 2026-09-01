@@ -1,0 +1,110 @@
+services:
+  local:
+    image: reiment-l2-client-local:${VERSION:-latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:?NEXT_PUBLIC_API_BASE_URL must be set in .env}
+        NEXT_PUBLIC_PUSHER_KEY: ${NEXT_PUBLIC_PUSHER_KEY:?NEXT_PUBLIC_PUSHER_KEY must be set in .env}
+        NEXT_PUBLIC_PUSHER_CLUSTER: ${NEXT_PUBLIC_PUSHER_CLUSTER:?NEXT_PUBLIC_PUSHER_CLUSTER must be set in .env}
+    container_name: reiment-l2-client-local
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    healthcheck:
+      # No dedicated /health route exists in this app yet — this just
+      # confirms the server responds on / at all. Swap for a real health
+      # endpoint later if one gets added.
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "1.0"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - local-network
+
+  qa:
+    image: reiment-l2-client-qa:${VERSION:-latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${QA_API_URL:?QA_API_URL must be set in .env}
+        NEXT_PUBLIC_PUSHER_KEY: ${QA_PUSHER_KEY:?QA_PUSHER_KEY must be set in .env}
+        NEXT_PUBLIC_PUSHER_CLUSTER: ${QA_PUSHER_CLUSTER:?QA_PUSHER_CLUSTER must be set in .env}
+    container_name: reiment-l2-client-qa
+    ports:
+      - "4000:3000"
+    restart: unless-stopped
+    healthcheck:
+      # No dedicated /health route exists in this app yet — this just
+      # confirms the server responds on / at all. Swap for a real health
+      # endpoint later if one gets added.
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "1.0"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - qa-network
+
+  production:
+    image: reiment-l2-client-production:${VERSION:-latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${PROD_API_URL:?PROD_API_URL must be set in .env}
+        NEXT_PUBLIC_PUSHER_KEY: ${PROD_PUSHER_KEY:?PROD_PUSHER_KEY must be set in .env}
+        NEXT_PUBLIC_PUSHER_CLUSTER: ${PROD_PUSHER_CLUSTER:?PROD_PUSHER_CLUSTER must be set in .env}
+    container_name: reiment-l2-client-production
+    ports:
+      - "5000:3000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "1.0"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - prod-network
+
+networks:
+  local-network:
+    driver: bridge
+  qa-network:
+    driver: bridge
+  prod-network:
+    driver: bridge
